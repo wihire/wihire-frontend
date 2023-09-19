@@ -1,3 +1,5 @@
-const Page = () => <div className="badge badge-accent">Hello World</div>;
+import Home from '@/components/pages/Home';
 
-export default Page;
+const HomePage = () => <Home />;
+
+export default HomePage;
