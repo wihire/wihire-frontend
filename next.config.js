@@ -11,6 +11,9 @@ const nextConfig = {
   env: {
     BASE_URL: getHost()
   },
+  images: {
+    domains: ['res.cloudinary.com']
+  },
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,
