@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 @layer base {
-  * {
-    @apply text-neutral;
+  :root {
+    @apply bg-gray-100;
   }
 }
 

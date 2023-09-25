@@ -25,7 +25,7 @@ const Text = ({ as: Component = 'p', children, typography, className }) => {
   }, [typography]);
 
   const fincalClassName = useMemo(
-    () => twMerge(typhographyClassName, className),
+    () => twMerge(typhographyClassName, 'text-neutral', className),
     [typhographyClassName, className]
   );
 

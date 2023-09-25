@@ -7,8 +7,8 @@ import NavbarProfile from './NavbarProfile';
 
 const Navbar = () => (
   <nav className="border-b-[1px] border-gray-200 bg-white">
-    <Container className="flex justify-between py-4">
-      <Link href="/jobs">
+    <Container className="flex items-center justify-between py-4">
+      <Link href="/jobs" title="Wihire">
         <LogoText size="lg" />
       </Link>
 
