@@ -1,11 +1,23 @@
 import Button from '@/components/elements/Button';
 import Container from '@/components/elements/Container';
 import FormControl from '@/components/elements/FormControl';
+import Logo from '@/components/elements/Logo';
+import LogoText from '@/components/elements/LogoText';
 import Select from '@/components/elements/Select';
 import TextInput from '@/components/elements/TextInput';
 
 const Home = () => (
   <Container>
+    <Logo size="sm" />
+    <Logo />
+    <Logo size="lg" />
+    <Logo size="xl" />
+
+    <LogoText size="sm" />
+    <LogoText />
+    <LogoText size="lg" />
+    <LogoText size="xl" />
+
     <Button>Login</Button>
     <Button className="btn-neutral">Neutral</Button>
     <Button className="btn-secondary">Secondary</Button>
@@ -37,6 +49,7 @@ const Home = () => (
     <TextInput type="file" />
 
     <Select
+      defaultValue="Vue"
       options={[
         {
           value: 'React',
@@ -44,8 +57,7 @@ const Home = () => (
         },
         {
           value: 'Vue',
-          label: 'Vue',
-          isSelected: true
+          label: 'Vue'
         },
         {
           value: 'Angular',

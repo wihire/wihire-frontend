@@ -9,7 +9,6 @@ const Select = forwardRef(
        * options: {
        *  value: string,
        *  label: string
-       *  isSelected?: boolean
        *}[]
        */
       options,
@@ -35,7 +34,7 @@ const Select = forwardRef(
         ) : null}
 
         {options.map((option) => (
-          <option key={option.value} value={options.value} selected={option?.isSelected}>
+          <option key={option.value} value={options.value}>
             {option.label}
           </option>
         ))}
