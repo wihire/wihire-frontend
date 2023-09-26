@@ -29,7 +29,7 @@ const FormControl = ({
             </label>
           ) : null}
 
-          {labelAlt ? <span className="label-text-alt">{labelAlt}</span> : null}
+          {labelAlt ? <span className="label-text-alt flex-1 text-end">{labelAlt}</span> : null}
         </div>
       ) : null}
 
@@ -41,7 +41,9 @@ const FormControl = ({
 
           {error ? <span className="label-text-alt text-error">{error}</span> : null}
 
-          {descriptionAlt ? <span className="label-text-alt">{descriptionAlt}</span> : null}
+          {descriptionAlt ? (
+            <span className="label-text-alt flex-1 text-end">{descriptionAlt}</span>
+          ) : null}
         </label>
       ) : null}
     </div>
