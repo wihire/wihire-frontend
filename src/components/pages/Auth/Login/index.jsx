@@ -41,7 +41,6 @@ const Login = () => (
           </FormControl>
         </div>
         <div className="flex justify-end">
-          {/* <Button className="btn-link">Forgot Password?</Button> */}
           <FormControl
             htmlFor="forgot password"
             descriptionAlt={
