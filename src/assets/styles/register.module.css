@@ -1,0 +1,30 @@
+.container {
+  width: 305px;
+  height: 64px;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 24px;
+  text-align: center;
+  background-color: #ffffff;
+  color: #1f2937;
+  font-size: 16px;
+  font-weight: 400;
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background-color 0.2s,
+    box-shadow 0.2s;
+  filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.05)) drop-shadow(0px 10px 15px rgba(0, 0, 0, 0.1));
+}
+
+.loginText {
+  color: #14b8a6;
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: 700;
+}
