@@ -11,15 +11,15 @@ import Text from '@/components/elements/Text';
 
 const VerificationEmail = () => {
   const [seconds, setSeconds] = useState(30);
-  function countdown() {
-    setSeconds(() => seconds - 1);
-  }
+  // function countdown() {
+  //   setSeconds(() => seconds - 1);
+  // }
 
   useEffect(() => {
     if (seconds !== 0) {
-      setTimeout(countdown, 1000);
+      setTimeout(() => setSeconds(() => seconds - 1), 100);
     }
-  }, [seconds, countdown]);
+  }, [seconds]);
   return (
     <Container className="grid justify-items-center gap-5">
       <Image src={verifyEmailArt} width={300} height={300} alt="verify-email" />
