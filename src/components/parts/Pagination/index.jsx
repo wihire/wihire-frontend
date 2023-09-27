@@ -2,6 +2,8 @@
 
 import { useMemo } from 'react';
 
+import { twMerge } from 'tailwind-merge';
+
 import ChevronDoubleLeftIcon from '@/assets/icons/chevron-double-left.svg';
 import ChevronDoubleRightIcon from '@/assets/icons/chevron-double-right.svg';
 import ChevronLeftIcon from '@/assets/icons/chevron-left.svg';
@@ -16,7 +18,10 @@ const Pagination = ({
   onPrevPage,
   onFirstPage,
   onLastPage,
-  onChangePage
+  onChangePage,
+  disabledNextPage,
+  disabledPrevPage,
+  className
 }) => {
   const buttonClassName = useMemo(
     () => 'bg-white border-white text-primary hover:border-white hover:bg-gray-100 join-item',
@@ -24,11 +29,21 @@ const Pagination = ({
   );
 
   return (
-    <div className="join">
-      <Button title="To first page" className={buttonClassName} onClick={onFirstPage}>
+    <div className={twMerge('join', className)}>
+      <Button
+        title="To first page"
+        className={buttonClassName}
+        onClick={onFirstPage}
+        disabled={currentPage === 1}
+      >
         <ChevronDoubleLeftIcon />
       </Button>
-      <Button title="To previous page" className={buttonClassName} onClick={onPrevPage}>
+      <Button
+        title="To previous page"
+        className={buttonClassName}
+        onClick={onPrevPage}
+        disabled={disabledPrevPage}
+      >
         <ChevronLeftIcon />
       </Button>
 
@@ -40,12 +55,23 @@ const Pagination = ({
         }))}
         className="join-item border-none"
         onChange={onChangePage}
+        title="Current page"
       />
 
-      <Button title="To next page" className={buttonClassName} onClick={onNextPage}>
+      <Button
+        title="To next page"
+        className={buttonClassName}
+        onClick={onNextPage}
+        disabled={disabledNextPage}
+      >
         <ChevronRightIcon />
       </Button>
-      <Button title="To last page" className={buttonClassName} onClick={onLastPage}>
+      <Button
+        title="To last page"
+        className={buttonClassName}
+        onClick={onLastPage}
+        disabled={currentPage === maxPage}
+      >
         <ChevronDoubleRightIcon />
       </Button>
     </div>

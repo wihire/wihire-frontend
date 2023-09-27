@@ -8,6 +8,7 @@ import { useSearchParams } from 'next/navigation';
 import { twMerge } from 'tailwind-merge';
 
 import Text from '@/components/elements/Text';
+import { combineSearchParams, removeSearchParams } from '@/lib/url';
 
 const CategoriesFilter = ({ className }) => {
   const searchParams = useSearchParams();
@@ -68,16 +69,26 @@ const CategoriesFilter = ({ className }) => {
     []
   );
 
+  const getHref = useCallback((title) => {
+    const newParamsRemoved = removeSearchParams(searchParams, ['page', 'categories[]']);
+
+    if (title === 'All job') {
+      return '?';
+    }
+
+    const newParams = combineSearchParams(newParamsRemoved, {
+      'categories[]': getSearchParamsFromTitle(title)
+    });
+
+    return `?${newParams.toString()}`;
+  }, [getSearchParamsFromTitle, searchParams]);
+
   return (
     <div className={twMerge('grid grid-cols-8 gap-3', className)}>
       {CATEGORIES.map((category) => (
         <Link
           key={category.title}
-          href={
-            category.title === 'All job'
-              ? '?'
-              : `?categories[]=${getSearchParamsFromTitle(category.title)}`
-          }
+          href={getHref(category.title)}
           className={twMerge(
             cx('p-2 rounded-md', category.backgroundColor, {
               'font-bold': isActive(category.title),

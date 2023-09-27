@@ -11,6 +11,7 @@ const MultiSelect = ({ options, value, onChange, labelledBy = 'Select', classNam
     value={value}
     onChange={onChange}
     labelledBy={labelledBy}
+    debounceDuration={500}
     className={twMerge('input input-bordered px-0', className)}
     {...props}
   />
