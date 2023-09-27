@@ -1,23 +1,53 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
+import { useMutation } from '@tanstack/react-query';
 import Image from 'next/image';
+import { toast } from 'react-toastify';
 
 import verifyEmailArt from '@/assets/images/ilustrations/Verified-email.png';
 import Button from '@/components/elements/Button';
 import Container from '@/components/elements/Container';
 import Text from '@/components/elements/Text';
+import { getCookie } from '@/lib/cookies';
+import { verifyEmail } from '@/repositories/verifyEmail';
 
 const VerificationEmail = () => {
   const [seconds, setSeconds] = useState(30);
+
+  const userEmail = getCookie('email');
+
+  const verifyMutation = useMutation({
+    mutationFn: verifyEmail,
+    onSuccess: () => {
+      toast.success('Email has been sent', {
+        position: 'top-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light'
+      });
+    }
+  });
+
+  const handleverify = useCallback(() => {
+    verifyMutation.mutate({ email: userEmail });
+  }, [verifyMutation, userEmail]);
   // function countdown() {
   //   setSeconds(() => seconds - 1);
   // }
 
   useEffect(() => {
+    handleverify();
+  }, [handleverify]);
+
+  useEffect(() => {
     if (seconds !== 0) {
-      setTimeout(() => setSeconds(() => seconds - 1), 100);
+      setTimeout(() => setSeconds(() => seconds - 1), 1000);
     }
   }, [seconds]);
   return (
@@ -39,7 +69,14 @@ const VerificationEmail = () => {
       {seconds ? (
         <Text>{seconds < 10 ? `00:0${seconds}` : `00:${seconds}`}</Text>
       ) : (
-        <Button onClick={() => setSeconds(30)}>Resend</Button>
+        <Button
+          onClick={() => {
+            setSeconds(30);
+            handleverify();
+          }}
+        >
+          Resend
+        </Button>
       )}
     </Container>
   );
