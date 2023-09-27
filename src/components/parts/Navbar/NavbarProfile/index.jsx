@@ -5,6 +5,7 @@ import Link from 'next/link';
 
 import ChevronDown from '@/assets/icons/chevron-down.svg';
 import Text from '@/components/elements/Text';
+import config from '@/lib/config';
 
 const NavbarProfile = () => (
   <div className="dropdown dropdown-end">
@@ -12,7 +13,7 @@ const NavbarProfile = () => (
       <Text typography="h4">Tarmizi</Text>
 
       <Image
-        src="https://res.cloudinary.com/dwp0iuas9/image/upload/v1694966771/images/avatar/nu6qqb4ybg9qw8rfuje0.png"
+        src={config.defaultAvatar}
         alt="Tarmizi's avatar"
         width={40}
         height={40}
