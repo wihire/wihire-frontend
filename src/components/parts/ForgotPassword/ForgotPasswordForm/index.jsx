@@ -1,13 +1,17 @@
-import Button from '@/components/elements/Button';
-import { EMAIL_REGEX } from '@/lib/constants/regex';
-import FormControl from '@/components/elements/FormControl';
-import TextInput from '@/components/elements/TextInput';
-import { useForm } from 'react-hook-form';
-import { forgotPassword } from '@/repositories/auth';
-import { useMutation } from '@tanstack/react-query';
+'use client';
+
 import { useCallback } from 'react';
 
-const forgotPasswordForm = () => {
+import { useMutation } from '@tanstack/react-query';
+import { useForm } from 'react-hook-form';
+
+import Button from '@/components/elements/Button';
+import FormControl from '@/components/elements/FormControl';
+import TextInput from '@/components/elements/TextInput';
+import { EMAIL_REGEX } from '@/lib/constants/regex';
+import { forgotPassword } from '@/repositories/auth';
+
+const ForgotPasswordForm = () => {
   const {
     register,
     handleSubmit,
@@ -53,4 +57,4 @@ const forgotPasswordForm = () => {
   );
 };
 
-export default forgotPasswordForm;
+export default ForgotPasswordForm;
