@@ -5,18 +5,19 @@ import Link from 'next/link';
 
 import ChevronDown from '@/assets/icons/chevron-down.svg';
 import Text from '@/components/elements/Text';
+import config from '@/lib/config';
 
 const NavbarProfile = () => (
   <div className="dropdown dropdown-end">
     <label tabIndex={0} className="flex cursor-pointer items-center gap-2">
       <Text typography="h4">Tarmizi</Text>
+
       <Image
-        src="https://res.cloudinary.com/dwp0iuas9/image/upload/v1694966771/images/avatar/nu6qqb4ybg9qw8rfuje0.png"
+        src={config.defaultAvatar}
         alt="Tarmizi's avatar"
         width={40}
         height={40}
-        objectFit="cover"
-        className="avatar overflow-hidden rounded-full"
+        className="avatar overflow-hidden rounded-full object-cover"
       />
       <ChevronDown />
     </label>

@@ -2,12 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  * {
-    @apply text-neutral;
-  }
-}
-
 @layer utilities {
   .min-h-d-screen {
     min-height: 100dvh;
