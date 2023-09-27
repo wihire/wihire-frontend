@@ -69,19 +69,22 @@ const CategoriesFilter = ({ className }) => {
     []
   );
 
-  const getHref = useCallback((title) => {
-    const newParamsRemoved = removeSearchParams(searchParams, ['page', 'categories[]']);
+  const getHref = useCallback(
+    (title) => {
+      const newParamsRemoved = removeSearchParams(searchParams, ['page', 'categories[]']);
 
-    if (title === 'All job') {
-      return '?';
-    }
+      if (title === 'All job') {
+        return '?';
+      }
 
-    const newParams = combineSearchParams(newParamsRemoved, {
-      'categories[]': getSearchParamsFromTitle(title)
-    });
+      const newParams = combineSearchParams(newParamsRemoved, {
+        'categories[]': getSearchParamsFromTitle(title)
+      });
 
-    return `?${newParams.toString()}`;
-  }, [getSearchParamsFromTitle, searchParams]);
+      return `?${newParams.toString()}`;
+    },
+    [getSearchParamsFromTitle, searchParams]
+  );
 
   return (
     <div className={twMerge('grid grid-cols-8 gap-3', className)}>

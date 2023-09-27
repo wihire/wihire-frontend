@@ -20,22 +20,25 @@ const JobTypeFilter = ({ className }) => {
   const searchParams = useSearchParams();
   const [selected, setSelected] = useState([]);
 
-  const handleChangeSelected = useCallback((selected) => {
-    const newParamsRemoved = removeSearchParams(searchParams, ['job-types[]']);
+  const handleChangeSelected = useCallback(
+    (selected) => {
+      const newParamsRemoved = removeSearchParams(searchParams, ['job-types[]']);
 
-    let newSearchParams = newParamsRemoved;
-    if (selected.length) {
-      selected.forEach((jobType) => {
-        newSearchParams = combineSearchParams(newSearchParams, {
-          'job-types[]': jobType.value
+      let newSearchParams = newParamsRemoved;
+      if (selected.length) {
+        selected.forEach((jobType) => {
+          newSearchParams = combineSearchParams(newSearchParams, {
+            'job-types[]': jobType.value
+          });
         });
-      });
-    }
+      }
 
-    router.push(`?${newSearchParams.toString()}`);
-    
-    setSelected(selected);
-  }, [router, searchParams]);
+      router.push(`?${newSearchParams.toString()}`);
+
+      setSelected(selected);
+    },
+    [router, searchParams]
+  );
 
   return (
     <FormControl label="Job type" isBlock className={className}>

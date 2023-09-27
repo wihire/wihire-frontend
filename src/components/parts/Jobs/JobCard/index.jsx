@@ -1,13 +1,17 @@
+import { useState } from 'react';
+
+import { useMutation } from '@tanstack/react-query';
+import moment from 'moment';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import Text from '@/components/elements/Text';
-import config from '@/lib/config';
-import { toCurrency } from '@/lib/common';
-import moment from 'moment';
-import Button from '@/components/elements/Button';
 import BookmarkOutlineIcon from '@/assets/icons/bookmark_outline.svg';
 import BookmarkSolidIcon from '@/assets/icons/bookmark_solid.svg';
+import Button from '@/components/elements/Button';
+import Text from '@/components/elements/Text';
+import { toCurrency } from '@/lib/common';
+import config from '@/lib/config';
+import { saveJob, unsaveJob } from '@/repositories/jobs';
 
 const JOB_TYPE = {
   FULLTIME: 'Fulltime',
@@ -28,9 +32,21 @@ const JobCard = ({
   isSaved,
   createdAt
 }) => {
+  const [isSavedJob, setIsSavedJob] = useState(isSaved);
+
+  const saveMutation = useMutation({
+    mutationFn: () => saveJob(slug),
+    onSuccess: () => setIsSavedJob(true)
+  });
+
+  const unsaveMutation = useMutation({
+    mutationFn: () => unsaveJob(slug, false),
+    onSuccess: () => setIsSavedJob(false)
+  });
+
   return (
-    <div className="px-4 py-5 bg-white rounded-lg flex gap-3">
-      <div className="relative w-20 h-20">
+    <div className="flex gap-3 rounded-lg bg-white px-4 py-5">
+      <div className="relative h-20 w-20">
         <Image
           src={companyImage ?? config.defaultAvatar}
           alt="Company image"
@@ -39,9 +55,9 @@ const JobCard = ({
         />
       </div>
 
-      <div className="flex-1 flex flex-col gap-3">
+      <div className="flex flex-1 flex-col gap-3">
         <div>
-          <Link href={`/jobs/${slug}`} className="text-primary font-bold text-xl inline-block">
+          <Link href={`/jobs/${slug}`} className="inline-block text-xl font-bold text-primary">
             {title}
           </Link>
           <Text typography="sm">{companyName}</Text>
@@ -52,7 +68,7 @@ const JobCard = ({
             <Text typography="sm" className="inline-block text-gray-500">
               {address} ({placeMethod.toLowerCase()})
             </Text>
-            <ul className="list-disc inline-block ml-8">
+            <ul className="ml-8 inline-block list-disc">
               <Text as="li" typography="sm" className="text-gray-500">
                 {JOB_TYPE[jobType]}
               </Text>
@@ -69,15 +85,27 @@ const JobCard = ({
           ) : null}
         </div>
 
-        <Text typography="xs" className="text-gray-500">{moment(createdAt).fromNow()}</Text>
+        <Text typography="xs" className="text-gray-500">
+          {moment(createdAt).fromNow()}
+        </Text>
       </div>
 
-      {isSaved ? (
-        <Button className="btn-ghost text-primary" title="Unsave this job">
+      {isSavedJob ? (
+        <Button
+          className="btn-ghost text-primary"
+          title="Unsave this job"
+          onClick={() => unsaveMutation.mutate()}
+          isLoading={unsaveMutation.isLoading}
+        >
           <BookmarkSolidIcon />
         </Button>
       ) : (
-        <Button className="btn-ghost" title="Save this job">
+        <Button
+          className="btn-ghost"
+          title="Save this job"
+          onClick={() => saveMutation.mutate()}
+          isLoading={saveMutation.isLoading}
+        >
           <BookmarkOutlineIcon />
         </Button>
       )}

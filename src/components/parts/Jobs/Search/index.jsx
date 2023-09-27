@@ -54,7 +54,7 @@ const Search = () => {
   return (
     <>
       <TextInput
-        placeholder="Search by job title" 
+        placeholder="Search by job title"
         isBlock
         className="col-span-6"
         name="title"
