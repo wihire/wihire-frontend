@@ -1,59 +1,63 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback } from 'react';
 
+import { useMutation } from '@tanstack/react-query';
+import { useSearchParams } from 'next/navigation';
+import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
 import Button from '@/components/elements/Button';
 import FormControl from '@/components/elements/FormControl';
 import Text from '@/components/elements/Text';
 import TextInput from '@/components/elements/TextInput';
+import { forgotChangePassword } from '@/repositories/auth';
 
 const ForgotChangePassword = () => {
-  const [passwordValue, setPasswordValue] = useState('');
-  const [confirmPasswordValue, setConfirmPasswordValue] = useState('');
-  const [error, setError] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const searchParams = useSearchParams();
+  const token = searchParams.get('token');
 
-  const validatePassword = (e) => {
-    const confirmPassword = e.target.value;
-    setConfirmPasswordValue(confirmPassword);
-
-    if (confirmPassword !== passwordValue) {
-      setError('Password doesn&#39;t match');
-    } else {
-      setError(false);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors }
+  } = useForm({
+    defaultValues: {
+      token
     }
-  };
+  });
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setIsLoading(true);
+  const newPassword = watch('newPassword');
 
-    if (passwordValue !== confirmPasswordValue) {
-      setError('Password doesn&#39;t match');
-      toast.error('Password doesn&#39;t match', {
+  const changePasswordMutation = useMutation({
+    mutationFn: forgotChangePassword,
+    onSuccess: () => {
+      toast.success('Update password success!', {
+        position: 'top-right',
+        autoClose: 2500,
+        hideProgressBar: false,
+        pauseOnHover: false,
+        theme: 'colored'
+      });
+    },
+    onError: (error) => {
+      toast.error(error.data.message, {
         position: 'top-center',
         autoClose: 2500,
         hideProgressBar: false,
         pauseOnHover: false,
         theme: 'colored'
       });
-
-      setIsLoading(false);
-      return;
     }
+  });
 
-    toast.success('Update password success!', {
-      position: 'top-right',
-      autoClose: 2500,
-      hideProgressBar: false,
-      pauseOnHover: false,
-      theme: 'colored'
-    });
-    setError(false);
-    setIsLoading(false);
-  };
+  const onSubmit = useCallback(
+    (data) => {
+      changePasswordMutation.mutate(data);
+    },
+    [changePasswordMutation]
+  );
 
   return (
     <div className="rounded-md border border-gray-300 p-8">
@@ -67,40 +71,49 @@ const ForgotChangePassword = () => {
       </div>
 
       <div className="mt-4">
-        <form onSubmit={handleSubmit}>
-          <FormControl htmlFor="password" label="New Password" isBlock>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <FormControl
+            htmlFor="newPassword"
+            label="New Password"
+            isBlock
+            error={errors.newPassword?.message}
+          >
             <TextInput
-              id="password"
+              id="newPassword"
               type="password"
-              name="password"
               placeholder="Enter your new password"
-              value={passwordValue}
-              onChange={(e) => {
-                setPasswordValue(e.target.value);
-              }}
               isBlock
-              required
+              {...register('newPassword', {
+                required: 'Password is required',
+                minLength: {
+                  value: 8,
+                  message: 'Password needs to be at least 8 character'
+                }
+              })}
             />
           </FormControl>
 
-          <FormControl htmlFor="confirmPassword" label="Confirm New Password" error={error} isBlock>
+          <FormControl
+            htmlFor="confirmNewPassword"
+            label="Confirm New Password"
+            isBlock
+            error={errors.confirmNewPassword?.message}
+          >
             <TextInput
-              id="confirmPassword"
+              id="confirmNewPassword"
               type="password"
-              name="confirmPassword"
               placeholder="Confirm your new password"
-              value={confirmPasswordValue}
-              onChange={(e) => {
-                validatePassword(e);
-              }}
               isBlock
-              required
+              {...register('confirmNewPassword', {
+                required: 'Please confirm your password',
+                validate: (value) => value === newPassword || `Password doesn't match`
+              })}
             />
           </FormControl>
 
           <Button
             type="submit"
-            isLoading={isLoading}
+            isLoading={changePasswordMutation.isLoading}
             className="mt-6 h-[2.5rem] min-h-[2.5rem] w-full"
           >
             UPDATE PASSWORD
