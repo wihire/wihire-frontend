@@ -13,7 +13,6 @@ const Jobs = () => {
   const searchParams = useSearchParams();
 
   const { data } = useJobs({
-    limit: 3,
     page: Number(searchParams.get('page')) || 1,
     'categories[]': searchParams.getAll('categories[]').length
       ? searchParams.getAll('categories[]')
