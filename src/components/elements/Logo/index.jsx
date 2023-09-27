@@ -1,8 +1,10 @@
 import { useMemo } from 'react';
 
+import { twMerge } from 'tailwind-merge';
+
 import { default as WihireLogo } from '@/assets/vectors/logo.svg';
 
-const Logo = ({ size }) => {
+const Logo = ({ size, className }) => {
   const sizeClassName = useMemo(() => {
     switch (size) {
       case 'sm':
@@ -18,7 +20,7 @@ const Logo = ({ size }) => {
     }
   }, [size]);
 
-  return <WihireLogo className={sizeClassName} />;
+  return <WihireLogo className={twMerge(sizeClassName, className)} />;
 };
 
 export default Logo;

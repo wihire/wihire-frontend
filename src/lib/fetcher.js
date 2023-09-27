@@ -11,7 +11,7 @@ const generateQuery = (query) => {
       const arrayValueQuery = query[key];
       if (arrayValueQuery.length === 0) return null;
 
-      return `${key}=${arrayValueQuery.join(',')}`;
+      return arrayValueQuery.map((value) => `${key}=${value}`).join('&');
     }
 
     return `${key}=${query[key]}`;
