@@ -3,7 +3,9 @@
 import { useCallback } from 'react';
 
 import { useMutation } from '@tanstack/react-query';
-import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
+import {  useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
 import Button from '@/components/elements/Button';
 import FormControl from '@/components/elements/FormControl';
@@ -12,6 +14,7 @@ import { EMAIL_REGEX } from '@/lib/constants/regex';
 import { forgotPassword } from '@/repositories/auth';
 
 const ForgotPasswordForm = () => {
+  const navigation = useRouter();
   const {
     register,
     handleSubmit,
@@ -20,9 +23,17 @@ const ForgotPasswordForm = () => {
 
   const forgotPasswordMutation = useMutation({
     mutationFn: forgotPassword,
-    onSuccess: ({ data }) => {
-      console.log(data, '<<<<<<<<<<<,');
-      // terusin di sini
+    onSuccess: () => {
+      toast.success('Check your email to reset your password!', {
+        position: 'top-center',
+        autoClose: 2500,
+        hideProgressBar: false,
+        pauseOnHover: false,
+        theme: 'colored'
+      });
+      setTimeout(() => {
+        navigation.push('/login');
+      }, 3000);
     }
   });
 
@@ -35,7 +46,7 @@ const ForgotPasswordForm = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <FormControl htmlFor="email" label="Email" error={errors.email?.message}>
+      <FormControl isBlock htmlFor="email" label="Email" error={errors.email?.message}>
         <TextInput
           isBlock
           id="email"
