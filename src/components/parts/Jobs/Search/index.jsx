@@ -27,20 +27,16 @@ const Search = () => {
 
   useDebounce(
     () => {
-      let newParamsRemoved = removeSearchParams(searchParams, ['page']);
+      const newParamsRemoved = removeSearchParams(searchParams, ['page', 'title', 'company']);
 
       const paramsObject = {};
 
       if (search.title.length) {
         paramsObject.title = search.title;
-      } else {
-        newParamsRemoved = removeSearchParams(searchParams, ['title']);
       }
 
       if (search.company.length) {
         paramsObject.company = search.company;
-      } else {
-        newParamsRemoved = removeSearchParams(searchParams, ['company']);
       }
 
       const newSearchParams = combineSearchParams(newParamsRemoved, paramsObject);
