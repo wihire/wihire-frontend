@@ -1,0 +1,23 @@
+.rmsc {
+  &:focus-within {
+    outline-style: solid;
+    outline-width: 2px;
+    outline-offset: 2px;
+    outline-color: hsl(var(--bc) / 0.2);
+  }
+
+  > .dropdown-container {
+    @apply h-full;
+    border-style: none !important;
+    border-radius: var(--rounded-btn, 0.5rem) !important;
+
+    &:focus-within {
+      border-style: none !important;
+      box-shadow: none !important;
+    }
+
+    > .dropdown-heading {
+      @apply h-full;
+    }
+  }
+}

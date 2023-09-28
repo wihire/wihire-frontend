@@ -22,6 +22,4 @@ export const queryClientConfig = {
   }
 };
 
-const queryClient = new QueryClient(queryClientConfig);
-
-export const getQueryClient = cache(() => queryClient);
+export const getQueryClient = cache(() => new QueryClient(queryClientConfig));
