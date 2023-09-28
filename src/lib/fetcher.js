@@ -1,4 +1,5 @@
 import { getCookie } from '@/lib/cookies';
+import { ACCES_TOKEN_KEY } from './constants/storageKey';
 
 const generateQuery = (query) => {
   const queryKeys = Object.keys(query);
@@ -40,7 +41,7 @@ const fetcher = ({ method = 'GET', ...args }) =>
       ? args.url
       : `${process.env.NEXT_PUBLIC_API_BASE_URL}${args.url}`;
 
-    const accessToken = getCookie(process.env.NEXT_PUBLIC_ACCESS_TOKEN_KEY);
+    const accessToken = getCookie(ACCES_TOKEN_KEY);
 
     const response = await fetch(parseURL(finalUrl, args?.query), {
       method,
