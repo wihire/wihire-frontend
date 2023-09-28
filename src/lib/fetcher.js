@@ -1,4 +1,5 @@
 import { getCookie } from '@/lib/cookies';
+
 import { ACCES_TOKEN_KEY } from './constants/storageKey';
 
 const generateQuery = (query) => {
