@@ -118,7 +118,7 @@ const StepTwoCompany = ({ errors, control, watch, setValue }) => {
         />
       </FormControl>
 
-      <FormControl htmlFor="location" label="Location" isBlock error={errors?.address?.message}>
+      <FormControl htmlFor="address" label="Address" isBlock error={errors?.address?.message}>
         <Controller
           control={control}
           name="address"

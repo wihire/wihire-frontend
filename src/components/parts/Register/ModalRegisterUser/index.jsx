@@ -12,15 +12,13 @@ import { toast } from 'react-toastify';
 import Button from '@/components/elements/Button';
 import Text from '@/components/elements/Text';
 import StepModalForm from '@/components/parts/Register/StepModalForm';
-import StepOneCompany from '@/components/parts/Register/StepOneCompany';
-import StepTwoCompany from '@/components/parts/Register/StepTwoCompany';
+import StepOneUser from '@/components/parts/Register/StepOneUser';
+import StepTwoUser from '@/components/parts/Register/StepTwoUser';
 import { EMAIL_KEY } from '@/lib/constants/storageKey';
 import useMultiStep from '@/lib/hooks/useMultiStep';
-import { registerCompany, sendVerificationEmail } from '@/repositories/auth';
+import { registerUser, sendVerificationEmail } from '@/repositories/auth';
 
-import './styles.scss';
-
-const ModalRegisterAsCompanay = ({ isOpen, onClose }) => {
+const ModalRegisterUser = ({ isOpen, onClose }) => {
   const router = useRouter();
 
   const {
@@ -42,20 +40,20 @@ const ModalRegisterAsCompanay = ({ isOpen, onClose }) => {
   };
 
   const { currentStep, currentStepComponent, next, prev, totalStep, goTo } = useMultiStep([
-    <StepOneCompany key="step-one-company" {...formOptions} />,
-    <StepTwoCompany key="step-two-company" {...formOptions} />
+    <StepOneUser key="step-one-user" {...formOptions} />,
+    <StepTwoUser key="step-two-user" {...formOptions} />
   ]);
 
   const handleOnClose = useCallback(() => {
     goTo(1);
     reset();
     onClose();
-  }, [reset, onClose, goTo]);
+  }, [onClose, reset, goTo]);
 
   const sendVerificationEmailMutation = useMutation({
     mutationFn: sendVerificationEmail,
     onSuccess: () => {
-      toast.success('Register company success, please check your email to verify your account');
+      toast.success('Register user success, please check your email to verify your account');
 
       const email = watch('email');
       setCookie(EMAIL_KEY, email, {
@@ -68,8 +66,8 @@ const ModalRegisterAsCompanay = ({ isOpen, onClose }) => {
     }
   });
 
-  const registerCompanyMutation = useMutation({
-    mutationFn: registerCompany,
+  const registerUserMutation = useMutation({
+    mutationFn: registerUser,
     onSuccess: () => {
       const email = watch('email');
       sendVerificationEmailMutation.mutate({
@@ -92,18 +90,19 @@ const ModalRegisterAsCompanay = ({ isOpen, onClose }) => {
         confirmPassword: data.confirmPassword,
         province: data.province.label,
         address: data.address.label,
-        companyScope: data.companyScope.label,
-        totalEmployee: data.totalEmployee.value
+        gender: data.gender.value,
+        birthDate: new Date(data.birthDate).toISOString(),
+        phoneNumber: data.phoneNumber
       };
-      registerCompanyMutation.mutate(payload);
+      registerUserMutation.mutate(payload);
     },
-    [currentStep, next, totalStep, registerCompanyMutation]
+    [currentStep, next, totalStep, registerUserMutation]
   );
 
   return (
     <Modal isOpen={isOpen} onClose={handleOnClose} backdropBlur scrollBehaviour="outside">
       <ModalHeader>
-        <Text typography="h2">Let&apos;s create your company profile</Text>
+        <Text typography="h2">Let&apos;s create your user profile</Text>
       </ModalHeader>
 
       <ModalBody>
@@ -115,10 +114,10 @@ const ModalRegisterAsCompanay = ({ isOpen, onClose }) => {
           <Button
             type="submit"
             className="mt-10 w-full"
-            isLoading={registerCompanyMutation.isLoading || sendVerificationEmailMutation.isLoading}
+            isLoading={registerUserMutation.isLoading || sendVerificationEmailMutation.isLoading}
             loadingText="Registering..."
           >
-            {currentStep === totalStep ? 'Create Company Account' : 'Continue'}
+            {currentStep === totalStep ? 'Create Account' : 'Continue'}
           </Button>
         </form>
       </ModalBody>
@@ -126,4 +125,4 @@ const ModalRegisterAsCompanay = ({ isOpen, onClose }) => {
   );
 };
 
-export default ModalRegisterAsCompanay;
+export default ModalRegisterUser;
