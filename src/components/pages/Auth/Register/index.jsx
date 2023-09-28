@@ -1,110 +1,24 @@
-'use client';
+import Link from 'next/link';
 
-import { useState } from 'react';
-
-import Image from 'next/image';
-
-import registerCompanyImage from '@/assets/images/illustrations/Company-rafiki.png';
-import registerJobSeekerImage from '@/assets/images/illustrations/Hiring-rafiki.png';
-import Styles from '@/assets/styles/register.module.css';
-import Button from '@/components/elements/Button';
-import Container from '@/components/elements/Container';
 import Text from '@/components/elements/Text';
-import RegistrationModal from '@/components/parts/ModalRegister';
-import useMultiStep from '@/lib/hooks/useMultiStep';
+import RegisterAsCompany from '@/components/parts/Register/RegisterAsCompany';
+import RegisterAsUser from '@/components/parts/Register/RegisterAsUser';
 
-const Register = () => {
-  const [isCompanyModalOpen, setCompanyModalOpen] = useState(false);
-  const [isJobSeekerModalOpen, setJobSeekerModalOpen] = useState(false);
+const Register = () => (
+  <div className="min-h-d-screen flex">
+    <RegisterAsCompany />
 
-  const companySteps = ['Step 1', 'Step 2'];
-  const jobSeekerSteps = ['Step 1', 'Step 2'];
+    <RegisterAsUser />
 
-  const companyStep = useMultiStep(companySteps);
-  const jobSeekerStep = useMultiStep(jobSeekerSteps);
-
-  const openCompanyModal = () => {
-    setCompanyModalOpen(true);
-  };
-
-  const openJobSeekerModal = () => {
-    setJobSeekerModalOpen(true);
-  };
-
-  return (
-    <div className="flex h-screen">
-      <div className="flex w-6/12 items-center justify-center bg-primary-content">
-        <div className="w-3/6">
-          <div className="flex flex-col items-center text-center">
-            <Image
-              width={200}
-              height={200}
-              src={registerCompanyImage}
-              className="mb-8"
-              alt="image"
-            />
-            <Text typography="h1" className="mb-8">
-              For Company
-            </Text>
-            <Text typography="md" className="mb-8">
-              Create your company account and search for suitable candidates
-            </Text>
-            <Button className="btn btn-primary btn-md" onClick={openCompanyModal}>
-              REGISTER AS JOB COMPANY
-            </Button>
-          </div>
-        </div>
-      </div>
-
-      <div className="flex w-6/12 items-center justify-center bg-white">
-        <div className="w-3/6">
-          <div className="flex flex-col items-center text-center">
-            <Image
-              width={200}
-              height={200}
-              src={registerJobSeekerImage}
-              className="mb-8"
-              alt="image"
-            />
-            <Text typography="h1" className="mb-8">
-              For Job Seeker
-            </Text>
-            <Text typography="md" className="mb-8">
-              Create your company account and search for suitable candidates
-            </Text>
-            <Button className="btn btn-primary btn-outline btn-md" onClick={openJobSeekerModal}>
-              REGISTER AS JOB SEEKER
-            </Button>
-          </div>
-        </div>
-      </div>
-
-      <Container className={Styles.container}>
+    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 rounded-md bg-white p-5 shadow-md">
+      <Text typography="sm">
         You already have an account?{' '}
-        <a href="/login" className={Styles.loginText}>
+        <Link href="/login" className="font-bold text-primary underline">
           Login
-        </a>
-      </Container>
-
-      <RegistrationModal
-        isOpen={isCompanyModalOpen}
-        onClose={() => setCompanyModalOpen(false)}
-        registrationType="Company"
-        currentStep={companyStep.currentStep}
-        next={companyStep.next}
-        prev={companyStep.prev}
-      />
-
-      <RegistrationModal
-        isOpen={isJobSeekerModalOpen}
-        onClose={() => setJobSeekerModalOpen(false)}
-        registrationType="Job Seeker"
-        currentStep={jobSeekerStep.currentStep}
-        next={jobSeekerStep.next}
-        prev={jobSeekerStep.prev}
-      />
+        </Link>
+      </Text>
     </div>
-  );
-};
+  </div>
+);
 
 export default Register;
