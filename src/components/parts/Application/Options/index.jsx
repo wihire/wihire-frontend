@@ -1,16 +1,35 @@
 'use client';
 
-import Text from '@/components/elements/Text';
+import { useMemo } from 'react';
 
-// import { useQuery } from '@tanstack/react-query';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { twMerge } from 'tailwind-merge';
 
-// import { usePathname } from 'next/navigation';
+import Button from '@/components/elements/Button';
 
-const FilterOptions = () => (
-  //   const pathname = usePathname();
-  //   const query = useQuery({ queryKey: ['status'] });
-  //   console.log(query.status, '<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
-  <Text>TESTING ALLLLL</Text>
-);
+const FilterOptions = ({ title, url }) => {
+  const searchParams = useSearchParams();
+  const status = searchParams.get('status');
+
+  const router = useRouter();
+
+  const isActive = useMemo(() => status === url, [status, url]);
+
+  const buttonClassName = useMemo(() => {
+    if (!isActive) {
+      return 'btn-outline';
+    }
+    return '';
+  }, [isActive]);
+
+  return (
+    <Button
+      className={twMerge('btn-sm rounded-full', buttonClassName)}
+      onClick={() => router.push(`?status=${url}`)}
+    >
+      {title}
+    </Button>
+  );
+};
 
 export default FilterOptions;

@@ -1,30 +1,33 @@
 import FilterOptions from '@/components/parts/Application/Options';
 
-// const FILTERS = [
-//   {
-//     title: 'On Progress',
-//     url: '?status=ONPROGRESS'
-//   },
-//   {
-//     title: 'On Review',
-//     url: '?status=ONREVIEW'
-//   },
-//   {
-//     title: 'Accepted',
-//     url: '?status=APPROVED'
-//   },
-//   {
-//     title: 'Declined',
-//     url: '?status=DECLINE'
-//   }
-// ];
+const FILTERS = [
+  {
+    title: 'All',
+    url: ''
+  },
+  {
+    title: 'On Progress',
+    url: 'ONPROGRESS'
+  },
+  {
+    title: 'On Review',
+    url: 'ONREVIEW'
+  },
+  {
+    title: 'Approved',
+    url: 'APPROVED'
+  },
+  {
+    title: 'Declined',
+    url: 'DECLINE'
+  }
+];
 
 const ApplicationFilters = () => (
   <header className="my-5 flex gap-2.5">
-    <FilterOptions />
-    {/* {FILTERS.map((filter) => {
-      <FilterOptions key={filter.title} {...filter} />;
-    })} */}
+    {FILTERS.map((filter) => (
+      <FilterOptions key={filter.title} {...filter} />
+    ))}
   </header>
 );
 

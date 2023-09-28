@@ -10,6 +10,7 @@ export const useApplications = (filter) => {
     queryFn: () => getApplications(filter),
     keepPreviousData: true
   });
+  // console.log(result, ';;;;;;;;;;;;;;;;');
 
   return result;
 };
