@@ -1,6 +1,6 @@
 import { getCookie } from '@/lib/cookies';
 
-import { ACCES_TOKEN_KEY } from './constants/storageKey';
+import { ACCESS_TOKEN_KEY } from './constants/storageKey';
 
 const generateQuery = (query) => {
   const queryKeys = Object.keys(query);
@@ -35,14 +35,13 @@ const parseURL = (url, query) => {
   return `${urlWithoutQueries}${queryString}`;
 };
 
-const fetcher = ({ method = 'GET', ...args }) =>
-  // eslint-disable-next-line no-async-promise-executor
-  new Promise(async (resolve, reject) => {
+const fetcher = ({ method = 'GET', ...args }) => {
+  const accessToken = getCookie(ACCESS_TOKEN_KEY);
+
+  const callbackPromise = async (resolve, reject) => {
     const finalUrl = args?.options?.isFreshURL
       ? args.url
       : `${process.env.NEXT_PUBLIC_API_BASE_URL}${args.url}`;
-
-    const accessToken = getCookie(ACCES_TOKEN_KEY);
 
     const response = await fetch(parseURL(finalUrl, args?.query), {
       method,
@@ -62,11 +61,14 @@ const fetcher = ({ method = 'GET', ...args }) =>
     }
 
     const result = {
-      response,
+      // response,
       data
     };
 
     resolve(result);
-  });
+  };
+
+  return new Promise(callbackPromise);
+};
 
 export default fetcher;

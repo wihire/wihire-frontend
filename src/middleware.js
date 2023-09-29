@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-import { ACCES_TOKEN_KEY } from './lib/constants/storageKey';
+import { ACCESS_TOKEN_KEY } from './lib/constants/storageKey';
 
 const middleware = async (request) => {
   const loginPath = [
@@ -13,13 +13,14 @@ const middleware = async (request) => {
     '/forgot-change-password'
   ];
 
-  const accessToken = request.cookies.get(ACCES_TOKEN_KEY);
+  const accessToken = request.cookies.get(ACCESS_TOKEN_KEY);
+  const nextAuthToken = request.cookies.get('next-auth.session-token');
 
   if (loginPath.some((v) => v === request.nextUrl.pathname)) {
     return NextResponse.next();
   }
 
-  if (!accessToken) {
+  if (!accessToken && !nextAuthToken) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
 

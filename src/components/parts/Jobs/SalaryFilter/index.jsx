@@ -12,7 +12,7 @@ import { combineSearchParams, removeSearchParams } from '@/lib/url';
 const SalaryFilter = ({ className }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [salary, setSalary] = useState();
+  const [salary, setSalary] = useState(searchParams.get('min-salary') || '');
 
   const handleChange = useCallback((e) => {
     setSalary(e.target.value);

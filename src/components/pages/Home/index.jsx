@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import Image from 'next/image';
 
-import mondelOnBoard from '@/assets/images/ilustrations/onboard.png';
+import mondelOnBoard from '@/assets/images/illustrations/onboard.png';
 import CircleDecoration from '@/assets/vectors/circle-decoration.svg';
 import Button from '@/components/elements/Button';
 import Container from '@/components/elements/Container';
@@ -34,8 +34,8 @@ const Home = () => (
         </Button>
       </div>
 
-      <div class="flex w-1/2 justify-center">
-        <Image src={mondelOnBoard} width={500} height={500} alt="Onboard model" />
+      <div className="flex w-1/2 justify-center">
+        <Image src={mondelOnBoard} width={500} height={500} alt="Onboard model" priority />
       </div>
     </div>
   </Container>
