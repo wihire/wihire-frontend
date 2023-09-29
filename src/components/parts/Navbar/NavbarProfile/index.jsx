@@ -26,7 +26,7 @@ const NavbarProfile = () => (
       className="menu dropdown-content menu-sm z-[1] mt-3 w-52 rounded-lg bg-white p-2 shadow"
     >
       <li>
-        <Link href="#">Profile</Link>
+        <Link href="/profile/a">Profile</Link> {/* ! ganti nanti */}
       </li>
       <li>
         <btn className="text-error hover:text-error">Logout</btn>

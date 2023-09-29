@@ -34,7 +34,7 @@ const Jobs = () => {
   return (
     <div>
       <Text as="h1" typography="h2">
-        List all job
+        List all jobs
       </Text>
 
       <Filter className="mt-5" />
