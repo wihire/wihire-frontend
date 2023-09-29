@@ -6,6 +6,7 @@ import { useMutation } from '@tanstack/react-query';
 import { setCookie } from 'cookies-next';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
 
@@ -38,7 +39,7 @@ const LoginForm = ({ className }) => {
 
   const loginMutation = useMutation({
     mutationFn: login,
-    onSuccess: ({ data }) => {
+    onSuccess: async ({ data }) => {
       if (!data.data.profile.isVerifiedEmail) {
         const email = getValues('email');
 
@@ -54,6 +55,10 @@ const LoginForm = ({ className }) => {
       }
 
       setAccessToken(data.data.accessToken);
+      await signIn('credentials', {
+        redirect: false,
+        slug: data.data.profile.slug
+      });
       router.replace('/jobs');
     }
   });
