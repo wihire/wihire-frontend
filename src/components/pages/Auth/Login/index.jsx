@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import loginIlustration from '@/assets/images/ilustrations/authentication.png';
+import loginIlustration from '@/assets/images/illustrations/authentication.png';
 import Container from '@/components/elements/Container';
 import LoginForm from '@/components/parts/Login/LoginForm';
 

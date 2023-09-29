@@ -1,11 +1,11 @@
 import { forwardRef, useMemo } from 'react';
 
-import { default as ReactSelect } from 'react-select';
+import AsyncCreatableSelect from 'react-select/async-creatable';
 import { twMerge } from 'tailwind-merge';
 
 import './styles.scss';
 
-const Select = forwardRef(
+const SelectAsync = forwardRef(
   (
     {
       /**
@@ -14,7 +14,8 @@ const Select = forwardRef(
        *  label: string
        *}[]
        */
-      options,
+      defaultOptions,
+      loadOptions,
       placeholder,
       isBlock,
       className,
@@ -29,18 +30,20 @@ const Select = forwardRef(
     );
 
     return (
-      <ReactSelect
+      <AsyncCreatableSelect
         ref={ref}
         className={finalClassName}
         classNamePrefix="select"
-        options={options}
+        defaultOptions={defaultOptions}
+        loadOptions={loadOptions}
         placeholder={placeholder}
+        cacheOptions
         {...props}
       />
     );
   }
 );
 
-Select.displayName = 'Select';
+SelectAsync.displayName = 'SelectAsync';
 
-export default Select;
+export default SelectAsync;
