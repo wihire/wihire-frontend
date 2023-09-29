@@ -32,7 +32,7 @@ const ApplicationCard = ({ job, status, companyPicture }) => {
   }, [status]);
 
   return (
-    <div className="flex flex-wrap justify-between bg-white p-3 rounded-md">
+    <div className="flex flex-wrap justify-between p-3 bg-white rounded-md ">
       <div className="flex flex-row gap-3 ">
         <Image
           className="self-start rounded-xl "
