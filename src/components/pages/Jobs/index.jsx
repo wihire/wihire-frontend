@@ -1,13 +1,15 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import Text from '@/components/elements/Text';
-import ErrorStatusImage from '@/components/parts/ErrorStatusImage';
 import Filter from '@/components/parts/Jobs/Filter';
-import ListJob from '@/components/parts/Jobs/ListJob';
-import Pagination from '@/components/parts/Pagination';
 import { useJobs } from '@/query/jobs';
+
+const ListJob = dynamic(() => import('@/components/parts/Jobs/ListJob'));
+const ErrorStatusImage = dynamic(() => import('@/components/parts/ErrorStatusImage'));
+const Pagination = dynamic(() => import('@/components/parts/Pagination'));
 
 const Jobs = () => {
   const router = useRouter();
