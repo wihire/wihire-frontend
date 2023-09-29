@@ -59,7 +59,7 @@ const fetcher = ({ method = 'GET', ...args }) => {
     }
 
     const result = {
-      response,
+      // response,
       data
     };
 

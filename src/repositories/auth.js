@@ -39,3 +39,13 @@ export const sendVerificationEmail = async (payload) => {
 
   return response;
 };
+
+export const verifyEmail = async (payload) => {
+  const response = await fetcher({
+    url: '/auth/verify-email',
+    method: 'POST',
+    body: JSON.stringify(payload)
+  });
+
+  return response;
+};
