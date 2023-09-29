@@ -17,7 +17,16 @@ const PLACE_METHOD_OPTIONS = [
 const PlaceMethodFilter = ({ className }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [selected, setSelected] = useState([]);
+  const [selected, setSelected] = useState(
+    searchParams.getAll('place-methods[]').reduce((acc, placeMethod) => {
+      const placeMethodOption = PLACE_METHOD_OPTIONS.find((option) => option.value === placeMethod);
+      if (placeMethodOption) {
+        acc.push(placeMethodOption);
+      }
+
+      return acc;
+    }, [])
+  );
 
   const handleChangeSelected = useCallback(
     (selected) => {

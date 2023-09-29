@@ -10,6 +10,27 @@ export const login = async ({ email, password }) => {
   return response;
 };
 
+export const forgotPassword = async ({ email }) => {
+  const response = await fetcher({
+    url: '/auth/forgot-password',
+    method: 'POST',
+    body: JSON.stringify({ email })
+  });
+  return response;
+};
+
+export const forgotChangePassword = async (payload) => {
+  const response = await fetcher({
+    url: '/auth/forgot-change-password',
+    method: 'POST',
+    body: JSON.stringify(payload)
+  });
+
+  if (!response.data.success) throw response;
+
+  return response;
+};
+
 export const registerCompany = async (payload) => {
   const response = await fetcher({
     url: '/auth/register/company',

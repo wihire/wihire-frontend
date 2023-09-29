@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import { twMerge } from 'tailwind-merge';
 
 import Button from '@/components/elements/Button';
@@ -54,11 +55,19 @@ const LoginForm = ({ className }) => {
         return;
       }
 
-      setAccessToken(data.data.accessToken);
-      await signIn('credentials', {
+      const signInResponse = await signIn('credentials', {
         redirect: false,
-        slug: data.data.profile.slug
+        slug: data.data.profile.slug,
+        accessToken: data.data.accessToken
       });
+
+      if (signInResponse.error) {
+        toast.error('Something went wrong, please try again');
+        return;
+      }
+
+      setAccessToken(data.data.accessToken);
+
       router.replace('/jobs');
     }
   });

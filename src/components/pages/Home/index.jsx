@@ -34,7 +34,7 @@ const Home = () => (
         </Button>
       </div>
 
-      <div class="flex w-1/2 justify-center">
+      <div className="flex w-1/2 justify-center">
         <Image src={mondelOnBoard} width={500} height={500} alt="Onboard model" priority />
       </div>
     </div>

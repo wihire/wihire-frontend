@@ -1,8 +1,5 @@
 import CredentialsProvider from 'next-auth/providers/credentials';
 
-import { getCookie } from '@/lib/cookies';
-
-import { ACCESS_TOKEN_KEY } from './constants/storageKey';
 import fetcher from './fetcher';
 
 const MAX_AGE_TOKEN = 60 * 60 * 24 * 7; // 1 week
@@ -16,12 +13,10 @@ export const authOptions = {
     CredentialsProvider({
       async authorize(credentials) {
         try {
-          const accesToken = getCookie(ACCESS_TOKEN_KEY);
-
           const profileResponse = await fetcher({
             url: `/profile/${credentials.slug}`,
             headers: {
-              authorization: `Bearer ${accesToken}`
+              authorization: `Bearer ${credentials.accessToken}`
             }
           });
 
