@@ -26,7 +26,8 @@ const useMultiStep = (components) => {
     totalStep: components.length,
     next,
     prev,
-    currentStepComponent: components[step - 1]
+    currentStepComponent: components[step - 1],
+    goTo: setStep
   };
 };
 

@@ -18,7 +18,9 @@ const config = {
     'perusahaan',
     'pengalaman',
     'pencari kerja'
-  ]
+  ],
+  defaultAvatar:
+    'https://res.cloudinary.com/dwp0iuas9/image/upload/v1694966771/images/avatar/nu6qqb4ybg9qw8rfuje0.png'
 };
 
 export default config;

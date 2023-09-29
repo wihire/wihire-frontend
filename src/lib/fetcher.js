@@ -11,7 +11,7 @@ const generateQuery = (query) => {
       const arrayValueQuery = query[key];
       if (arrayValueQuery.length === 0) return null;
 
-      return `${key}=${arrayValueQuery.join(',')}`;
+      return arrayValueQuery.map((value) => `${key}=${value}`).join('&');
     }
 
     return `${key}=${query[key]}`;
@@ -33,32 +33,40 @@ const parseURL = (url, query) => {
   return `${urlWithoutQueries}${queryString}`;
 };
 
-const fetcher = async ({ method = 'GET', ...args }) => {
-  const finalUrl = args?.options?.isFreshURL
-    ? args.url
-    : `${process.env.NEXT_PUBLIC_API_BASE_URL}${args.url}`;
-
+const fetcher = ({ method = 'GET', ...args }) => {
   const accessToken = getCookie(process.env.NEXT_PUBLIC_ACCESS_TOKEN_KEY);
 
-  const response = await fetch(parseURL(finalUrl, args?.query), {
-    method,
-    headers: {
-      authorization: accessToken ? `Bearer ${accessToken}` : undefined,
-      ...(!args?.options?.isFormData && { 'Content-Type': 'application/json' }),
-      ...args?.headers
-    },
-    cache: args?.cache ?? args?.next ? undefined : 'no-store',
-    ...args
-  });
+  const callbackPromise = async (resolve, reject) => {
+    const finalUrl = args?.options?.isFreshURL
+      ? args.url
+      : `${process.env.NEXT_PUBLIC_API_BASE_URL}${args.url}`;
 
-  const data = await response.json();
+    const response = await fetch(parseURL(finalUrl, args?.query), {
+      method,
+      headers: {
+        authorization: accessToken ? `Bearer ${accessToken}` : undefined,
+        ...(!args?.options?.isFormData && { 'Content-Type': 'application/json' }),
+        ...args?.headers
+      },
+      cache: args?.cache ?? args?.next ? undefined : 'no-store',
+      ...args
+    });
 
-  const result = {
-    response,
-    data
+    const data = await response.json();
+
+    if (!response.ok) {
+      reject(data);
+    }
+
+    const result = {
+      // response,
+      data
+    };
+
+    resolve(result);
   };
 
-  return result;
+  return new Promise(callbackPromise);
 };
 
 export default fetcher;

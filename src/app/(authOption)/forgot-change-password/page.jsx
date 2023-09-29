@@ -10,6 +10,8 @@ export const metadata = generateMetadata(
   }
 );
 
-const ForgotChangePasswordPage = () => <ForgotChangePassword />;
+const ForgotChangePasswordPage = ({ searchParams }) => (
+  <ForgotChangePassword searchParams={searchParams} />
+);
 
 export default ForgotChangePasswordPage;
