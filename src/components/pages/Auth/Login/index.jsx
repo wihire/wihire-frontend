@@ -6,7 +6,7 @@ import LoginForm from '@/components/parts/Login/LoginForm';
 
 const Login = () => (
   <div className="min-h-d-screen bg-primary-content">
-    <Container className="grid min-h-d-screen grid-cols-12 items-center gap-7 py-6">
+    <Container className="min-h-d-screen grid grid-cols-12 items-center gap-7 py-6">
       <div className="col-span-8 mx-auto">
         <Image src={loginIlustration} alt="Authentication ilustration" width={500} height={500} />
       </div>
