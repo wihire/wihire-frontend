@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    @apply bg-white;
+  }
+}
+
 @layer utilities {
   .min-h-d-screen {
     min-height: 100dvh;

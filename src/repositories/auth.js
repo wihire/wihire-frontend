@@ -10,6 +10,26 @@ export const login = async ({ email, password }) => {
   return response;
 };
 
+export const registerCompany = async (payload) => {
+  const response = await fetcher({
+    url: '/auth/register/company',
+    method: 'POST',
+    body: JSON.stringify(payload)
+  });
+
+  return response;
+};
+
+export const registerUser = async (payload) => {
+  const response = await fetcher({
+    url: '/auth/register/user',
+    method: 'POST',
+    body: JSON.stringify(payload)
+  });
+
+  return response;
+};
+
 export const sendVerificationEmail = async (payload) => {
   const response = await fetcher({
     url: '/auth/email-verification',

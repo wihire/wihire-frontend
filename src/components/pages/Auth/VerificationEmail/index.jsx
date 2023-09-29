@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import verifyEmailArt from '@/assets/images/ilustrations/verified-email.png';
+import verifyEmailArt from '@/assets/images/illustrations/verified-email.png';
 import Container from '@/components/elements/Container';
 import Text from '@/components/elements/Text';
 import SendVerification from '@/components/parts/VerificationEmail/SendVerification';
