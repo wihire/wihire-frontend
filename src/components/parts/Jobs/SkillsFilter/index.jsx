@@ -20,7 +20,19 @@ const SKILLS_OPTIONS = [
 const SkillsFilter = ({ className }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [selected, setSelected] = useState([]);
+  const [selected, setSelected] = useState(
+    searchParams.getAll('skills[]').reduce((acc, skill) => {
+      const skillOption = SKILLS_OPTIONS.find((option) => option.value === skill);
+      if (skillOption) {
+        acc.push(skillOption);
+      } else {
+        const label = skill.replace(/\+/g, ' ');
+        acc.push({ label, value: skill, __isNew__: true });
+      }
+
+      return acc;
+    }, [])
+  );
 
   const handleChangeSelected = useCallback(
     (selected) => {

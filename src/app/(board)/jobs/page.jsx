@@ -19,7 +19,6 @@ const JobsPage = async ({ searchParams }) => {
   const queryClient = getQueryClient();
 
   const filter = {
-    limit: 3,
     page: Number(searchParams?.page) || 1,
     'categories[]': searchParams?.['categories[]']?.length
       ? searchParams['categories[]']

@@ -1,60 +1,57 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo } from 'react';
 
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { usePathname, useParams } from 'next/navigation';
 import { toast } from 'react-toastify';
 
 import Button from '@/components/elements/Button';
 import config from '@/lib/config';
-import { getQueryClient } from '@/lib/queryClient';
-import { useJob } from '@/query/jobs';
+import { getJobKey, useJob } from '@/query/jobs';
 import { saveJob, unsaveJob } from '@/repositories/jobs';
 
 const JobDetailsButtons = () => {
+  const queryClient = useQueryClient();
   const params = useParams();
 
   const { data } = useJob(params.slug);
 
-  const { job } = data.data.data;
-
-  const [isSavedJob, setIsSavedJob] = useState(job.isSaved);
+  const { job } = useMemo(() => data.data.data, [data.data.data]);
+  const { company } = useMemo(() => job, [job]);
 
   const saveMutation = useMutation({
     mutationFn: () => saveJob(params.slug),
     onSuccess: () => {
-      const queryClient = getQueryClient();
       queryClient.invalidateQueries({ queryKey: ['jobs'] });
-      setIsSavedJob(true);
+      queryClient.invalidateQueries({ queryKey: getJobKey(params.slug) });
     }
   });
 
   const unsaveMutation = useMutation({
     mutationFn: () => unsaveJob(params.slug, false),
     onSuccess: () => {
-      const queryClient = getQueryClient();
       queryClient.invalidateQueries({ queryKey: ['jobs'] });
-      setIsSavedJob(false);
+      queryClient.invalidateQueries({ queryKey: getJobKey(params.slug) });
     }
   });
 
   const pathname = usePathname();
 
   const share = () => {
+    const jobUrl = config.appUrl + pathname;
+
     if (navigator.share) {
       navigator
         .share({
-          title: 'WebShare API Demo',
-          url: 'https://codepen.io/ayoisaiah/pen/YbNazJ'
-        })
-        .then(() => {
-          toast.success('Thanks for sharing!');
+          title: `${job.title} at ${company.profile.name}`,
+          text: `${job.title} at ${company.profile.name}`,
+          url: jobUrl
         })
         .catch(toast.error);
     } else {
       navigator.clipboard
-        .writeText(config.appUrl + pathname)
+        .writeText(jobUrl)
         .then(() => {
           toast.success('Url copied to clipboard');
         })
@@ -65,12 +62,12 @@ const JobDetailsButtons = () => {
   };
   return (
     <div className="mt-10 flex justify-between">
-      <div>
-        <Button className="px-10">Apply</Button>
-      </div>
+      <Button href={`/jobs/${params.slug}/apply`} className="btn-wide">
+        Apply
+      </Button>
 
-      <div className="flex justify-end gap-3">
-        {isSavedJob ? (
+      <div className="flex gap-3">
+        {job.isSaved ? (
           <Button
             isLoading={unsaveMutation.isLoading}
             onClick={() => unsaveMutation.mutate()}
@@ -84,7 +81,7 @@ const JobDetailsButtons = () => {
           </Button>
         )}
 
-        <Button className=" btn-outline px-8" onClick={share}>
+        <Button className="btn-outline" onClick={share}>
           Share
         </Button>
       </div>

@@ -1,6 +1,4 @@
-import { useState } from 'react';
-
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import moment from 'moment';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -11,15 +9,9 @@ import Button from '@/components/elements/Button';
 import Text from '@/components/elements/Text';
 import { toCurrency } from '@/lib/common';
 import config from '@/lib/config';
-import { getQueryClient } from '@/lib/queryClient';
+import { JOB_TYPE } from '@/lib/constants/common';
+import { getJobKey } from '@/query/jobs';
 import { saveJob, unsaveJob } from '@/repositories/jobs';
-
-const JOB_TYPE = {
-  FULLTIME: 'Fulltime',
-  PARTTIME: 'Part time',
-  INTERNSHIP: 'Internship',
-  CONTRACT: 'Contract'
-};
 
 const JobCard = ({
   title,
@@ -33,23 +25,21 @@ const JobCard = ({
   isSaved,
   createdAt
 }) => {
-  const [isSavedJob, setIsSavedJob] = useState(isSaved);
+  const queryClient = useQueryClient();
 
   const saveMutation = useMutation({
     mutationFn: () => saveJob(slug),
     onSuccess: () => {
-      const queryClient = getQueryClient();
       queryClient.invalidateQueries({ queryKey: ['jobs'] });
-      setIsSavedJob(true);
+      queryClient.invalidateQueries({ queryKey: getJobKey(slug) });
     }
   });
 
   const unsaveMutation = useMutation({
     mutationFn: () => unsaveJob(slug, false),
     onSuccess: () => {
-      const queryClient = getQueryClient();
       queryClient.invalidateQueries({ queryKey: ['jobs'] });
-      setIsSavedJob(false);
+      queryClient.invalidateQueries({ queryKey: getJobKey(slug) });
     }
   });
 
@@ -59,7 +49,7 @@ const JobCard = ({
         <Image
           src={companyImage ?? config.defaultAvatar}
           alt="Company image"
-          layout="fill"
+          fill
           className="object-cover"
         />
       </div>
@@ -69,16 +59,16 @@ const JobCard = ({
           <Link href={`/jobs/${slug}`} className="inline-block text-xl font-bold text-primary">
             {title}
           </Link>
-          <Text typography="sm">{companyName}</Text>
+          <Text>{companyName}</Text>
         </div>
 
         <div>
           <div>
-            <Text typography="sm" className="inline-block text-gray-500">
+            <Text className="inline-block text-gray-500">
               {address} ({placeMethod.toLowerCase()})
             </Text>
             <ul className="ml-8 inline-block list-disc">
-              <Text as="li" typography="sm" className="text-gray-500">
+              <Text as="li" className="text-gray-500">
                 {JOB_TYPE[jobType]}
               </Text>
             </ul>
@@ -86,7 +76,7 @@ const JobCard = ({
 
           {rangeSalary ? (
             <div>
-              <Text typography="sm" className="text-gray-500">
+              <Text className="text-gray-500">
                 {toCurrency(rangeSalary.min, true)}
                 {rangeSalary.max ? ` - ${toCurrency(rangeSalary.max, true)}` : null} IDR / month
               </Text>
@@ -99,7 +89,7 @@ const JobCard = ({
         </Text>
       </div>
 
-      {isSavedJob ? (
+      {isSaved ? (
         <Button
           className="btn-ghost text-primary"
           title="Unsave this job"

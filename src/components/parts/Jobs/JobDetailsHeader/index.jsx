@@ -1,7 +1,10 @@
 'use client';
 
+import { useMemo } from 'react';
+
 import moment from 'moment';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
 import BankNotesIcon from '@/assets/icons/banknotes_solid.svg';
@@ -10,22 +13,17 @@ import ClockIcon from '@/assets/icons/clock_solid.svg';
 import MapPinIcon from '@/assets/icons/map-pin_solid.svg';
 import Text from '@/components/elements/Text';
 import { toCurrency, capitalEachWord } from '@/lib/common';
+import config from '@/lib/config';
+import { JOB_TYPE } from '@/lib/constants/common';
 import { useJob } from '@/query/jobs';
-
-const JOB_TYPE = {
-  FULLTIME: 'Fulltime',
-  PARTTIME: 'Part time',
-  INTERNSHIP: 'Internship',
-  CONTRACT: 'Contract'
-};
 
 const JobDetailsHeader = () => {
   const params = useParams();
 
   const { data } = useJob(params.slug);
 
-  const { job } = data.data.data;
-  const { company } = job;
+  const { job } = useMemo(() => data.data.data, [data.data.data]);
+  const { company } = useMemo(() => job, [job]);
 
   return (
     <div className="grid grid-cols-2">
@@ -34,42 +32,48 @@ const JobDetailsHeader = () => {
           {job.title}
         </Text>
 
-        <div className="flex gap-8 ">
-          <Text className="text-primary">{company.profile.name}</Text>
+        <div className="mt-1 flex gap-8">
+          <Link href={`/profile/${company.profile.slug}`} className="text-primary hover:underline">
+            {company.profile.name}
+          </Link>
           <ul className="list-disc">
             <Text as="li">{company.totalEmployee}</Text>
           </ul>
         </div>
 
-        <div>
-          <Text className="text-gray-500">{moment(job.createdAt).fromNow()}</Text>
-        </div>
+        <Text typography="xs" className="text-gray-500">
+          {moment(job.createdAt).fromNow()}
+        </Text>
       </div>
 
-      <div className="flex justify-end">
-        <Image src={company.profile.avatar} width={100} height={100} alt="Avatar Company" />
-      </div>
+      <Image
+        src={company.profile?.avatar ?? config.defaultAvatar}
+        width={100}
+        height={100}
+        alt="Avatar Company"
+        className="place-self-end"
+      />
 
-      <div>
-        <div className="flex items-center gap-3">
+      <div className="flex flex-col gap-1">
+        <div className="flex items-center gap-1">
           <MapPinIcon />
           <Text>{job.address}</Text>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-1">
           <BriefCaseIcon />
           <Text>{capitalEachWord(job.placeMethod)}</Text>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-1">
           <ClockIcon />
           <Text>{JOB_TYPE[job.jobType]}</Text>
         </div>
 
         {job.rangeSalary ? (
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1">
             <BankNotesIcon />
-            <Text typography="sm">
+            <Text>
               {toCurrency(job.rangeSalary.min, true)}
               {job.rangeSalary.max ? ` - ${toCurrency(job.rangeSalary.max, true)}` : null} IDR /
               month

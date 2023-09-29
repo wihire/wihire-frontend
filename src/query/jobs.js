@@ -4,8 +4,6 @@ import { getJobs, getJob } from '@/repositories/jobs';
 
 export const getJobsKey = (filters) => ['jobs', filters];
 
-export const getJobKey = (slug) => ['job', slug];
-
 export const useJobs = (filters) => {
   const result = useQuery({
     queryKey: getJobsKey(filters),
@@ -15,6 +13,8 @@ export const useJobs = (filters) => {
 
   return result;
 };
+
+export const getJobKey = (slug) => ['job', slug];
 
 export const useJob = (slug) => {
   const result = useQuery({
