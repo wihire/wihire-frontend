@@ -3,6 +3,7 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import Text from '@/components/elements/Text';
+import ErrorStatusImage from '@/components/parts/ErrorStatusImage';
 import Filter from '@/components/parts/Jobs/Filter';
 import ListJob from '@/components/parts/Jobs/ListJob';
 import Pagination from '@/components/parts/Pagination';
@@ -39,21 +40,27 @@ const Jobs = () => {
 
       <Filter className="mt-5" />
 
-      <ListJob jobs={data?.data?.data?.jobs} />
+      {data?.data?.data?.jobs?.length > 0 ? (
+        <>
+          <ListJob jobs={data?.data?.data?.jobs} />
 
-      <div className="flex justify-center">
-        <Pagination
-          maxPage={data?.data?.pagination?.totalPage}
-          currentPage={data?.data?.pagination?.currentPage}
-          onFirstPage={() => router.push('/jobs?page=1')}
-          onLastPage={() => router.push(`/jobs?page=${data?.data?.pagination?.totalPage}`)}
-          onNextPage={() => router.push(`/jobs?page=${data?.data?.pagination?.nextPage}`)}
-          onPrevPage={() => router.push(`/jobs?page=${data?.data?.pagination?.prevPage}`)}
-          onChangePage={(event) => router.push(`/jobs?page=${event.target.value}`)}
-          disabledNextPage={!data?.data?.pagination?.nextPage}
-          disabledPrevPage={!data?.data?.pagination?.prevPage}
-        />
-      </div>
+          <div className="flex justify-center">
+            <Pagination
+              maxPage={data?.data?.pagination?.totalPage}
+              currentPage={data?.data?.pagination?.currentPage}
+              onFirstPage={() => router.push('/jobs?page=1')}
+              onLastPage={() => router.push(`/jobs?page=${data?.data?.pagination?.totalPage}`)}
+              onNextPage={() => router.push(`/jobs?page=${data?.data?.pagination?.nextPage}`)}
+              onPrevPage={() => router.push(`/jobs?page=${data?.data?.pagination?.prevPage}`)}
+              onChangePage={(event) => router.push(`/jobs?page=${event.target.value}`)}
+              disabledNextPage={!data?.data?.pagination?.nextPage}
+              disabledPrevPage={!data?.data?.pagination?.prevPage}
+            />
+          </div>
+        </>
+      ) : (
+        <ErrorStatusImage errorType="EMPTY" message="No job has been found" className="mt-8" />
+      )}
     </div>
   );
 };

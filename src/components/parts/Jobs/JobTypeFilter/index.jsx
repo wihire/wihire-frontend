@@ -18,7 +18,16 @@ const JOB_TYPE_OPTIONS = [
 const JobTypeFilter = ({ className }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [selected, setSelected] = useState([]);
+  const [selected, setSelected] = useState(
+    searchParams.getAll('job-types[]').reduce((acc, jobType) => {
+      const jobTypeOption = JOB_TYPE_OPTIONS.find((option) => option.value === jobType);
+      if (jobTypeOption) {
+        acc.push(jobTypeOption);
+      }
+
+      return acc;
+    }, [])
+  );
 
   const handleChangeSelected = useCallback(
     (selected) => {
