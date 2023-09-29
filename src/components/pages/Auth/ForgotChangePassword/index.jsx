@@ -16,7 +16,7 @@ const ForgotChangePassword = ({ searchParams }) => {
         Reset Password
       </Text>
 
-      <Text typography="xs" className="mt-2 mb-10 text-gray-400">
+      <Text typography="xs" className="mb-10 mt-2 text-gray-400">
         Set a new password for your account, make sure to remember it this time &#58;&#41;
       </Text>
 
