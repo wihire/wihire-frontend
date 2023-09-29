@@ -17,7 +17,7 @@ import TextInput from '@/components/elements/TextInput';
 import { EMAIL_REGEX } from '@/lib/constants/regex';
 import { EMAIL_KEY } from '@/lib/constants/storageKey';
 import { setAccessToken } from '@/lib/cookies';
-import { login } from '@/repositories/auth';
+import { login, sendVerificationEmail } from '@/repositories/auth';
 
 const LoginForm = ({ className }) => {
   const router = useRouter();
@@ -25,17 +25,31 @@ const LoginForm = ({ className }) => {
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors }
   } = useForm();
+
+  const sendVerificationEmailMutation = useMutation({
+    mutationFn: sendVerificationEmail,
+    onSuccess: () => {
+      router.push('/verification-email');
+    }
+  });
 
   const loginMutation = useMutation({
     mutationFn: login,
     onSuccess: ({ data }) => {
       if (!data.data.profile.isVerifiedEmail) {
-        setCookie(EMAIL_KEY, data.data.profile.email, {
-          maxAge: 60 * 1
+        const email = getValues('email');
+
+        setCookie(EMAIL_KEY, email, {
+          maxAge: 60 // 1 minute
         });
-        router.push('/verification-email');
+
+        sendVerificationEmailMutation.mutate({
+          email
+        });
+
         return;
       }
 
@@ -105,7 +119,11 @@ const LoginForm = ({ className }) => {
           />
         </FormControl>
 
-        <Button type="submit" className="mt-10 w-full" isLoading={loginMutation.isLoading}>
+        <Button
+          type="submit"
+          className="mt-10 w-full"
+          isLoading={loginMutation.isLoading || sendVerificationEmailMutation.isLoading}
+        >
           Login
         </Button>
       </form>

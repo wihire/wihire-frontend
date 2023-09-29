@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { redirect } from 'next/navigation';
 
 import verifyEmailArt from '@/assets/images/illustrations/verified-email.png';
 import Container from '@/components/elements/Container';
@@ -8,6 +9,10 @@ import { getCookie } from '@/lib/cookies';
 
 const VerificationEmail = () => {
   const userEmail = getCookie('email');
+
+  if (!userEmail) {
+    return redirect('/login');
+  }
 
   return (
     <Container className="grid justify-items-center gap-5 rounded-md border border-gray-100 p-14">
