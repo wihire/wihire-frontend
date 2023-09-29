@@ -2,24 +2,25 @@ import FilterOptions from '@/components/parts/Application/Options';
 
 const FILTERS = [
   {
-    title: 'All',
-    url: ''
+    status: null,
+    url: '/applications'
   },
   {
-    title: 'On Progress',
-    url: 'ONPROGRESS'
+    status: 'ONPROGRESS',
+    url: '?status=ONPROGRESS'
   },
   {
-    title: 'On Review',
-    url: 'ONREVIEW'
+    status: 'ONREVIEW',
+    url: '?status=ONREVIEW'
   },
   {
-    title: 'Approved',
-    url: 'APPROVED'
+    status: 'APPROVED',
+    url: '?status=APPROVED'
   },
   {
     title: 'Declined',
-    url: 'DECLINE'
+    status: 'DECLINE',
+    url: '?status=DECLINE'
   }
 ];
 

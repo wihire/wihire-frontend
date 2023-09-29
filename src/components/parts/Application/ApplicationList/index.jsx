@@ -16,7 +16,7 @@ const ApplicationList = () => {
 
   const pageUrl = useMemo(() => {
     if (currentStatus) {
-      return `&status=${currentStatus}`;
+      return `status=${currentStatus}&`;
     }
     return '';
   }, [currentStatus]);
@@ -41,13 +41,13 @@ const ApplicationList = () => {
           currentPage={data?.data?.pagination?.currentPage}
           onFirstPage={() => router.push(`/applications?page=1${pageUrl}`)}
           onLastPage={() =>
-            router.push(`/applications?page=${data?.data?.pagination?.totalPage}${pageUrl}`)
+            router.push(`/applications?${pageUrl}page=${data?.data?.pagination?.totalPage}`)
           }
           onNextPage={() =>
-            router.push(`/applications?page=${data?.data?.pagination?.nextPage}${pageUrl}`)
+            router.push(`/applications?${pageUrl}page=${data?.data?.pagination?.nextPage}`)
           }
           onPrevPage={() =>
-            router.push(`/applications?page=${data?.data?.pagination?.prevPage}${pageUrl}`)
+            router.push(`/applications?${pageUrl}page=${data?.data?.pagination?.prevPage}`)
           }
           onChangePage={(event) => router.push(`/applications?page=${event.target.value}`)}
           disabledNextPage={!data?.data?.pagination?.nextPage}

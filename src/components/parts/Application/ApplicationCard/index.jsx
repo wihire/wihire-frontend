@@ -66,12 +66,6 @@ const ApplicationCard = ({ job, status, companyPicture }) => {
             </div>
 
             <Text typography="sm" className="text-gray-500">
-              {/* { !job.rangeSalary.min
-                  ? `${toCurrency(job?.rangeSalary?.min)} IDR / month`
-                  : `${toCurrency(job?.rangeSalary?.min)}-${toCurrency(
-                      job?.rangeSalary?.max
-                    )} IDR / month`
-                } */}
               {job?.rangeSalary ? toCurrency(job.rangeSalary?.min, true) : null}
               {job.rangeSalary?.max ? ` - ${toCurrency(job.rangeSalary?.max, true)}` : null}
               {job?.rangeSalary && 'IDR / month'}

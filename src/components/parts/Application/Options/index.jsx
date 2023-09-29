@@ -6,28 +6,29 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { twMerge } from 'tailwind-merge';
 
 import Button from '@/components/elements/Button';
+import { splitStatus } from '@/lib/common';
 
-const FilterOptions = ({ title, url }) => {
+const FilterOptions = ({ url, status }) => {
   const searchParams = useSearchParams();
-  const status = searchParams.get('status');
+  const currentStatus = searchParams.get('status');
 
   const router = useRouter();
 
-  const isActive = useMemo(() => status === url, [status, url]);
+  const isActive = useMemo(() => currentStatus === status, [currentStatus, status]);
 
   const buttonClassName = useMemo(() => {
     if (!isActive) {
       return 'btn-outline';
     }
-    return '';
+    return null;
   }, [isActive]);
 
   return (
     <Button
-      className={twMerge('btn-sm rounded-full', buttonClassName)}
-      onClick={() => router.push(`?status=${url}`)}
+      className={twMerge('btn-sm rounded-full no-animation', buttonClassName)}
+      onClick={() => router.push(`${url}`)}
     >
-      {title}
+      {!status ? 'All' : splitStatus(status)}
     </Button>
   );
 };
