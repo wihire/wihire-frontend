@@ -50,7 +50,7 @@ const JobCard = ({
         <Image
           src={companyImage ?? config.defaultAvatar}
           alt="Company image"
-          layout="fill"
+          fill
           className="object-cover"
         />
       </div>

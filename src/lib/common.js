@@ -30,3 +30,10 @@ export const splitStatus = (word) => {
   const leftovers = word.slice(2, word.length);
   return `${firstTwoDigit} ${leftovers}`;
 };
+
+export const formatTime = (seconds) => {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+
+  return `0${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+};

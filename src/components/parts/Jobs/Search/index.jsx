@@ -11,9 +11,10 @@ import { combineSearchParams, removeSearchParams } from '@/lib/url';
 const Search = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
+
   const [search, setSearch] = useState({
-    title: '',
-    company: ''
+    title: searchParams.get('title') ?? '',
+    company: searchParams.get('company') ?? ''
   });
 
   const handleChange = useCallback((e) => {
