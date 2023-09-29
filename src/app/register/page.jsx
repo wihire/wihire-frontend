@@ -23,7 +23,7 @@ const RegisterPage = async () => {
   const queryClient = getQueryClient();
   await queryClient.prefetchQuery(getProvincesKey(), getProvinces);
   await queryClient.prefetchQuery(getTotalEmployeesKey(), getTotalEmployees);
-  await queryClient.prefetchQuery(getCompanyScopesKey(), getCompanyScopes());
+  await queryClient.prefetchQuery(getCompanyScopesKey(), getCompanyScopes);
   const dehydratedState = dehydrate(queryClient);
 
   return (

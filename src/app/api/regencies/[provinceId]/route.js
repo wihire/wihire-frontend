@@ -8,6 +8,9 @@ export async function GET(request, { params }) {
     {
       headers: {
         'Content-Type': 'application/json'
+      },
+      next: {
+        revalidate: 60 * 60 * 24 * 365 // 1 year
       }
     }
   );
