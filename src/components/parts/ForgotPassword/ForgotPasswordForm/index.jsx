@@ -28,8 +28,8 @@ const ForgotPasswordForm = () => {
       toast.success('Check your email to reset your password!');
 
       setTimeout(() => {
-        router.push('/login');
-      }, 3000);
+        router.replace('/login');
+      }, 1000);
     },
     onError: (error) => {
       if (error.type === 'NOT_FOUND_ERR') {
