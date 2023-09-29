@@ -5,9 +5,9 @@ import { useRouter, useSearchParams } from 'next/navigation';
 
 import Text from '@/components/elements/Text';
 import Filter from '@/components/parts/Jobs/Filter';
+import ListJob from '@/components/parts/Jobs/ListJob';
 import { useJobs } from '@/query/jobs';
 
-const ListJob = dynamic(() => import('@/components/parts/Jobs/ListJob'));
 const ErrorStatusImage = dynamic(() => import('@/components/parts/ErrorStatusImage'));
 const Pagination = dynamic(() => import('@/components/parts/Pagination'));
 
