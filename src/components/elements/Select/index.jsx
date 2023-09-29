@@ -1,6 +1,9 @@
 import { forwardRef, useMemo } from 'react';
 
+import { default as ReactSelect } from 'react-select';
 import { twMerge } from 'tailwind-merge';
+
+import './styles.scss';
 
 const Select = forwardRef(
   (
@@ -21,24 +24,19 @@ const Select = forwardRef(
   ) => {
     const maxWidthClassName = useMemo(() => (isBlock ? 'max-w-full' : 'max-w-xs'), [isBlock]);
     const finalClassName = useMemo(
-      () => twMerge('select select-bordered w-full', maxWidthClassName, className),
+      () => twMerge('input input-bordered px-0', maxWidthClassName, className),
       [className, maxWidthClassName]
     );
 
     return (
-      <select ref={ref} className={finalClassName} {...props}>
-        {placeholder ? (
-          <option disabled selected>
-            {placeholder}
-          </option>
-        ) : null}
-
-        {options.map((option) => (
-          <option key={option.value} value={options.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
+      <ReactSelect
+        ref={ref}
+        className={finalClassName}
+        classNamePrefix="select"
+        options={options}
+        placeholder={placeholder}
+        {...props}
+      />
     );
   }
 );

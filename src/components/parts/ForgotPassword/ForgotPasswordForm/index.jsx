@@ -4,7 +4,7 @@ import { useCallback } from 'react';
 
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import {  useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
 import Button from '@/components/elements/Button';
@@ -14,7 +14,8 @@ import { EMAIL_REGEX } from '@/lib/constants/regex';
 import { forgotPassword } from '@/repositories/auth';
 
 const ForgotPasswordForm = () => {
-  const navigation = useRouter();
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -24,16 +25,19 @@ const ForgotPasswordForm = () => {
   const forgotPasswordMutation = useMutation({
     mutationFn: forgotPassword,
     onSuccess: () => {
-      toast.success('Check your email to reset your password!', {
-        position: 'top-center',
-        autoClose: 2500,
-        hideProgressBar: false,
-        pauseOnHover: false,
-        theme: 'colored'
-      });
+      toast.success('Check your email to reset your password!');
+
       setTimeout(() => {
-        navigation.push('/login');
+        router.push('/login');
       }, 3000);
+    },
+    onError: (error) => {
+      if (error.type === 'NOT_FOUND_ERR') {
+        toast.error('Email is not registered');
+        return;
+      }
+
+      toast.error(error.message);
     }
   });
 
@@ -61,7 +65,8 @@ const ForgotPasswordForm = () => {
           })}
         />
       </FormControl>
-      <Button type="submit" className="mt-10 w-full">
+
+      <Button type="submit" className="mt-10 w-full" isLoading={forgotPasswordMutation.isLoading}>
         SEND
       </Button>
     </form>

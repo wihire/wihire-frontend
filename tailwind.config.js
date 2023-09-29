@@ -1,5 +1,9 @@
 /* eslint-disable global-require */
 /** @type {import('tailwindcss').Config} */
+
+const animation = require('./src/assets/styles/theme/animations.json');
+const keyframes = require('./src/assets/styles/theme/keyframes.json');
+
 module.exports = {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -14,7 +18,9 @@ module.exports = {
       },
       fontFamily: {
         sans: ['var(--font-dm-sans)']
-      }
+      },
+      keyframes,
+      animation
     }
   },
   plugins: [require('daisyui')],
