@@ -2,28 +2,36 @@
 
 import { useEffect, useRef } from 'react';
 
+import dynamic from 'next/dynamic';
 import { twMerge } from 'tailwind-merge';
 
-import BookmarkIcon from '@/assets/icons/bookmark_solid.svg';
-import BriefcaseIcon from '@/assets/icons/briefcase_solid.svg';
-import DocumentIcon from '@/assets/icons/document_solid.svg';
 import SidebarMenu from '@/components/parts/Sidebar/SidebarMenu';
+
+const BookmarkIconSolid = dynamic(() => import('@/assets/icons/bookmark_solid.svg'));
+const BookmarkIconOutline = dynamic(() => import('@/assets/icons/bookmark_outline.svg'));
+const BriefcaseIconSolid = dynamic(() => import('@/assets/icons/briefcase_solid.svg'));
+const BriefcaseIconOutline = dynamic(() => import('@/assets/icons/briefcase_outline.svg'));
+const DocumentIconSolid = dynamic(() => import('@/assets/icons/document_solid.svg'));
+const DocumentIconOutline = dynamic(() => import('@/assets/icons/document_outline.svg'));
 
 const MENU = [
   {
     title: 'Job Board',
-    icon: BriefcaseIcon,
+    iconActive: BriefcaseIconSolid,
+    iconNotActive: BriefcaseIconOutline,
     url: '/jobs'
   },
   {
     title: 'Applications',
-    icon: DocumentIcon,
+    iconActive: DocumentIconSolid,
+    iconNotActive: DocumentIconOutline,
     url: '/applications'
   },
   {
     title: 'Saved Jobs',
-    icon: BookmarkIcon,
-    url: '/saved-jobs'
+    iconActive: BookmarkIconSolid,
+    iconNotActive: BookmarkIconOutline,
+    url: '/jobs/saved'
   }
 ];
 

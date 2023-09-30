@@ -1,5 +1,7 @@
 import { getCookie } from '@/lib/cookies';
 
+import { ACCESS_TOKEN_KEY } from './constants/storageKey';
+
 const generateQuery = (query) => {
   const queryKeys = Object.keys(query);
   if (queryKeys.length === 0) return '';
@@ -34,7 +36,7 @@ const parseURL = (url, query) => {
 };
 
 const fetcher = ({ method = 'GET', ...args }) => {
-  const accessToken = getCookie(process.env.NEXT_PUBLIC_ACCESS_TOKEN_KEY);
+  const accessToken = getCookie(ACCESS_TOKEN_KEY);
 
   const callbackPromise = async (resolve, reject) => {
     const finalUrl = args?.options?.isFreshURL
