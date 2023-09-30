@@ -34,3 +34,12 @@ export const unsaveJob = async (slug) => {
 
   return response;
 };
+
+export const createJob = async (data) => {
+  const response = await fetcher({
+    url: `/jobs`,
+    method: 'POST',
+    body: JSON.stringify(data)
+  });
+  return response;
+};
