@@ -22,6 +22,15 @@ export const capitalEachWord = (sentences) => {
   return capitalizedWords.join(' ');
 };
 
+export const splitStatus = (word) => {
+  const firstTwoDigit = word.slice(0, 2);
+  if (firstTwoDigit !== 'ON') {
+    return word;
+  }
+  const leftovers = word.slice(2, word.length);
+  return `${firstTwoDigit} ${leftovers}`;
+};
+
 export const formatTime = (seconds) => {
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = seconds % 60;

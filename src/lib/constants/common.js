@@ -4,3 +4,10 @@ export const JOB_TYPE = {
   INTERNSHIP: 'Internship',
   CONTRACT: 'Contract'
 };
+
+export const APPLICATION_STATUS = {
+  APPROVED: 'Approved',
+  DECLINE: 'Decline',
+  ONREVIEW: 'On review',
+  ONPROGRESS: 'On progress'
+};
