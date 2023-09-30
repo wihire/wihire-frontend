@@ -39,6 +39,7 @@ const FormJob = () => {
     setError,
     control,
     setValue,
+    reset,
     formState: { errors }
   } = useForm();
 
@@ -149,6 +150,7 @@ const FormJob = () => {
         status: selectedStatus
       };
       createJobMutation.mutate(payload);
+      reset();
     } catch (error) {
       throw new Error(error);
     }
