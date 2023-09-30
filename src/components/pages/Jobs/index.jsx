@@ -1,13 +1,18 @@
 'use client';
 
+import { useCallback } from 'react';
+
+import dynamic from 'next/dynamic';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import Text from '@/components/elements/Text';
-import ErrorStatusImage from '@/components/parts/ErrorStatusImage';
 import Filter from '@/components/parts/Jobs/Filter';
 import ListJob from '@/components/parts/Jobs/ListJob';
-import Pagination from '@/components/parts/Pagination';
+import { combineSearchParams, removeSearchParams } from '@/lib/url';
 import { useJobs } from '@/query/jobs';
+
+const ErrorStatusImage = dynamic(() => import('@/components/parts/ErrorStatusImage'));
+const Pagination = dynamic(() => import('@/components/parts/Pagination'));
 
 const Jobs = () => {
   const router = useRouter();
@@ -29,8 +34,19 @@ const Jobs = () => {
     'skills[]': searchParams.getAll('skills[]').length
       ? searchParams.getAll('skills[]')
       : undefined,
-    'min-salary': searchParams.get('min-salary') || undefined
+    'min-salary': searchParams.get('min-salary') || undefined,
+    status: 'POSTED'
   });
+
+  const handleChangePage = useCallback(
+    (page) => {
+      const newRemovedSearchParams = removeSearchParams(searchParams, ['page']);
+      const newSearchParams = combineSearchParams(newRemovedSearchParams, { page });
+
+      router.push(`/jobs?${newSearchParams}`);
+    },
+    [router, searchParams]
+  );
 
   return (
     <div>
@@ -48,11 +64,11 @@ const Jobs = () => {
             <Pagination
               maxPage={data?.data?.pagination?.totalPage}
               currentPage={data?.data?.pagination?.currentPage}
-              onFirstPage={() => router.push('/jobs?page=1')}
-              onLastPage={() => router.push(`/jobs?page=${data?.data?.pagination?.totalPage}`)}
-              onNextPage={() => router.push(`/jobs?page=${data?.data?.pagination?.nextPage}`)}
-              onPrevPage={() => router.push(`/jobs?page=${data?.data?.pagination?.prevPage}`)}
-              onChangePage={(event) => router.push(`/jobs?page=${event.target.value}`)}
+              onFirstPage={() => handleChangePage(1)}
+              onLastPage={() => handleChangePage(data?.data?.pagination?.totalPage)}
+              onNextPage={() => handleChangePage(data?.data?.pagination?.nextPage)}
+              onPrevPage={() => handleChangePage(data?.data?.pagination?.prevPage)}
+              onChangePage={(event) => handleChangePage(event.target.value)}
               disabledNextPage={!data?.data?.pagination?.nextPage}
               disabledPrevPage={!data?.data?.pagination?.prevPage}
             />

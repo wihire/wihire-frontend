@@ -1,63 +1,60 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useCallback } from 'react';
 
+import dynamic from 'next/dynamic';
 import { useSearchParams, useRouter } from 'next/navigation';
 
 import ApplicationCard from '@/components/parts/Application/ApplicationCard';
-import ErrorStatusImage from '@/components/parts/ErrorStatusImage';
-import Pagination from '@/components/parts/Pagination';
+import { combineSearchParams, removeSearchParams } from '@/lib/url';
 import { useApplications } from '@/query/applications';
+
+const ErrorStatusImage = dynamic(() => import('@/components/parts/ErrorStatusImage'));
+const Pagination = dynamic(() => import('@/components/parts/Pagination'));
 
 const ApplicationList = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const currentStatus = searchParams.get('status');
-
-  const pageUrl = useMemo(() => {
-    if (currentStatus) {
-      return `status=${currentStatus}&`;
-    }
-    return '';
-  }, [currentStatus]);
-
   const { data } = useApplications({
     page: Number(searchParams.get('page')) || 1,
-    status: currentStatus || undefined
+    status: searchParams.get('status') || undefined
   });
+
+  const handleChangePage = useCallback(
+    (page) => {
+      const newRemovedSearchParams = removeSearchParams(searchParams, ['page']);
+      const newSearchParams = combineSearchParams(newRemovedSearchParams, { page });
+
+      router.push(`/applications?${newSearchParams}`);
+    },
+    [router, searchParams]
+  );
 
   return (
     <div>
       {data?.data?.data?.jobs?.length > 0 ? (
-        <div className="my-8 flex flex-col gap-[10px]">
-          {data?.data.data.jobs.map((application) => (
-            <ApplicationCard
-              key={application.id}
-              companyPicture={application.job.company.profile.avatar}
-              {...application}
-            />
-          ))}
+        <>
+          <div className="my-8 flex flex-col gap-[10px]">
+            {data?.data.data.jobs.map((application) => (
+              <ApplicationCard key={application.id} {...application} />
+            ))}
+          </div>
+
           <div className="flex justify-center">
             <Pagination
               maxPage={data?.data?.pagination?.totalPage}
               currentPage={data?.data?.pagination?.currentPage}
-              onFirstPage={() => router.push(`/applications?page=1${pageUrl}`)}
-              onLastPage={() =>
-                router.push(`/applications?${pageUrl}page=${data?.data?.pagination?.totalPage}`)
-              }
-              onNextPage={() =>
-                router.push(`/applications?${pageUrl}page=${data?.data?.pagination?.nextPage}`)
-              }
-              onPrevPage={() =>
-                router.push(`/applications?${pageUrl}page=${data?.data?.pagination?.prevPage}`)
-              }
-              onChangePage={(event) => router.push(`/applications?page=${event.target.value}`)}
+              onFirstPage={() => handleChangePage(1)}
+              onLastPage={() => handleChangePage(data?.data?.pagination?.totalPage)}
+              onNextPage={() => handleChangePage(data?.data?.pagination?.nextPage)}
+              onPrevPage={() => handleChangePage(data?.data?.pagination?.prevPage)}
+              onChangePage={(event) => handleChangePage(event.target.value)}
               disabledNextPage={!data?.data?.pagination?.nextPage}
               disabledPrevPage={!data?.data?.pagination?.prevPage}
             />
           </div>
-        </div>
+        </>
       ) : (
         <ErrorStatusImage errorType="EMPTY" message="No applications found" className="mt-8" />
       )}

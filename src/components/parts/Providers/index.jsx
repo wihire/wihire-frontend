@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import dynamic from 'next/dynamic';
+import { SessionProvider } from 'next-auth/react';
 
 import { queryClientConfig } from '@/lib/queryClient';
 
@@ -21,16 +22,18 @@ const Providers = ({ children }) => {
   }, []);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      {children}
+    <SessionProvider>
+      <QueryClientProvider client={queryClient}>
+        {children}
 
-      <ReactQueryDevtools initialIsOpen />
-      {showDevtools && (
-        <React.Suspense fallback={null}>
-          <ReactQueryDevtoolsProduction />
-        </React.Suspense>
-      )}
-    </QueryClientProvider>
+        <ReactQueryDevtools initialIsOpen />
+        {showDevtools && (
+          <React.Suspense fallback={null}>
+            <ReactQueryDevtoolsProduction />
+          </React.Suspense>
+        )}
+      </QueryClientProvider>
+    </SessionProvider>
   );
 };
 

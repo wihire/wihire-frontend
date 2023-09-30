@@ -1,8 +1,8 @@
 import { Hydrate, dehydrate } from '@tanstack/react-query';
 
-import Application from '@/components/pages/Application';
+import Applications from '@/components/pages/Applications';
 import { getQueryClient } from '@/lib/queryClient';
-import { getApplicationKeys } from '@/query/applications';
+import { getApplicationsKeys } from '@/query/applications';
 import { getApplications } from '@/repositories/applications';
 
 const ApplicationsPage = async ({ searchParams }) => {
@@ -13,12 +13,12 @@ const ApplicationsPage = async ({ searchParams }) => {
     status: searchParams?.status || undefined
   };
 
-  await queryClient.prefetchQuery(getApplicationKeys(filter), () => getApplications(filter));
+  await queryClient.prefetchQuery(getApplicationsKeys(filter), () => getApplications(filter));
   const dehydratedState = dehydrate(queryClient);
 
   return (
     <Hydrate state={dehydratedState}>
-      <Application />
+      <Applications />
     </Hydrate>
   );
 };

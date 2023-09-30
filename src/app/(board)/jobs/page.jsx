@@ -30,7 +30,8 @@ const JobsPage = async ({ searchParams }) => {
       ? searchParams['place-methods[]']
       : undefined,
     'skills[]': searchParams?.['skills[]']?.length ? searchParams['skills[]'] : undefined,
-    'min-salary': searchParams['min-salary'] || undefined
+    'min-salary': searchParams['min-salary'] || undefined,
+    status: 'POSTED'
   };
 
   await queryClient.prefetchQuery(getJobsKey(filter), () => getJobs(filter));

@@ -6,6 +6,5 @@ export const getApplications = async (filter) => {
     query: filter
   });
 
-  // console.log(response, "......................");
   return response;
 };

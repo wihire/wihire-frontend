@@ -2,15 +2,14 @@ import { useQuery } from '@tanstack/react-query';
 
 import { getApplications } from '@/repositories/applications';
 
-export const getApplicationKeys = (filter) => ['application', filter];
+export const getApplicationsKeys = (filter) => ['applications', filter];
 
 export const useApplications = (filter) => {
   const result = useQuery({
-    queryKey: getApplicationKeys(filter),
+    queryKey: getApplicationsKeys(filter),
     queryFn: () => getApplications(filter),
     keepPreviousData: true
   });
-  // console.log(result, ';;;;;;;;;;;;;;;;');
 
   return result;
 };

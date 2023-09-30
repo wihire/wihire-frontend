@@ -1,17 +1,17 @@
 import Text from '@/components/elements/Text';
 import ApplicationList from '@/components/parts/Application/ApplicationList';
-import ApplicationFilters from '@/components/parts/Application/Filters';
+import ApplicationsFilters from '@/components/parts/Application/Filters';
 
-const Application = () => (
+const Applications = () => (
   <>
-    <Text as="h2" typography="h2">
+    <Text as="h1" typography="h2">
       Applications
     </Text>
 
-    <ApplicationFilters />
+    <ApplicationsFilters />
 
     <ApplicationList />
   </>
 );
 
-export default Application;
+export default Applications;

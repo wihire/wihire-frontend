@@ -1,91 +1,45 @@
+'use client';
+
 import { useMemo } from 'react';
 
-import moment from 'moment';
-import Image from 'next/image';
-import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
 
 import Text from '@/components/elements/Text';
-import { toCurrency, capitalEachWord, splitStatus } from '@/lib/common';
-import config from '@/lib/config';
+import JobCard from '@/components/parts//Jobs/JobCard';
+import { APPLICATION_STATUS } from '@/lib/constants/common';
 
-const ApplicationCard = ({ job, status, companyPicture }) => {
-  const statusBadge = useMemo(() => {
-    if (status === 'ONPROGRESS') {
-      return 'border border-primary';
+const ApplicationCard = ({ ...props }) => {
+  const badgeClassName = useMemo(() => {
+    switch (props.status) {
+      case 'ONPROGRESS':
+        return 'border border-primary';
+      case 'ONREVIEW':
+        return 'bg-warning';
+      case 'APPROVED':
+        return 'bg-success';
+      default:
+        return 'bg-error';
     }
-    if (status === 'ONREVIEW') {
-      return 'bg-warning';
-    }
-    if (status === 'APPROVED') {
-      return 'bg-success';
-    }
+  }, [props.status]);
 
-    return 'bg-error';
-  }, [status]);
-
-  const statusText = useMemo(() => {
-    if (status === 'ONPROGRESS') {
+  const badgeTextClassName = useMemo(() => {
+    if (props.status === 'ONPROGRESS') {
       return 'text-primary';
     }
     return 'text-white';
-  }, [status]);
+  }, [props.status]);
 
   return (
-    <div className="flex flex-wrap justify-between p-3 bg-white rounded-md ">
-      <div className="flex flex-row gap-3 ">
-        <Image
-          className="self-start rounded-xl "
-          src={companyPicture ?? config.defaultAvatar}
-          alt="Movie"
-          width={80}
-          height={80}
-        />
-
-        <div className="flex flex-col gap-2">
-          <div>
-            <Link
-              href={`/jobs/${job.slug}`}
-              className="inline-block text-xl font-bold text-primary"
-            >
-              {job.title}
-            </Link>
-            <Text typography="sm">{job.company.profile.name}</Text>
-          </div>
-
-          <div>
-            <div>
-              <Text typography="sm" className="inline-block text-gray-500">
-                {job.province}({job.placeMethod.toLowerCase()})
-              </Text>
-              <ul className="ml-8 inline-block list-disc">
-                <Text as="li" typography="sm" className="text-gray-500">
-                  {capitalEachWord(job.jobType)}
-                </Text>
-              </ul>
-            </div>
-
-            <Text typography="sm" className="text-gray-500">
-              {job?.rangeSalary ? toCurrency(job.rangeSalary?.min, true) : null}
-              {job.rangeSalary?.max ? ` - ${toCurrency(job.rangeSalary?.max, true)}` : null}
-              {job?.rangeSalary && 'IDR / month'}
-            </Text>
-          </div>
-
-          <div>
-            <Text typography="xs" className="text-gray-500">
-              {moment(job.createdAt).fromNow()}
-            </Text>
-          </div>
+    <JobCard
+      companyImage={props.job.company.profile.avatar}
+      companyName={props.job.company.profile.name}
+      renderRightContent={
+        <div className={twMerge('rounded-full px-4 py-1', badgeClassName)}>
+          <Text className={badgeTextClassName}>{APPLICATION_STATUS[props.status]}</Text>
         </div>
-      </div>
-
-      <div className={twMerge('rounded-full justify h-8 px-4 py-1', statusBadge)}>
-        <div className={twMerge('self-center h-8', statusText)}>
-          {capitalEachWord(splitStatus(status))}
-        </div>
-      </div>
-    </div>
+      }
+      {...props.job}
+    />
   );
 };
 
