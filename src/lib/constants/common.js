@@ -11,3 +11,8 @@ export const APPLICATION_STATUS = {
   ONREVIEW: 'On review',
   ONPROGRESS: 'On progress'
 };
+
+export const ROLE = {
+  USER: 'USER',
+  COMPANY: 'COMPANY'
+};

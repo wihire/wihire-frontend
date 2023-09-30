@@ -6,10 +6,10 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { twMerge } from 'tailwind-merge';
 
-const SidebarMenu = ({ url, icon: Icon, title }) => {
+const SidebarMenu = ({ url, iconActive: IconActive, iconNotActive: IconNotActive, title }) => {
   const pathname = usePathname();
 
-  const isActiveMenu = useMemo(() => pathname.startsWith(url), [pathname, url]);
+  const isActiveMenu = useMemo(() => pathname === url, [pathname, url]);
 
   const activeMenuClassName = useMemo(() => {
     if (isActiveMenu) {
@@ -37,7 +37,12 @@ const SidebarMenu = ({ url, icon: Icon, title }) => {
       )}
     >
       <Link href={url} className="flex gap-1">
-        <Icon className="text-2xl" />
+        {isActiveMenu ? (
+          <IconActive className="text-2xl" />
+        ) : (
+          <IconNotActive className="text-2xl" />
+        )}
+
         {title}
       </Link>
     </li>
