@@ -69,6 +69,7 @@ const LoginForm = ({ className }) => {
       setAccessToken(data.data.accessToken);
 
       router.replace('/jobs');
+      router.refresh();
     }
   });
 
