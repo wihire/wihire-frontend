@@ -82,7 +82,7 @@ const JobDetailsButtons = () => {
         </Button>
       ) : null}
 
-      <div className="flex ml-auto gap-3">
+      <div className="ml-auto flex gap-3">
         {job.isSaved ? (
           <Button
             isLoading={unsaveMutation.isLoading}
