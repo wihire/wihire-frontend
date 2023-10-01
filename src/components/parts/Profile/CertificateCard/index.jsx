@@ -2,7 +2,6 @@
 
 import moment from 'moment';
 
-import Button from '@/components/elements/Button';
 import Text from '@/components/elements/Text';
 
 const CertificateCard = ({
@@ -12,40 +11,40 @@ const CertificateCard = ({
   issuedDate,
   expiredDate,
   credentialUrl
-}) => {
-  const handleViewResumeClick = () => {
-    window.open(credentialUrl, '_blank');
-  };
+}) => (
+  <div>
+    <Text as="h3" className="font-medium">
+      {name}
+    </Text>
 
-  const date = moment(expiredDate).format('DD MMM YYYY');
+    <Text>{organization}</Text>
 
-  const endDateData = expiredDate ? `- ${date}` : null;
+    {issuedDate || expiredDate ? (
+      <Text typography="xs" className="text-gray-500">
+        {issuedDate ? `Issued ${moment(issuedDate).format('MMM YYYY')}` : null}
+        {expiredDate
+          ? `${issuedDate ? ' - ' : ''}Expired ${moment(expiredDate).format('MMM YYYY')}`
+          : null}
+      </Text>
+    ) : null}
 
-  return (
-    <div className="flex">
-      <div>
-        <div>
-          <Text className="mb-2 text-xl font-bold">{name}</Text>
-        </div>
-        <div className="mb-1">
-          <Text>{credentialId}</Text>
-        </div>
-        <div className="mb-1">
-          <Text>{organization}</Text>
-        </div>
-        <div className="mb-1">
-          <Text>
-            {moment(issuedDate).format('DD MMM YYYY')} {endDateData}
-          </Text>
-        </div>
-      </div>
-      <div>
-        <div className="flex justify-end">
-          {credentialUrl ? <Button onClick={handleViewResumeClick}>View Certificate</Button> : null}
-        </div>
-      </div>
-    </div>
-  );
-};
+    {credentialId ? (
+      <Text typography="xs" className="text-gray-500">
+        Credential ID: {credentialId}
+      </Text>
+    ) : null}
+
+    {credentialUrl ? (
+      <a
+        href={credentialUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="btn btn-info btn-outline btn-xs mt-2"
+      >
+        View credential
+      </a>
+    ) : null}
+  </div>
+);
 
 export default CertificateCard;

@@ -2,33 +2,34 @@
 
 import moment from 'moment';
 
-import Button from '@/components/elements/Button';
 import Text from '@/components/elements/Text';
+import DangerousHTML from '@/components/parts/DangerousHTML';
 
-const ProjectCard = ({ name, role, startDate, endDate, description, url }) => {
-  const handleViewResumeClick = () => {
-    window.open(url, '_blank');
-  };
+const ProjectCard = ({ name, role, startDate, endDate, description, url }) => (
+  <div>
+    <Text as="h3" className="font-medium">
+      {name}
+    </Text>
 
-  return (
-    <div>
-      <div>
-        <Text className="mb-2 text-xl font-bold">{name}</Text>
-      </div>
-      <div className="mb-1">
-        <Text>{role}</Text>
-      </div>
-      <div className="mb-1">
-        <Text>
-          {moment(startDate).format('DD MMM YYYY')} - {moment(endDate).format('DD MMM YYYY')}
-        </Text>
-      </div>
-      <div className="mt-3">
-        <Text typography="xs">{description}</Text>
-      </div>
-      <div>{url ? <Button onClick={handleViewResumeClick}>View Project</Button> : null}</div>
-    </div>
-  );
-};
+    <Text>{role}</Text>
+
+    <Text typography="xs" className="text-gray-500">
+      {moment(startDate).format('MMM YYYY')} - {moment(endDate).format('MMM YYYY')}
+    </Text>
+
+    {description ? <DangerousHTML html={description} className="mt-5" /> : null}
+
+    {url ? (
+      <a
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="btn btn-info btn-outline btn-xs mt-2"
+      >
+        View project
+      </a>
+    ) : null}
+  </div>
+);
 
 export default ProjectCard;

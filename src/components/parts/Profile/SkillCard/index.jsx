@@ -1,16 +1,29 @@
 'use client';
 
-import Text from '@/components/elements/Text';
+import { useMemo } from 'react';
 
-const SkillCard = ({ title, level }) => (
-  <div>
-    <div>
-      <Text className="mb-2 text-xl font-bold">{title}</Text>
-    </div>
-    <div className="mb-1">
-      <Text>{level}</Text>
-    </div>
-  </div>
-);
+import cx from 'classnames';
+
+const SkillCard = ({ skill, level }) => {
+  const badgeColor = useMemo(() => {
+    switch (level) {
+      case 'BEGINNER':
+        return 'badge-info';
+      case 'INTERMEDIATE':
+        return 'badge-success';
+      case 'EXPERT':
+        return 'badge-error';
+      default:
+        return 'badge-nneutral';
+    }
+  }, [level]);
+
+  return (
+    <li className="ml-5 list-disc">
+      {skill.title}
+      <div className={cx('badge badge-outline ml-2', badgeColor)}>{level.toLowerCase()}</div>
+    </li>
+  );
+};
 
 export default SkillCard;

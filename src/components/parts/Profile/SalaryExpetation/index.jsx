@@ -1,24 +1,11 @@
-'use client';
-
-import { useParams } from 'next/navigation';
-import { twMerge } from 'tailwind-merge';
-
 import Text from '@/components/elements/Text';
-import { useProfile } from '@/query/profile';
+import { toCurrency } from '@/lib/common';
 
-const SalaryExpectation = ({ className }) => {
-  const params = useParams();
-
-  const { data } = useProfile(params.userSlug);
-
-  return (
-    <div className={twMerge('flex gap-3 rounded-lg bg-white px-4 py-5', className)}>
-      <div className="flex flex-1 flex-col gap-3">
-        <Text className="text-2xl font-bold">Salary Expectation</Text>
-        <Text typography="sm">{data?.data?.data?.profile?.user?.salaryExpectation}</Text>
-      </div>
-    </div>
-  );
-};
+const SalaryExpectation = ({ value }) => (
+  <div className="text-gray-500">
+    <Text className="mr-2 inline-block font-medium">Salary Expectation: </Text>
+    <Text className="inline-block">{toCurrency(value, true)} IDR</Text>
+  </div>
+);
 
 export default SalaryExpectation;

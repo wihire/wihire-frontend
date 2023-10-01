@@ -1,28 +1,32 @@
 'use client';
 
+import { useMemo } from 'react';
+
 import moment from 'moment';
 
 import Text from '@/components/elements/Text';
+import DangerousHTML from '@/components/parts/DangerousHTML';
 
 const WorkExperienceCard = ({ companyName, title, startDate, endDate, description }) => {
-  const endDateData = endDate ? moment(endDate).format('DD MMM YYYY') : 'Present';
+  const endDateData = useMemo(
+    () => (endDate ? moment(endDate).format('MMM YYYY') : 'Present'),
+    [endDate]
+  );
 
   return (
     <div>
       <div>
-        <Text className="mb-2 text-xl font-bold">{companyName}</Text>
-      </div>
-      <div className="mb-1">
-        <Text>{title}</Text>
-      </div>
-      <div className="mb-1">
-        <Text>
-          {moment(startDate).format('DD MMM YYYY')} - {endDateData}
+        <Text as="h3" className="mr-2 inline-block font-medium">
+          {title}
         </Text>
+        <Text className="inline-block">- {companyName}</Text>
       </div>
-      <div className="mt-5">
-        <Text typography="xs">{description}</Text>
-      </div>
+
+      <Text typography="xs" className="text-gray-500">
+        {moment(startDate).format('MMM YYYY')} - {endDateData}
+      </Text>
+
+      {description ? <DangerousHTML html={description} className="mt-5" /> : null}
     </div>
   );
 };

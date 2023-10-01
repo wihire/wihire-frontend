@@ -1,16 +1,15 @@
-import Text from '@/components/elements/Text';
 import CertificateCard from '@/components/parts/Profile/CertificateCard';
+import ProfileSection from '@/components/parts/Profile/ProfileSection';
 
 const ListCertificate = ({ certificates }) => (
-  <div className="flex flex-col rounded-md bg-white px-4 py-5">
-    <Text className="mb-3 text-2xl font-bold">Certificate</Text>
+  <ProfileSection title="Certificates">
     {certificates?.map((certificate, index) => (
       <>
         {index !== 0 ? <div className="divider" /> : null}
         <CertificateCard key={certificate.id} {...certificate} />
       </>
     ))}
-  </div>
+  </ProfileSection>
 );
 
 export default ListCertificate;
