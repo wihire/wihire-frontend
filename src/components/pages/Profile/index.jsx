@@ -1,23 +1,24 @@
 'use client';
 
+import { useMemo } from 'react';
+
 import { useParams } from 'next/navigation';
 
-import About from '@/components/parts/ProfileCompany/About';
-import BasicInformation from '@/components/parts/ProfileCompany/BasicInformation';
+import ProfileCompany from '@/components/parts/ProfileCompany';
+import { ROLE } from '@/lib/constants/common';
 import { useProfile } from '@/query/profile';
 
 const Profile = () => {
   const params = useParams();
 
-  const { data } = useProfile(params.companySlug);
+  const { data } = useProfile(params.profileSlug);
+  const profile = useMemo(() => data?.data?.data?.profile, [data]);
 
-  return (
-    <div className="flex flex-col gap-5 rounded-lg bg-white px-10 py-7">
-      <BasicInformation profile={data?.data?.data?.profile} />
-      <div className="divider" />
-      <About profile={data?.data?.data?.profile} />
-    </div>
-  );
+  if (profile?.role === ROLE.COMPANY) {
+    return <ProfileCompany />;
+  }
+
+  return <p>Profile</p>;
 };
 
 export default Profile;

@@ -46,32 +46,33 @@ const JobDetailsHeader = () => {
         </Text>
       </div>
 
-      <Image
-        src={company.profile?.avatar ?? config.defaultAvatar}
-        width={100}
-        height={100}
-        alt="Avatar Company"
-        className="place-self-end"
-      />
+      <div className="relative h-[100px] w-[100px] place-self-end">
+        <Image
+          src={company.profile?.avatar ?? config.defaultAvatar}
+          fill
+          alt="Avatar Company"
+          className="object-cover"
+        />
+      </div>
 
       <div className="flex flex-col gap-1">
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-2">
           <MapPinIcon />
           <Text>{job.address}</Text>
         </div>
 
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-2">
           <BriefCaseIcon />
           <Text>{capitalEachWord(job.placeMethod)}</Text>
         </div>
 
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-2">
           <ClockIcon />
           <Text>{JOB_TYPE[job.jobType]}</Text>
         </div>
 
         {job.rangeSalary ? (
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-2">
             <BankNotesIcon />
             <Text>
               {toCurrency(job.rangeSalary.min, true)}
