@@ -1,5 +1,13 @@
 import fetcher from '@/lib/fetcher';
 
+export const getJob = async (slug) => {
+  const response = await fetcher({
+    url: `/jobs/${slug}`
+  });
+
+  return response;
+};
+
 export const getJobs = async (filters) => {
   const response = await fetcher({
     url: '/jobs',

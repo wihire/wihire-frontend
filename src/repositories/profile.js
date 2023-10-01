@@ -1,8 +1,8 @@
 import fetcher from '@/lib/fetcher';
 
-export const getProfile = async (userSlug) => {
+export const getProfile = async (profileSlug) => {
   const response = await fetcher({
-    url: `/profile/${userSlug}`
+    url: `/profile/${profileSlug}`
   });
 
   return response;

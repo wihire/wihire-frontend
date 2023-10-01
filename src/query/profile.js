@@ -2,12 +2,12 @@ import { useQuery } from '@tanstack/react-query';
 
 import { getProfile } from '@/repositories/profile';
 
-export const getProfileKey = (userSlug) => ['profile', userSlug];
+export const getProfileKey = (profileSlug) => ['profile', profileSlug];
 
-export const useProfile = (userSlug) => {
+export const useProfile = (profileSlug) => {
   const result = useQuery({
-    queryKey: getProfileKey(userSlug),
-    queryFn: () => getProfile(userSlug)
+    queryKey: getProfileKey(profileSlug),
+    queryFn: () => getProfile(profileSlug)
   });
 
   return result;

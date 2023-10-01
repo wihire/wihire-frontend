@@ -1,9 +1,11 @@
-import JobCard from '@/components/parts/Jobs/JobCard';
+import { twMerge } from 'tailwind-merge';
 
-const ListJob = ({ jobs }) => (
-  <div className="my-8 flex flex-col gap-[10px]">
+import SaveJobCard from '@/components/parts/Jobs/SaveJobCard';
+
+const ListJob = ({ jobs, className }) => (
+  <div className={twMerge('mb-8 flex flex-col gap-[10px]', className)}>
     {jobs?.map((job) => (
-      <JobCard
+      <SaveJobCard
         key={job.id}
         companyImage={job.company.profile.avatar}
         companyName={job.company.profile.name}

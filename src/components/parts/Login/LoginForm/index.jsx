@@ -6,7 +6,9 @@ import { useMutation } from '@tanstack/react-query';
 import { setCookie } from 'cookies-next';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import { twMerge } from 'tailwind-merge';
 
 import Button from '@/components/elements/Button';
@@ -17,7 +19,7 @@ import TextInput from '@/components/elements/TextInput';
 import { EMAIL_REGEX } from '@/lib/constants/regex';
 import { EMAIL_KEY } from '@/lib/constants/storageKey';
 import { setAccessToken } from '@/lib/cookies';
-import { login } from '@/repositories/auth';
+import { login, sendVerificationEmail } from '@/repositories/auth';
 
 const LoginForm = ({ className }) => {
   const router = useRouter();
@@ -25,22 +27,49 @@ const LoginForm = ({ className }) => {
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors }
   } = useForm();
 
+  const sendVerificationEmailMutation = useMutation({
+    mutationFn: sendVerificationEmail,
+    onSuccess: () => {
+      router.push('/verification-email');
+    }
+  });
+
   const loginMutation = useMutation({
     mutationFn: login,
-    onSuccess: ({ data }) => {
+    onSuccess: async ({ data }) => {
       if (!data.data.profile.isVerifiedEmail) {
-        setCookie(EMAIL_KEY, data.data.profile.email, {
-          maxAge: 60 * 1
+        const email = getValues('email');
+
+        setCookie(EMAIL_KEY, email, {
+          maxAge: 60 // 1 minute
         });
-        router.push('/verification-email');
+
+        sendVerificationEmailMutation.mutate({
+          email
+        });
+
+        return;
+      }
+
+      const signInResponse = await signIn('credentials', {
+        redirect: false,
+        slug: data.data.profile.slug,
+        accessToken: data.data.accessToken
+      });
+
+      if (signInResponse.error) {
+        toast.error('Something went wrong, please try again');
         return;
       }
 
       setAccessToken(data.data.accessToken);
+
       router.replace('/jobs');
+      router.refresh();
     }
   });
 
@@ -105,7 +134,11 @@ const LoginForm = ({ className }) => {
           />
         </FormControl>
 
-        <Button type="submit" className="mt-10 w-full" isLoading={loginMutation.isLoading}>
+        <Button
+          type="submit"
+          className="mt-10 w-full"
+          isLoading={loginMutation.isLoading || sendVerificationEmailMutation.isLoading}
+        >
           Login
         </Button>
       </form>

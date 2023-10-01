@@ -1,0 +1,18 @@
+.select {
+  &__control {
+    @apply h-full;
+    border: none !important;
+    border-radius: var(--rounded-btn, 0.5rem) !important;
+
+    &--is-focused {
+      box-shadow: none !important;
+    }
+
+    &.css-t3ipsp-control {
+      outline-style: solid !important;
+      outline-width: 2px !important;
+      outline-offset: 2px !important;
+      outline-color: hsl(var(--bc) / 0.2) !important;
+    }
+  }
+}

@@ -1,97 +1,43 @@
+/* eslint-disable max-len */
+import Image from 'next/image';
+
+import mondelOnBoard from '@/assets/images/illustrations/onboard.png';
+import CircleDecoration from '@/assets/vectors/circle-decoration.svg';
 import Button from '@/components/elements/Button';
 import Container from '@/components/elements/Container';
-import FormControl from '@/components/elements/FormControl';
 import Logo from '@/components/elements/Logo';
-import LogoText from '@/components/elements/LogoText';
-import Select from '@/components/elements/Select';
-import TextInput from '@/components/elements/TextInput';
+import Text from '@/components/elements/Text';
+import Header from '@/components/parts/Home/Home';
 
 const Home = () => (
   <Container>
-    <Logo size="sm" />
-    <Logo />
-    <Logo size="lg" />
-    <Logo size="xl" />
+    <div className="min-h-d-screen relative flex items-center">
+      <CircleDecoration className="fixed bottom-0 left-0 -translate-x-1/4 translate-y-1/4 -rotate-90" />
+      <CircleDecoration className="fixed right-0 top-0 -translate-y-1/4 translate-x-1/4 rotate-90" />
 
-    <LogoText size="sm" />
-    <LogoText />
-    <LogoText size="lg" />
-    <LogoText size="xl" />
+      <Logo className="fixed top-6" />
 
-    <Button>Login</Button>
-    <Button className="btn-neutral">Neutral</Button>
-    <Button className="btn-secondary">Secondary</Button>
-    <Button className="btn-accent">Accent</Button>
-    <Button className="btn-ghost">Ghost</Button>
-    <Button className="btn-link">Link</Button>
+      <div className="w-1/2">
+        <Header />
 
-    <TextInput placeholder="Username" />
+        <Text className="mb-10 mt-5 text-2xl">
+          Unlock your full potential with your dream job
+          <br />
+          or find the perfect candidate for your company needs now
+        </Text>
+        <Button href="/register">JOIN NOW TO ACHIEVE YOUR OPPORTUNITY</Button>
 
-    <FormControl
-      htmlFor="name"
-      label="Name"
-      labelAlt="This is a name"
-      description="This is a description"
-      descriptionAlt="1/100"
-    >
-      <TextInput id="name" placeholder="Name" />
-    </FormControl>
-    <FormControl
-      htmlFor="address"
-      label="Username"
-      labelAlt="This is a address"
-      description="This is a description"
-      descriptionAlt="1/100"
-      error="This is an error"
-    >
-      <TextInput id="address" placeholder="Address" />
-    </FormControl>
-    <TextInput type="file" />
+        <Text className="my-2">or you can</Text>
 
-    <Select
-      defaultValue="Vue"
-      options={[
-        {
-          value: 'React',
-          label: 'React'
-        },
-        {
-          value: 'Vue',
-          label: 'Vue'
-        },
-        {
-          value: 'Angular',
-          label: 'Angular'
-        }
-      ]}
-    />
+        <Button href="/login" className="btn-outline bg-white">
+          LOGIN TO YOUR EXISTING ACCOUNT
+        </Button>
+      </div>
 
-    <FormControl
-      htmlFor="language"
-      label="Language"
-      labelAlt="This is a name"
-      description="This is a description"
-      descriptionAlt="1/100"
-    >
-      <Select
-        id="language"
-        placeholder="Pick a framework"
-        options={[
-          {
-            value: 'React',
-            label: 'React'
-          },
-          {
-            value: 'Vue',
-            label: 'Vue'
-          },
-          {
-            value: 'Angular',
-            label: 'Angular'
-          }
-        ]}
-      />
-    </FormControl>
+      <div className="flex w-1/2 justify-center">
+        <Image src={mondelOnBoard} width={500} height={500} alt="Onboard model" priority />
+      </div>
+    </div>
   </Container>
 );
 
