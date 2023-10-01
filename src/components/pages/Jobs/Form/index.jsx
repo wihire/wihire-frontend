@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 
 import { useMutation } from '@tanstack/react-query';
 import { Controller, useForm } from 'react-hook-form';
+import ReactQuill from 'react-quill';
 import { toast } from 'react-toastify';
 
 import Button from '@/components/elements/Button';
@@ -13,11 +14,15 @@ import Select from '@/components/elements/Select';
 import TextInput from '@/components/elements/TextInput';
 import { useProvinces, useRegencies } from '@/query/location';
 import { createJob } from '@/repositories/jobs';
+import 'react-quill/dist/quill.snow.css';
 
 const FormJob = () => {
   const [categories, setCategories] = useState([]);
   const [skills, setSkills] = useState([]);
-  const [status, setStatus] = useState('DRAFT');
+  const [status, setStatus] = useState('');
+  const [description, setDescription] = useState('');
+  const [minimumQualification, setMinimumQualification] = useState('');
+  const [benefits, setBenefits] = useState('');
 
   const jobTypeOptions = [
     { value: 'FULLTIME', label: 'Full Time' },
@@ -30,6 +35,34 @@ const FormJob = () => {
     { value: 'ONSITE', label: 'Office' },
     { value: 'REMOTE', label: 'Remote' },
     { value: 'HYBRID', label: 'Hybrid' }
+  ];
+
+  const modules = {
+    toolbar: [
+      [{ header: [1, 2, false] }],
+      ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+      [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }],
+      ['link', 'image'],
+      [{ align: [] }, { color: [] }, { background: [] }],
+      ['clean']
+    ]
+  };
+
+  const formats = [
+    'header',
+    'bold',
+    'italic',
+    'underline',
+    'strike',
+    'blockquote',
+    'list',
+    'bullet',
+    'indent',
+    'link',
+    'image',
+    'align',
+    'color',
+    'background'
   ];
 
   const {
@@ -55,7 +88,6 @@ const FormJob = () => {
     if (!provincesData) {
       return [];
     }
-
     return provincesData.data.map((province) => ({
       value: province.id,
       label: province.name
@@ -114,6 +146,17 @@ const FormJob = () => {
     mutationFn: createJob,
     onSuccess: () => {
       toast.success('Job created successfully');
+      setCategories([]);
+      setSkills([]);
+      setStatus('');
+      setDescription('');
+      setMinimumQualification('');
+      setBenefits('');
+      reset();
+      setValue('province', null);
+      setValue('address', null);
+      setValue('locationType', null);
+      setValue('jobType', null);
     }
   });
 
@@ -140,9 +183,9 @@ const FormJob = () => {
         address: data.address.label,
         placeMethod: data.locationType.value,
         jobType: data.jobType.value,
-        description: data.jobDescription || undefined,
-        minimumQualification: data.minQualification || undefined,
-        benefits: data.benefit || undefined,
+        description: description || undefined,
+        minimumQualification: minimumQualification || undefined,
+        benefits: benefits || undefined,
         minimalSalary: +data.minSalary || undefined,
         maximalSalary: +data.maxSalary || undefined,
         categories,
@@ -150,7 +193,6 @@ const FormJob = () => {
         status: selectedStatus
       };
       createJobMutation.mutate(payload);
-      reset();
     } catch (error) {
       throw new Error(error);
     }
@@ -298,6 +340,10 @@ const FormJob = () => {
                 min: {
                   value: 100000,
                   message: 'Minimum salary is 100.000'
+                },
+                max: {
+                  value: 1000000000,
+                  message: 'Maximum salary is 1.000.000.000'
                 }
               })}
             />
@@ -317,49 +363,42 @@ const FormJob = () => {
                 min: {
                   value: 100000,
                   message: 'Minimum salary is 100.000'
+                },
+                max: {
+                  value: 1000000000,
+                  message: 'Maximum salary is 1.000.000.000'
                 }
               })}
             />
           </FormControl>
         </div>
-        <FormControl
-          isBlock
-          htmlfor="jobDescription"
-          label="Job Description"
-          error={errors?.jobDescription?.message}
-        >
-          <TextInput
-            isBlock
-            id="jobDescription"
-            type="text"
-            placeholder="Type here"
-            {...register('jobDescription')}
+        <FormControl isBlock htmlFor="description" label="Job Description">
+          <ReactQuill
+            theme="snow"
+            modules={modules}
+            formats={formats}
+            value={description}
+            onChange={setDescription}
           />
         </FormControl>
-        <FormControl
-          isBlock
-          htmlfor="minQualification"
-          label="Minimum Qualification"
-          error={errors?.minQualification?.message}
-        >
-          <TextInput
-            isBlock
-            id="minQualification"
-            type="text"
-            placeholder="Type here"
-            {...register('minQualification')}
+        <FormControl isBlock htmlfor="minQualification" label="Minimum Qualification">
+          <ReactQuill
+            theme="snow"
+            modules={modules}
+            formats={formats}
+            value={minimumQualification}
+            onChange={setMinimumQualification}
           />
         </FormControl>
         <FormControl isBlock htmlfor="benefit" label="Benefit">
-          <TextInput
-            isBlock
-            id="benefit"
-            type="text"
-            placeholder="Type here"
-            {...register('benefit')}
+          <ReactQuill
+            theme="snow"
+            modules={modules}
+            formats={formats}
+            value={benefits}
+            onChange={setBenefits}
           />
         </FormControl>
-
         <div className="flex space-x-3">
           <FormControl isBlock htmlFor="categories" label="Categories">
             <TextInput
@@ -393,6 +432,7 @@ const FormJob = () => {
             </ul>
           </div>
         )}
+
         {errors.categories && <p className="text-xs text-red-500">{errors.categories.message}</p>}
 
         <div className="flex space-x-3">
@@ -428,6 +468,7 @@ const FormJob = () => {
             </ul>
           </div>
         )}
+
         {errors.skills && <p className="text-xs text-red-500">{errors.skills.message}</p>}
 
         <div className="flex ">
@@ -454,9 +495,19 @@ const FormJob = () => {
                 onChange={() => setStatus('POSTED')}
               />
             </label>
+            <label className="label cursor-pointer text-sm font-normal">
+              Closed
+              <input
+                type="checkbox"
+                className="checkbox"
+                name="status"
+                value="CLOSED"
+                checked={status === 'CLOSED'}
+                onChange={() => setStatus('CLOSED')}
+              />
+            </label>
           </FormControl>
         </div>
-
         <div className="mt-10 flex justify-end ">
           <Button type="submit">Submit</Button>
         </div>
