@@ -8,3 +8,11 @@ export const getApplications = async (filter) => {
 
   return response;
 };
+
+export const applyJobCheck = async (slug) => {
+  const response = await fetcher({
+    url: `/applications/${slug}/check`
+  });
+
+  return response;
+};

@@ -9,10 +9,7 @@ export const queryClientConfig = {
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,
-      staleTime: STALE_TIME,
-      onError: (error) => {
-        toast.error(error.message);
-      }
+      staleTime: STALE_TIME
     },
     mutations: {
       onError: (error) => {
