@@ -7,3 +7,13 @@ export const getApplicantDetail = async (jobSlug, userSlug) => {
 
   return response;
 };
+
+export const updateApplicantStatus = async ({ jobSlug, userSlug, status }) => {
+  const response = await fetcher({
+    url: `/jobs/${jobSlug}/applicants/${userSlug}`,
+    method: 'PUT',
+    body: JSON.stringify({ status })
+  });
+
+  return response;
+};
