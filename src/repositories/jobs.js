@@ -41,5 +41,6 @@ export const createJob = async (data) => {
     method: 'POST',
     body: JSON.stringify(data)
   });
+
   return response;
 };
