@@ -2,16 +2,11 @@
 
 import { useMemo } from 'react';
 
-/* eslint-disable react/no-danger */
-import * as dompurify from 'isomorphic-dompurify';
 import { useParams } from 'next/navigation';
 
 import Text from '@/components/elements/Text';
+import DangerousHTML from '@/components/parts/DangerousHTML';
 import { useJob } from '@/query/jobs';
-
-import styles from './style.module.scss';
-
-const sanitizer = dompurify.sanitize;
 
 const JobDetailsContent = () => {
   const params = useParams();
@@ -30,10 +25,7 @@ const JobDetailsContent = () => {
                 Job Description
               </Text>
 
-              <div
-                className={styles.content}
-                dangerouslySetInnerHTML={{ __html: sanitizer(job.description) }}
-              />
+              <DangerousHTML html={job.description} />
             </div>
           ) : null}
 
@@ -42,10 +34,8 @@ const JobDetailsContent = () => {
               <Text as="h2" typography="h3" className="mb-2">
                 Minimum Qualification
               </Text>
-              <div
-                className={styles.content}
-                dangerouslySetInnerHTML={{ __html: sanitizer(job.minimumQualification) }}
-              />
+
+              <DangerousHTML html={job.minimumQualification} />
             </div>
           ) : null}
 
@@ -54,10 +44,8 @@ const JobDetailsContent = () => {
               <Text as="h2" typography="h3" className="mb-2">
                 Benefits
               </Text>
-              <div
-                className={styles.content}
-                dangerouslySetInnerHTML={{ __html: sanitizer(job.benefits) }}
-              />
+
+              <DangerousHTML html={job.benefits} />
             </div>
           ) : null}
         </>

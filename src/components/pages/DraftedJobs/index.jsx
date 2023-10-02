@@ -2,40 +2,23 @@
 
 import { useCallback } from 'react';
 
-import dynamic from 'next/dynamic';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import Text from '@/components/elements/Text';
-import Filter from '@/components/parts/Jobs/Filter';
+import ErrorStatusImage from '@/components/parts/ErrorStatusImage';
 import ListJob from '@/components/parts/Jobs/ListJob';
+import Pagination from '@/components/parts/Pagination';
 import { combineSearchParams, removeSearchParams } from '@/lib/url';
 import { useJobs } from '@/query/jobs';
 
-const ErrorStatusImage = dynamic(() => import('@/components/parts/ErrorStatusImage'));
-const Pagination = dynamic(() => import('@/components/parts/Pagination'));
-
-const Jobs = () => {
+const DraftedJobs = ({ companySlug }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const { data } = useJobs({
     page: Number(searchParams.get('page')) || 1,
-    'categories[]': searchParams.getAll('categories[]').length
-      ? searchParams.getAll('categories[]')
-      : undefined,
-    title: searchParams.get('title') || undefined,
-    company: searchParams.get('company') || undefined,
-    'job-types[]': searchParams.getAll('job-types[]').length
-      ? searchParams.getAll('job-types[]')
-      : undefined,
-    'place-methods[]': searchParams.getAll('place-methods[]').length
-      ? searchParams.getAll('place-methods[]')
-      : undefined,
-    'skills[]': searchParams.getAll('skills[]').length
-      ? searchParams.getAll('skills[]')
-      : undefined,
-    'min-salary': searchParams.get('min-salary') || undefined,
-    status: 'POSTED'
+    slug: companySlug,
+    status: 'DRAFT'
   });
 
   const handleChangePage = useCallback(
@@ -47,18 +30,20 @@ const Jobs = () => {
     },
     [router, searchParams]
   );
-
   return (
-    <div>
+    <>
       <Text as="h1" typography="h2">
-        List all jobs
+        Drafted Jobs
       </Text>
-
-      <Filter className="mt-5" />
-
-      {data?.data?.data?.jobs?.length > 0 ? (
+      {!data?.data?.data?.jobs[0] ? (
+        <ErrorStatusImage
+          errorType="EMPTY"
+          message="You don't have any drafted jobs yet."
+          className="mt-8"
+        />
+      ) : (
         <>
-          <ListJob jobs={data?.data?.data?.jobs} className="mt-8" />
+          <ListJob jobs={data?.data?.data?.jobs} />
 
           <div className="flex justify-center">
             <Pagination
@@ -74,11 +59,9 @@ const Jobs = () => {
             />
           </div>
         </>
-      ) : (
-        <ErrorStatusImage errorType="EMPTY" message="No job has been found" className="mt-8" />
       )}
-    </div>
+    </>
   );
 };
 
-export default Jobs;
+export default DraftedJobs;

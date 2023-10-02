@@ -16,3 +16,9 @@ export const ROLE = {
   USER: 'USER',
   COMPANY: 'COMPANY'
 };
+
+export const JOB_STATUS = {
+  POSTED: 'Posted',
+  DRAFT: 'Draft',
+  CLOSED: 'Closed'
+};
