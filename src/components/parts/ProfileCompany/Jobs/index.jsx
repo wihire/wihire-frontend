@@ -36,7 +36,7 @@ const Jobs = () => {
 
   return (
     <div>
-      <Text as="h2" typography="h3">
+      <Text as="h2" typography="h4">
         Jobs
       </Text>
 

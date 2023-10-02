@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 
 import { useParams } from 'next/navigation';
 
+import ProfileUser from '@/components/parts/Profile';
 import ProfileCompany from '@/components/parts/ProfileCompany';
 import { ROLE } from '@/lib/constants/common';
 import { useProfile } from '@/query/profile';
@@ -18,7 +19,7 @@ const Profile = () => {
     return <ProfileCompany />;
   }
 
-  return <p>Profile</p>;
+  return <ProfileUser />;
 };
 
 export default Profile;

@@ -4,11 +4,11 @@ import Jobs from '@/components/parts/ProfileCompany/Jobs';
 
 const ProfileCompany = () => (
   <div className="flex flex-col gap-5">
-    <div className="flex flex-col rounded-md bg-white p-8">
+    <section className="flex flex-col rounded-md bg-white p-8">
       <BasicInformation />
 
       <About />
-    </div>
+    </section>
 
     <Jobs />
   </div>
