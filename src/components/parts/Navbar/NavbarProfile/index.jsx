@@ -33,7 +33,7 @@ const NavbarProfile = async () => {
         className="menu dropdown-content menu-sm z-[1] mt-3 w-52 rounded-lg bg-white p-2 shadow"
       >
         <li>
-          <Link href="#">Profile</Link>
+          <Link href={`/profile/${profile?.slug}`}>Profile</Link>
         </li>
         <li>
           <LogoutButton />

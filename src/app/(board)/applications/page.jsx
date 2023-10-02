@@ -1,7 +1,9 @@
 import { Hydrate, dehydrate } from '@tanstack/react-query';
 
 import Applications from '@/components/pages/Applications';
+import { ROLE } from '@/lib/constants/common';
 import generateMetadata from '@/lib/metadata';
+import { pageAuthorization } from '@/lib/pageAuthorization';
 import { getQueryClient } from '@/lib/queryClient';
 import { getApplicationsKeys } from '@/query/applications';
 import { getApplications } from '@/repositories/applications';
@@ -16,6 +18,8 @@ export const metadata = generateMetadata(
 );
 
 const ApplicationsPage = async ({ searchParams }) => {
+  await pageAuthorization([ROLE.USER]);
+
   const queryClient = getQueryClient();
 
   const filter = {
