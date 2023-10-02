@@ -10,7 +10,7 @@ const Checkbox = forwardRef(({ className, label, checkboxPosition = 'left', ...p
   if (label) {
     return (
       <div>
-        <label className="label justify-start gap-2 cursor-pointer">
+        <label className="label cursor-pointer justify-start gap-2">
           {checkboxPosition === 'left' ? CheckboxElement : null}
 
           <span className="label-text">{label}</span>
