@@ -34,3 +34,21 @@ export const unsaveJob = async (slug) => {
 
   return response;
 };
+
+export const getApplicantsJob = async (slug, filters) => {
+  const response = await fetcher({
+    url: `/jobs/${slug}/applicants`,
+    query: filters
+  });
+
+  return response;
+};
+
+export const rejectAll = async (slug) => {
+  const response = await fetcher({
+    url: `/jobs/${slug}/applicants/reject-all`,
+    method: 'PUT'
+  });
+
+  return response;
+};
