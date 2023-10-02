@@ -14,4 +14,6 @@ export const pageAuthorization = async (rolesAccepted) => {
   if (rolesAccepted && !rolesAccepted.includes(profile?.role)) {
     redirect('/jobs');
   }
+
+  return profile;
 };
