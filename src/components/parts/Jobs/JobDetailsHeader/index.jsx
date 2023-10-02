@@ -2,6 +2,7 @@
 
 import { useMemo } from 'react';
 
+import cx from 'classnames';
 import moment from 'moment';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -14,7 +15,7 @@ import MapPinIcon from '@/assets/icons/map-pin_solid.svg';
 import Text from '@/components/elements/Text';
 import { toCurrency, capitalEachWord } from '@/lib/common';
 import config from '@/lib/config';
-import { JOB_TYPE } from '@/lib/constants/common';
+import { JOB_TYPE, JOB_STATUS } from '@/lib/constants/common';
 import { useJob } from '@/query/jobs';
 
 const JobDetailsHeader = () => {
@@ -26,61 +27,76 @@ const JobDetailsHeader = () => {
   const { company } = useMemo(() => job, [job]);
 
   return (
-    <div className="grid grid-cols-2">
-      <div>
-        <Text typography="h2" as="h1">
-          {job.title}
-        </Text>
+    <div>
+      {job.status !== 'POSTED' ? (
+        <div
+          className={cx('badge badge-lg mb-3', {
+            'badge-warning': job.status === 'DRAFT',
+            'badge-error': job.status === 'CLOSED'
+          })}
+        >
+          {JOB_STATUS[job.status]}
+        </div>
+      ) : null}
 
-        <div className="mt-1 flex gap-8">
-          <Link href={`/profile/${company.profile.slug}`} className="text-primary hover:underline">
-            {company.profile.name}
-          </Link>
-          <ul className="list-disc">
-            <Text as="li">{company.totalEmployee}</Text>
-          </ul>
+      <div className="grid grid-cols-2">
+        <div>
+          <Text typography="h2" as="h1">
+            {job.title}
+          </Text>
+
+          <div className="mt-1 flex gap-8">
+            <Link
+              href={`/profile/${company.profile.slug}`}
+              className="text-primary hover:underline"
+            >
+              {company.profile.name}
+            </Link>
+            <ul className="list-disc">
+              <Text as="li">{company.totalEmployee}</Text>
+            </ul>
+          </div>
+
+          <Text typography="xs" className="text-gray-500">
+            {moment(job.createdAt).fromNow()}
+          </Text>
         </div>
 
-        <Text typography="xs" className="text-gray-500">
-          {moment(job.createdAt).fromNow()}
-        </Text>
-      </div>
-
-      <div className="relative h-[100px] w-[100px] place-self-end">
         <Image
           src={company.profile?.avatar ?? config.defaultAvatar}
-          fill
+          width={100}
+          height={100}
           alt="Avatar Company"
-          className="object-cover"
+          className="place-self-end"
         />
-      </div>
 
-      <div className="flex flex-col gap-1">
-        <div className="flex items-center gap-2">
-          <MapPinIcon />
-          <Text>{job.address}</Text>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <BriefCaseIcon />
-          <Text>{capitalEachWord(job.placeMethod)}</Text>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <ClockIcon />
-          <Text>{JOB_TYPE[job.jobType]}</Text>
-        </div>
-
-        {job.rangeSalary ? (
-          <div className="flex items-center gap-2">
-            <BankNotesIcon />
-            <Text>
-              {toCurrency(job.rangeSalary.min, true)}
-              {job.rangeSalary.max ? ` - ${toCurrency(job.rangeSalary.max, true)}` : null} IDR /
-              month
-            </Text>
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center gap-1">
+            <MapPinIcon />
+            <Text>{job.address}</Text>
           </div>
-        ) : null}
+
+          <div className="flex items-center gap-1">
+            <BriefCaseIcon />
+            <Text>{capitalEachWord(job.placeMethod)}</Text>
+          </div>
+
+          <div className="flex items-center gap-1">
+            <ClockIcon />
+            <Text>{JOB_TYPE[job.jobType]}</Text>
+          </div>
+
+          {job.rangeSalary ? (
+            <div className="flex items-center gap-1">
+              <BankNotesIcon />
+              <Text>
+                {toCurrency(job.rangeSalary.min, true)}
+                {job.rangeSalary.max ? ` - ${toCurrency(job.rangeSalary.max, true)}` : null} IDR /
+                month
+              </Text>
+            </div>
+          ) : null}
+        </div>
       </div>
     </div>
   );
