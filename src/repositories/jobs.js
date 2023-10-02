@@ -44,3 +44,12 @@ export const createJob = async (data) => {
 
   return response;
 };
+
+export const deleteJob = async (slug) => {
+  const response = await fetcher({
+    url: `/jobs/${slug}`,
+    method: 'DELETE'
+  });
+
+  return response;
+};
