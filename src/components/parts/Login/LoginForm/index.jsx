@@ -4,7 +4,6 @@ import { useCallback } from 'react';
 
 import { useMutation } from '@tanstack/react-query';
 import { setCookie } from 'cookies-next';
-// import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
@@ -12,7 +11,6 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { twMerge } from 'tailwind-merge';
 
-// import loginIlustration from '@/assets/images/illustrations/authentication.png';
 import Button from '@/components/elements/Button';
 import FormControl from '@/components/elements/FormControl';
 import Logo from '@/components/elements/Logo';
