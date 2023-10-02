@@ -4,6 +4,7 @@ import { useCallback } from 'react';
 
 import { useMutation } from '@tanstack/react-query';
 import { setCookie } from 'cookies-next';
+// import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
@@ -11,6 +12,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { twMerge } from 'tailwind-merge';
 
+// import loginIlustration from '@/assets/images/illustrations/authentication.png';
 import Button from '@/components/elements/Button';
 import FormControl from '@/components/elements/FormControl';
 import Logo from '@/components/elements/Logo';
@@ -87,8 +89,15 @@ const LoginForm = ({ className }) => {
         className
       )}
     >
-      <div className="mb-10 mt-20 flex flex-col items-center gap-[84px]">
+      <div
+        className="
+      flex flex-col items-center gap-[42px]
+      md:mb-5 md:mt-10 md:gap-[82px] 
+      lg:mb-10 lg:mt-20 lg:gap-[42px]
+      "
+      >
         <Logo />
+
         <Text typography="sm" className="text-neutral-400">
           Login to your account
         </Text>
@@ -136,14 +145,14 @@ const LoginForm = ({ className }) => {
 
         <Button
           type="submit"
-          className="mt-10 w-full"
+          className="w-full md:mt-10"
           isLoading={loginMutation.isLoading || sendVerificationEmailMutation.isLoading}
         >
           Login
         </Button>
       </form>
 
-      <Text className="mt-auto text-gray-700">
+      <Text className="bg-blue mt-10 text-gray-700">
         Don&apos;t have an account?{' '}
         <Link href="/register" className="text-primary underline">
           Register
