@@ -18,13 +18,13 @@ export const metadata = generateMetadata(
 );
 
 const DraftsJobPage = async ({ searchParams }) => {
-  const { name } = await pageAuthorization([ROLE.COMPANY]);
+  const { slug } = await pageAuthorization([ROLE.COMPANY]);
 
   const queryClient = getQueryClient();
 
   const filter = {
     page: Number(searchParams?.page) || 1,
-    company: name,
+    slug,
     status: 'DRAFT'
   };
 
@@ -33,7 +33,7 @@ const DraftsJobPage = async ({ searchParams }) => {
 
   return (
     <Hydrate state={dehydratedState}>
-      <DraftedJobs companyName={name} />
+      <DraftedJobs companySlug={slug} />
     </Hydrate>
   );
 };

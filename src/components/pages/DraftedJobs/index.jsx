@@ -11,13 +11,13 @@ import Pagination from '@/components/parts/Pagination';
 import { combineSearchParams, removeSearchParams } from '@/lib/url';
 import { useJobs } from '@/query/jobs';
 
-const DraftedJobs = ({ companyName }) => {
+const DraftedJobs = ({ companySlug }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const { data } = useJobs({
     page: Number(searchParams.get('page')) || 1,
-    company: companyName,
+    slug: companySlug,
     status: 'DRAFT'
   });
 
@@ -38,14 +38,14 @@ const DraftedJobs = ({ companyName }) => {
       {!data?.data?.data?.jobs[0] ? (
         <ErrorStatusImage
           errorType="EMPTY"
-          message={`You haven't drafted any jobs`}
+          message="You don't have any drafted jobs yet."
           className="mt-8"
         />
       ) : (
         <>
           <ListJob jobs={data?.data?.data?.jobs} />
 
-          <div className="">
+          <div className="flex justify-center">
             <Pagination
               maxPage={data?.data?.pagination?.totalPage}
               currentPage={data?.data?.pagination?.currentPage}
