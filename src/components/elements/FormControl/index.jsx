@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 
+import cx from 'classnames';
 import { twMerge } from 'tailwind-merge';
 
 const FormControl = ({
@@ -11,7 +12,8 @@ const FormControl = ({
   description,
   descriptionAlt,
   isBlock,
-  className
+  className,
+  isRequired
 }) => {
   const maxWidthClassName = useMemo(() => (isBlock ? 'max-w-full' : 'max-w-xs'), [isBlock]);
   const finalClassName = useMemo(
@@ -24,7 +26,12 @@ const FormControl = ({
       {label || labelAlt ? (
         <div className="label">
           {label ? (
-            <label className="label-text" htmlFor={htmlFor}>
+            <label
+              className={cx('label-text', {
+                'after:content-["*"] after:text-error': isRequired
+              })}
+              htmlFor={htmlFor}
+            >
               {label}
             </label>
           ) : null}

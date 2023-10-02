@@ -22,8 +22,8 @@ const BasicInformation = () => {
   const profile = useMemo(() => data?.data?.data?.profile, [data]);
 
   return (
-    <div className="flex gap-3">
-      <div className="relative mr-3 h-36 w-36">
+    <div className="flex gap-5">
+      <div className="relative h-28 w-28">
         <Image
           src={profile?.avatar ?? config.defaultAvatar}
           alt="Profile image"
