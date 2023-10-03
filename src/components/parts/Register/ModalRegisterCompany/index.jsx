@@ -20,7 +20,7 @@ import { registerCompany, sendVerificationEmail } from '@/repositories/auth';
 
 import './styles.scss';
 
-const ModalRegisterAsCompanay = ({ isOpen, onClose }) => {
+const ModalRegisterAsCompany = ({ isOpen, onClose }) => {
   const router = useRouter();
 
   const {
@@ -126,4 +126,4 @@ const ModalRegisterAsCompanay = ({ isOpen, onClose }) => {
   );
 };
 
-export default ModalRegisterAsCompanay;
+export default ModalRegisterAsCompany;
