@@ -24,7 +24,7 @@ const FILTERS = [
 ];
 
 const ApplicationFilters = () => (
-  <header className="my-5 flex gap-2.5">
+  <header className="my-5 flex flex-col gap-2.5 md:flex-row">
     {FILTERS.map((filter) => (
       <FilterOption key={filter.label} {...filter} />
     ))}

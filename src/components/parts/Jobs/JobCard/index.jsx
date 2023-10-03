@@ -19,7 +19,10 @@ const JobCard = ({
   createdAt,
   renderRightContent
 }) => (
-  <div className="fle  <div className="flex gap-3 rounded-lg bg-white px-4 py-5">
+  <div
+    className="flex flex-wrap flex-col text-center items-center  
+  gap-3 rounded-lg bg-white px-4 py-5 md:flex-row md:text-left"
+  >
     <div className="relative h-20 w-20">
       <Image
         src={companyImage ?? config.defaultAvatar}
@@ -29,7 +32,7 @@ const JobCard = ({
       />
     </div>
 
-    <div className="flex flex-1 flex-col gap-3">
+    <div className="flex flex-1 flex-col justify-center gap-3 ">
       <div>
         <Link href={`/jobs/${slug}`} className="inline-block text-xl font-bold text-primary">
           {title}
@@ -42,7 +45,7 @@ const JobCard = ({
           <Text className="inline-block text-gray-500">
             {address} ({placeMethod.toLowerCase()})
           </Text>
-          <ul className="ml-8 inline-block list-disc">
+          <ul className="inline-block list-disc sm:ml-8">
             <Text as="li" className="text-gray-500">
               {JOB_TYPE[jobType]}
             </Text>
@@ -64,4 +67,8 @@ const JobCard = ({
       </Text>
     </div>
 
-    {renderRightContent ? <div className="self-start">{renderRightContent}</div> : null}
+    {renderRightContent ? <div className="md:self-start">{renderRightContent}</div> : null}
+  </div>
+);
+
+export default JobCard;
