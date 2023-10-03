@@ -19,7 +19,7 @@ const JobCard = ({
   createdAt,
   renderRightContent
 }) => (
-  <div className="flex gap-3 rounded-lg bg-white px-4 py-5">
+  <div className="fle  <div className="flex gap-3 rounded-lg bg-white px-4 py-5">
     <div className="relative h-20 w-20">
       <Image
         src={companyImage ?? config.defaultAvatar}
@@ -65,7 +65,3 @@ const JobCard = ({
     </div>
 
     {renderRightContent ? <div className="self-start">{renderRightContent}</div> : null}
-  </div>
-);
-
-export default JobCard;
