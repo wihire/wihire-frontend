@@ -1,5 +1,9 @@
+import { useCallback } from 'react';
+
+import { useMutation } from '@tanstack/react-query';
 import Image from 'next/image';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 import LocationIcon from '@/assets/icons/location-icon.svg';
 import EmailIcon from '@/assets/icons/mail_solid.svg';
@@ -8,13 +12,38 @@ import Button from '@/components/elements/Button';
 import Text from '@/components/elements/Text';
 import { toCurrency, capitalEachWord } from '@/lib/common';
 import config from '@/lib/config';
+import { updateApplicantStatus } from '@/repositories/jobs';
 
 const ApplicantsCard = ({ ...props }) => {
+  const router = useRouter();
+
   const rangeSalary = props.user.salaryExpectation;
 
   const { resume } = props;
 
+  const { status } = props;
+
   const params = useParams();
+
+  const userSlug = props.user.profile.slug;
+
+  // const router = useRouter();
+  const { slug } = useParams();
+
+  const updateStatusMutation = useMutation({
+    mutationFn: updateApplicantStatus,
+    onSuccess: () => {
+      toast.success('status updated');
+      router.refresh();
+    }
+  });
+
+  const changeStatus = useCallback(
+    (status) => {
+      updateStatusMutation.mutate({ slug, userSlug, status });
+    },
+    [updateStatusMutation, slug, userSlug]
+  );
 
   return (
     <div className="flex gap-3 rounded-lg bg-white px-4 py-5">
@@ -67,13 +96,25 @@ const ApplicantsCard = ({ ...props }) => {
           </div>
           <div className="mt-3 flex justify-end">
             <div className="self-end">
+              {/* <Button onClick={() => changeStatus('DECLINE')}
+              className="btn-error btn-outline">Decline</Button> */}
+              {status === 'DECLINE' ? (
+                <Button onClick={() => changeStatus('DECLINE')} className="btn-error">
+                  Decline
+                </Button>
+              ) : (
+                <Button className="btn-error btn-outline" onClick={() => changeStatus('DECLINE')}>
+                  Decline
+                </Button>
+              )}
               <a
                 href={`/jobs/${params.slug}/applicants/${props.user.profile.slug}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className=""
+                className="ml-5"
+                onClick={() => changeStatus('ONREVIEW')}
               >
-                <Button>View Profile</Button>
+                <Button>Review Profile</Button>
               </a>
             </div>
           </div>

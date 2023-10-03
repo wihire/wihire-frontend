@@ -25,12 +25,17 @@ export const useJob = (slug) => {
   return result;
 };
 
-export const getApplicantsJobKey = (slug, filters) => ['applicants-job', slug, filters];
+export const getApplicantsJobKey = (slug, userSlug, filters) => [
+  'applicants-job',
+  slug,
+  userSlug,
+  filters
+];
 
-export const useApplicantsJob = (slug, filters) => {
+export const useApplicantsJob = (slug, userSlug, filters) => {
   const result = useQuery({
-    queryKey: getApplicantsJobKey(slug, filters),
-    queryFn: () => getApplicantsJob(slug, filters)
+    queryKey: getApplicantsJobKey(slug, userSlug, filters),
+    queryFn: () => getApplicantsJob(slug, userSlug, filters)
   });
 
   return result;
