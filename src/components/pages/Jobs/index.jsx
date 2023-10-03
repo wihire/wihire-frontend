@@ -58,7 +58,7 @@ const Jobs = () => {
 
       {data?.data?.data?.jobs?.length > 0 ? (
         <>
-          <ListJob jobs={data?.data?.data?.jobs} className="mt-8" />
+          <ListJob jobs={data?.data?.data?.jobs} cardType="save" className="mt-8" />
 
           <div className="flex justify-center">
             <Pagination

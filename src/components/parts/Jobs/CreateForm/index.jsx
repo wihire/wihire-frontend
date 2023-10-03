@@ -159,6 +159,14 @@ const CreateForm = () => {
       toast.success('Job created successfully');
 
       queryClient.invalidateQueries(['jobs']);
+
+      const isDraft = watch('isDraft');
+
+      if (isDraft) {
+        router.replace('/jobs/drafts');
+        return;
+      }
+
       router.replace('/jobs');
     }
   });
@@ -189,7 +197,7 @@ const CreateForm = () => {
         <FormControl
           isBlock
           isRequired
-          htmlfor="title"
+          htmlFor="title"
           label="Job Title"
           error={errors?.title?.message}
         >
@@ -213,13 +221,7 @@ const CreateForm = () => {
         </FormControl>
 
         <div className="flex gap-5">
-          <FormControl
-            isBlock
-            isRequired
-            htmlFor="province"
-            label="Province"
-            error={errors?.province?.message}
-          >
+          <FormControl isBlock isRequired label="Province" error={errors?.province?.message}>
             <Controller
               control={control}
               name="province"
@@ -228,7 +230,6 @@ const CreateForm = () => {
               }}
               render={({ field: { value, name, ref } }) => (
                 <Select
-                  id="province"
                   placeholder="Select job placement province"
                   isBlock
                   options={provincesOptions}
@@ -242,13 +243,7 @@ const CreateForm = () => {
             />
           </FormControl>
 
-          <FormControl
-            htmlFor="address"
-            label="Address"
-            isRequired
-            isBlock
-            error={errors?.address?.message}
-          >
+          <FormControl label="Address" isRequired isBlock error={errors?.address?.message}>
             <Controller
               control={control}
               name="address"
@@ -258,7 +253,6 @@ const CreateForm = () => {
               render={({ field: { onChange, value, name, ref } }) => (
                 <Select
                   ref={ref}
-                  id="address"
                   placeholder="Select job placement address"
                   isBlock
                   options={regenciesOptions}
@@ -275,13 +269,7 @@ const CreateForm = () => {
         </div>
 
         <div className="flex gap-5">
-          <FormControl
-            isBlock
-            isRequired
-            htmlfor="placeMethod"
-            label="Place method"
-            error={errors?.placeMethod?.message}
-          >
+          <FormControl isBlock isRequired label="Place method" error={errors?.placeMethod?.message}>
             <Controller
               control={control}
               name="placeMethod"
@@ -291,7 +279,6 @@ const CreateForm = () => {
               render={({ field: { onChange, value, name, ref } }) => (
                 <Select
                   ref={ref}
-                  id="placeMethod"
                   placeholder="Select job place method"
                   isBlock
                   options={PLACE_METHOD_OPTIONS}
@@ -304,13 +291,7 @@ const CreateForm = () => {
             />
           </FormControl>
 
-          <FormControl
-            isBlock
-            isRequired
-            htmlfor="jobType"
-            label="Job type"
-            error={errors?.jobType?.message}
-          >
+          <FormControl isBlock isRequired label="Job type" error={errors?.jobType?.message}>
             <Controller
               control={control}
               name="jobType"
@@ -320,7 +301,6 @@ const CreateForm = () => {
               render={({ field: { onChange, value, name, ref } }) => (
                 <Select
                   ref={ref}
-                  id="jobType"
                   placeholder="Select job type"
                   isBlock
                   options={JOB_TYPE_OPTIONS}
@@ -337,7 +317,7 @@ const CreateForm = () => {
         <div className="flex gap-5">
           <FormControl
             isBlock
-            htmlfor="minimalSalary"
+            htmlFor="minimalSalary"
             label="Minimal salary"
             error={errors?.minimalSalary?.message}
           >
@@ -357,7 +337,7 @@ const CreateForm = () => {
 
           <FormControl
             isBlock
-            htmlfor="maximalSalary"
+            htmlFor="maximalSalary"
             label="Maximal Salary"
             error={errors?.maximalSalary?.message}
           >
@@ -410,13 +390,7 @@ const CreateForm = () => {
           />
         </FormControl>
 
-        <FormControl
-          isBlock
-          isRequired
-          htmlFor="categories"
-          label="Categories"
-          error={errors?.categories?.message}
-        >
+        <FormControl isBlock isRequired label="Categories" error={errors?.categories?.message}>
           <Controller
             control={control}
             name="categories"
@@ -426,7 +400,6 @@ const CreateForm = () => {
             render={({ field: { onChange, value, name, ref } }) => (
               <SelectAsync
                 ref={ref}
-                id="categories"
                 placeholder="Select job categories"
                 isBlock
                 isMulti
@@ -441,13 +414,7 @@ const CreateForm = () => {
           />
         </FormControl>
 
-        <FormControl
-          isBlock
-          isRequired
-          htmlFor="skills"
-          label="Skills"
-          error={errors?.skills?.message}
-        >
+        <FormControl isBlock isRequired label="Skills" error={errors?.skills?.message}>
           <Controller
             control={control}
             name="skills"
@@ -457,7 +424,6 @@ const CreateForm = () => {
             render={({ field: { onChange, value, name, ref } }) => (
               <SelectAsync
                 ref={ref}
-                id="skills"
                 placeholder="Select job skills"
                 isBlock
                 isMulti
@@ -476,7 +442,9 @@ const CreateForm = () => {
       </div>
 
       <div className="mt-10 flex justify-end ">
-        <Button type="submit">Submit</Button>
+        <Button type="submit" isLoading={createJobMutation.isLoading} loadingText="Submiting...">
+          Submit
+        </Button>
       </div>
     </form>
   );
