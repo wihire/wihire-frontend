@@ -19,7 +19,7 @@ const VerificationEmail = () => {
       <Image src={verifyEmailArt} width={300} height={300} alt="verify-email" />
 
       <Text as="h1" typography="h1" className="text-center">
-        Verify Your Email Address
+        Verify your email address
       </Text>
 
       <Text className="text-center">

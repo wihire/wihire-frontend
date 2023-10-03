@@ -20,7 +20,6 @@ const ProfilePage = async ({ params }) => {
 
   const queryClient = getQueryClient();
   await queryClient.prefetchQuery(getProfileKey(profileSlug), () => getProfile(profileSlug));
-
   const dehydratedState = dehydrate(queryClient);
 
   return (

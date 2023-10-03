@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import moment from 'moment';
 import { Controller } from 'react-hook-form';
@@ -11,7 +11,7 @@ import TextInput from '@/components/elements/TextInput';
 import { PHONE_NUMBER_REGEX } from '@/lib/constants/regex';
 import { useProvinces, useRegencies } from '@/query/location';
 
-const StepTwoUser = ({ register, errors, control, watch, setValue }) => {
+const StepTwoUser = ({ register, errors, control, watch, setValue, setError }) => {
   const { data: provincesData } = useProvinces();
   const { data: regenciesData, isFetching: isRegenciesFethcing } = useRegencies(
     watch('province')?.value,
@@ -42,14 +42,19 @@ const StepTwoUser = ({ register, errors, control, watch, setValue }) => {
     }));
   }, [regenciesData]);
 
-  const handleChangeProvince = (province) => {
-    const provinceExist = watch('province');
+  const handleChangeProvince = useCallback(
+    (province) => {
+      setError('province', null);
 
-    if (provinceExist?.value !== province.value) {
-      setValue('province', province);
-      setValue('address', null);
-    }
-  };
+      const provinceExist = watch('province');
+
+      if (provinceExist?.value !== province.value) {
+        setValue('province', province);
+        setValue('address', null);
+      }
+    },
+    [setError, setValue, watch]
+  );
 
   return (
     <div>

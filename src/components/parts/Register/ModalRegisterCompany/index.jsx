@@ -30,6 +30,7 @@ const ModalRegisterAsCompany = ({ isOpen, onClose }) => {
     reset,
     control,
     setValue,
+    setError,
     formState: { errors }
   } = useForm();
 
@@ -38,7 +39,8 @@ const ModalRegisterAsCompany = ({ isOpen, onClose }) => {
     errors,
     watch,
     control,
-    setValue
+    setValue,
+    setError
   };
 
   const { currentStep, currentStepComponent, next, prev, totalStep, goTo } = useMultiStep([
@@ -46,11 +48,10 @@ const ModalRegisterAsCompany = ({ isOpen, onClose }) => {
     <StepTwoCompany key="step-two-company" {...formOptions} />
   ]);
 
-  const handleOnClose = useCallback(() => {
-    goTo(1);
+  const resetModal = useCallback(() => {
     reset();
-    onClose();
-  }, [reset, onClose, goTo]);
+    goTo(1);
+  }, [reset, goTo]);
 
   const sendVerificationEmailMutation = useMutation({
     mutationFn: sendVerificationEmail,
@@ -64,7 +65,8 @@ const ModalRegisterAsCompany = ({ isOpen, onClose }) => {
 
       router.push('/verification-email');
 
-      handleOnClose();
+      resetModal();
+      onClose();
     }
   });
 
@@ -77,6 +79,20 @@ const ModalRegisterAsCompany = ({ isOpen, onClose }) => {
       });
     }
   });
+
+  const handleOnClose = useCallback(() => {
+    if (registerCompanyMutation.isLoading || sendVerificationEmailMutation.isLoading) {
+      return;
+    }
+
+    resetModal();
+    onClose();
+  }, [
+    registerCompanyMutation.isLoading,
+    sendVerificationEmailMutation.isLoading,
+    resetModal,
+    onClose
+  ]);
 
   const onSubmit = useCallback(
     (data) => {

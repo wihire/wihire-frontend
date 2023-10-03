@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import debounce from 'lodash.debounce';
 import { Controller } from 'react-hook-form';
@@ -13,7 +13,7 @@ import { useProvinces, useRegencies } from '@/query/location';
 import { useTotalEmployees } from '@/query/totalEmployee';
 import { getCompanyScopes } from '@/repositories/companyScope';
 
-const StepTwoCompany = ({ errors, control, watch, setValue }) => {
+const StepTwoCompany = ({ errors, control, watch, setValue, setError }) => {
   const { data: provincesData } = useProvinces();
   const { data: regenciesData, isFetching: isRegenciesFethcing } = useRegencies(
     watch('province')?.value,
@@ -68,14 +68,19 @@ const StepTwoCompany = ({ errors, control, watch, setValue }) => {
     }));
   }, [totalEmployeeData]);
 
-  const handleChangeProvince = (province) => {
-    const provinceExist = watch('province');
+  const handleChangeProvince = useCallback(
+    (province) => {
+      setError('province', null);
 
-    if (provinceExist?.value !== province.value) {
-      setValue('province', province);
-      setValue('address', null);
-    }
-  };
+      const provinceExist = watch('province');
+
+      if (provinceExist?.value !== province.value) {
+        setValue('province', province);
+        setValue('address', null);
+      }
+    },
+    [setError, setValue, watch]
+  );
 
   const loadCompanyScopeOptions = debounce((inputValue, callback) => {
     getCompanyScopes({

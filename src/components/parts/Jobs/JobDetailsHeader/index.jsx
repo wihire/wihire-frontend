@@ -73,7 +73,9 @@ const JobDetailsHeader = () => {
         <div className="flex flex-col gap-1">
           <div className="flex items-center gap-1">
             <MapPinIcon />
-            <Text>{job.address}</Text>
+            <Text>
+              {job.address}, {job.province}
+            </Text>
           </div>
 
           <div className="flex items-center gap-1">

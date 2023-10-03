@@ -5,7 +5,7 @@ import ProfileUser from '@/components/parts/Profile';
 const CheckProfile = () => {
   const { data } = useSession();
 
-  return <ProfileUser profileSlug={data?.profile.slug} withoutResume />;
+  return <ProfileUser profileSlug={data?.profile.slug} withoutResume hideBirthDate />;
 };
 
 export default CheckProfile;

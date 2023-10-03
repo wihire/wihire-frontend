@@ -25,7 +25,12 @@ const ModalDeleteConfiration = ({ isOpen, onClose }) => {
       queryClient.invalidateQueries({ queryKey: ['jobs'] });
       queryClient.invalidateQueries({ queryKey: getJobKey(params.slug) });
 
-      router.replace('/jobs');
+      if (job.status === 'DRAFT') {
+        router.replace(`/jobs/drafts`);
+      } else {
+        router.replace('/jobs');
+      }
+
       onClose();
     }
   });

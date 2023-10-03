@@ -13,7 +13,7 @@ import config from '@/lib/config';
 
 const WebsiteIcon = dynamic(() => import('@/assets/icons/globe-alt_solid.svg'));
 
-const BasicInformation = ({ profile }) => (
+const BasicInformation = ({ profile, hideBirthDate }) => (
   <section className="flex flex-col rounded-md bg-white p-8">
     <div className="flex gap-3">
       <div className="relative h-28 w-28">
@@ -56,12 +56,14 @@ const BasicInformation = ({ profile }) => (
             </Text>
           </div>
 
-          <div className="flex items-center gap-2">
-            <CakeIcon className="text-gray-500" />
-            <Text typography="xs" className=" text-gray-500">
-              {moment(profile?.user?.birthDate).format('DD MMMM YYYY')}
-            </Text>
-          </div>
+          {!hideBirthDate ? (
+            <div className="flex items-center gap-2">
+              <CakeIcon className="text-gray-500" />
+              <Text typography="xs" className=" text-gray-500">
+                {moment(profile?.user?.birthDate).format('DD MMMM YYYY')}
+              </Text>
+            </div>
+          ) : null}
 
           {profile?.user?.url ? (
             <div className="flex items-center gap-2">

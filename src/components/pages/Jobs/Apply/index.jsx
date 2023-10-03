@@ -88,7 +88,7 @@ const Apply = () => {
             <li
               key={index}
               className={cx('step', {
-                'step-primary': index === currentStep - 1
+                'step-primary': index <= currentStep - 1
               })}
             >
               {STEPS[index]}
@@ -101,9 +101,12 @@ const Apply = () => {
         <div className="my-8">{currentStepComponent}</div>
 
         <div className="flex justify-end gap-5">
-          <Button onClick={prev} className="btn-outline" disabled={applyMutation.isLoading}>
-            Previous
-          </Button>
+          {currentStep > 1 ? (
+            <Button onClick={prev} className="btn-outline" disabled={applyMutation.isLoading}>
+              Previous
+            </Button>
+          ) : null}
+
           <Button type="submit" isLoading={applyMutation.isLoading} loadingText="Applying...">
             {currentStep === totalStep ? 'Apply' : 'Next'}
           </Button>

@@ -13,13 +13,13 @@ import { useProfile } from '@/query/profile';
 
 import ProfileSection from './ProfileSection';
 
-const ProfileUser = ({ profileSlug, withoutResume }) => {
+const ProfileUser = ({ profileSlug, withoutResume, hideBirthDate }) => {
   const { data } = useProfile(profileSlug);
   const profile = useMemo(() => data?.data?.data?.profile, [data]);
 
   return (
     <div className="flex flex-col gap-5">
-      <BasicInformation profile={profile} />
+      <BasicInformation profile={profile} hideBirthDate={hideBirthDate} />
 
       {profile?.user?.workExperiencies?.length > 0 ? (
         <WorkExperienceList workExperiencies={profile.user.workExperiencies} />
