@@ -2,8 +2,6 @@
 
 import { useMemo } from 'react';
 
-import { useParams } from 'next/navigation';
-
 import BasicInformation from '@/components/parts/Profile/BasicInformation';
 import CertificateList from '@/components/parts/Profile/CertificateList';
 import ListEducation from '@/components/parts/Profile/EducationList';
@@ -15,10 +13,8 @@ import { useProfile } from '@/query/profile';
 
 import ProfileSection from './ProfileSection';
 
-const ProfileUser = () => {
-  const params = useParams();
-
-  const { data } = useProfile(params.profileSlug);
+const ProfileUser = ({ profileSlug, withoutResume }) => {
+  const { data } = useProfile(profileSlug);
   const profile = useMemo(() => data?.data?.data?.profile, [data]);
 
   return (
@@ -49,7 +45,7 @@ const ProfileUser = () => {
             <SalaryExpectation value={profile.user.salaryExpectation} />
           ) : null}
 
-          {profile?.user?.resume ? (
+          {profile?.user?.resume && !withoutResume ? (
             <a
               href={profile?.user?.resume}
               target="_blank"
