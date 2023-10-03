@@ -25,7 +25,8 @@ const RegisterAsCompany = () => {
     <>
       <div
         className={cx(
-          'flex w-1/2 flex-col items-center justify-center gap-10 bg-primary-content text-center'
+          'flex w-full flex-col items-center justify-center',
+          'gap-10 bg-primary-content text-center py-5'
         )}
       >
         <Image

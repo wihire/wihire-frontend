@@ -22,7 +22,10 @@ const RegisterAsUser = () => {
 
   return (
     <>
-      <div className="flex w-1/2 flex-col items-center justify-center gap-10 bg-white text-center">
+      <div
+        className="flex w-full flex-col items-center justify-center 
+      gap-10 bg-white py-5 text-center"
+      >
         <Image
           width={200}
           height={200}
