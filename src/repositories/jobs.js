@@ -44,3 +44,16 @@ export const createJob = async (data) => {
 
   return response;
 };
+
+export const applyJob = async ({ slug, payload }) => {
+  const response = await fetcher({
+    url: `/jobs/${slug}/apply`,
+    method: 'POST',
+    body: payload,
+    options: {
+      isFormData: true
+    }
+  });
+
+  return response;
+};
