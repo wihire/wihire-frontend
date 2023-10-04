@@ -4,6 +4,9 @@ import fetcher from '@/lib/fetcher';
 export const getProvinces = async () => {
   const response = await fetcher({
     url: `${config.appUrl}/api/province`,
+    next: {
+      revalidate: 60 * 60 * 24 * 365
+    },
     options: {
       isFreshURL: true
     }

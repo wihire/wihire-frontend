@@ -74,7 +74,7 @@ const CategoriesFilter = ({ className }) => {
       const newParamsRemoved = removeSearchParams(searchParams, ['page', 'categories[]']);
 
       if (title === 'All job') {
-        return '?';
+        return `?${newParamsRemoved.toString()}`;
       }
 
       const newParams = combineSearchParams(newParamsRemoved, {

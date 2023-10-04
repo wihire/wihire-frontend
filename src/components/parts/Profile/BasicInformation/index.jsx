@@ -9,11 +9,12 @@ import LocationIcon from '@/assets/icons/location-icon.svg';
 import MailIcon from '@/assets/icons/mail_solid.svg';
 import PhoneIcon from '@/assets/icons/phone_solid.svg';
 import Text from '@/components/elements/Text';
+import { capitalEachWord } from '@/lib/common';
 import config from '@/lib/config';
 
 const WebsiteIcon = dynamic(() => import('@/assets/icons/globe-alt_solid.svg'));
 
-const BasicInformation = ({ profile }) => (
+const BasicInformation = ({ profile, hideBirthDate }) => (
   <section className="flex flex-col rounded-md bg-white p-8">
     <div className="flex gap-3">
       <div className="relative h-28 w-28">
@@ -38,7 +39,7 @@ const BasicInformation = ({ profile }) => (
           <div className="flex items-center gap-2">
             <LocationIcon className="text-gray-500" />
             <Text typography="xs" className=" text-gray-500">
-              {profile?.address}, {profile?.province}
+              {capitalEachWord(profile?.address)}, {profile?.province}
             </Text>
           </div>
 
@@ -56,12 +57,14 @@ const BasicInformation = ({ profile }) => (
             </Text>
           </div>
 
-          <div className="flex items-center gap-2">
-            <CakeIcon className="text-gray-500" />
-            <Text typography="xs" className=" text-gray-500">
-              {moment(profile?.user?.birthDate).format('DD MMMM YYYY')}
-            </Text>
-          </div>
+          {!hideBirthDate ? (
+            <div className="flex items-center gap-2">
+              <CakeIcon className="text-gray-500" />
+              <Text typography="xs" className=" text-gray-500">
+                {moment(profile?.user?.birthDate).format('DD MMMM YYYY')}
+              </Text>
+            </div>
+          ) : null}
 
           {profile?.user?.url ? (
             <div className="flex items-center gap-2">

@@ -3,25 +3,26 @@
 import { useCallback } from 'react';
 
 import dynamic from 'next/dynamic';
-import { useParams, useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter, useParams, usePathname } from 'next/navigation';
 
-import Text from '@/components/elements/Text';
-import ListJob from '@/components/parts/Jobs/ListJob';
+import ApplicationsFilters from '@/components/parts/Application/Filters';
+import ButtonRejectAll from '@/components/parts/Jobs/ApplicantButton';
+import ApplicantsCard from '@/components/parts/Jobs/ApplicantsCard';
 import { combineSearchParams, removeSearchParams } from '@/lib/url';
-import { useJobs } from '@/query/jobs';
+import { useApplicantsJob } from '@/query/jobs';
 
 const ErrorStatusImage = dynamic(() => import('@/components/parts/ErrorStatusImage'));
 const Pagination = dynamic(() => import('@/components/parts/Pagination'));
 
-const Jobs = () => {
+const ApplicantsList = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const params = useParams();
+  const pathname = usePathname();
+  const { slug } = useParams();
 
-  const { data } = useJobs({
+  const { data } = useApplicantsJob(slug, {
     page: Number(searchParams.get('page')) || 1,
-    slug: params.profileSlug,
-    status: 'POSTED'
+    status: searchParams.get('status') || undefined
   });
 
   const handleChangePage = useCallback(
@@ -29,20 +30,25 @@ const Jobs = () => {
       const newRemovedSearchParams = removeSearchParams(searchParams, ['page']);
       const newSearchParams = combineSearchParams(newRemovedSearchParams, { page });
 
-      router.push(`/jobs/${params.slug}?${newSearchParams}`);
+      router.push(`${pathname}?${newSearchParams}`);
     },
-    [router, searchParams, params]
+    [router, searchParams, pathname]
   );
 
   return (
     <div>
-      <Text as="h2" typography="h4">
-        Jobs
-      </Text>
+      <div className="flex items-center justify-between">
+        <ApplicationsFilters />
+        <ButtonRejectAll />
+      </div>
 
-      {data?.data?.data?.jobs?.length > 0 ? (
+      {data?.data?.data?.applicants.length > 0 ? (
         <>
-          <ListJob jobs={data?.data?.data?.jobs} cardType="save" className="mt-2" />
+          <div className="mb-8 mt-3 flex flex-col gap-[10px]">
+            {data?.data.data.applicants.map((applicant) => (
+              <ApplicantsCard key={applicant.user.id} {...applicant} />
+            ))}
+          </div>
 
           <div className="flex justify-center">
             <Pagination
@@ -59,10 +65,10 @@ const Jobs = () => {
           </div>
         </>
       ) : (
-        <ErrorStatusImage errorType="EMPTY" message="No job has been found" className="mt-8" />
+        <ErrorStatusImage errorType="EMPTY" message="No applicants found" className="mt-8" />
       )}
     </div>
   );
 };
 
-export default Jobs;
+export default ApplicantsList;
