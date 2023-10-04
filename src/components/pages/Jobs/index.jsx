@@ -21,7 +21,7 @@ const Jobs = ({ profile }) => {
 
   let filter;
 
-  if (profile.role === ROLE.COMPANY) {
+  if (profile?.role === ROLE.COMPANY) {
     filter = {
       page: Number(searchParams?.page) || 1,
       slug: profile.slug,
@@ -68,13 +68,13 @@ const Jobs = ({ profile }) => {
         List all jobs
       </Text>
 
-      <Filter className="mt-5" role={profile.role} />
+      <Filter className="mt-5" role={profile?.role} />
 
       {data?.data?.data?.jobs?.length > 0 ? (
         <>
           <ListJob
             jobs={data?.data?.data?.jobs}
-            cardType={profile.role === ROLE.USER ? 'save' : undefined}
+            cardType={profile?.role === ROLE.USER ? 'save' : undefined}
             className="mt-8"
           />
 

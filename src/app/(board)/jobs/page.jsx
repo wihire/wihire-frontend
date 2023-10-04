@@ -21,16 +21,16 @@ export const metadata = generateMetadata(
 const JobsPage = async ({ searchParams }) => {
   const session = await getServerSession(authOptions);
 
-  const { profile } = session;
+  const profile = session?.profile;
 
   const queryClient = getQueryClient();
 
   let filter;
 
-  if (profile.role === ROLE.COMPANY) {
+  if (profile?.role === ROLE.COMPANY) {
     filter = {
       page: Number(searchParams?.page) || 1,
-      slug: profile.slug,
+      slug: profile?.slug,
       title: searchParams?.title || undefined,
       status: searchParams?.status || 'POSTED'
     };

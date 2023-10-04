@@ -9,6 +9,7 @@ import LocationIcon from '@/assets/icons/location-icon.svg';
 import MailIcon from '@/assets/icons/mail_solid.svg';
 import PhoneIcon from '@/assets/icons/phone_solid.svg';
 import Text from '@/components/elements/Text';
+import { capitalEachWord } from '@/lib/common';
 import config from '@/lib/config';
 
 const WebsiteIcon = dynamic(() => import('@/assets/icons/globe-alt_solid.svg'));
@@ -38,7 +39,7 @@ const BasicInformation = ({ profile, hideBirthDate }) => (
           <div className="flex items-center gap-2">
             <LocationIcon className="text-gray-500" />
             <Text typography="xs" className=" text-gray-500">
-              {profile?.address}, {profile?.province}
+              {capitalEachWord(profile?.address)}, {profile?.province}
             </Text>
           </div>
 

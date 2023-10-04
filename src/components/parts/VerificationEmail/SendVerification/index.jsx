@@ -11,7 +11,7 @@ import { formatTime } from '@/lib/common';
 import useInterval from '@/lib/hooks/useInterval';
 import { sendVerificationEmail } from '@/repositories/auth';
 
-const MAX_SECONDS = 60 * 3; // 3 minutes
+const MAX_SECONDS = 60 * 2; // 2 minutes
 
 const SendVerification = ({ email }) => {
   const [seconds, setSeconds] = useState(MAX_SECONDS);

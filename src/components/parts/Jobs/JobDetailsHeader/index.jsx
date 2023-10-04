@@ -74,7 +74,8 @@ const JobDetailsHeader = () => {
           <div className="flex items-center gap-1">
             <MapPinIcon />
             <Text>
-              {job.address}, {job.province}
+              {capitalEachWord(job.address)}, {job.province}
+              {/* {job.address}, {job.province} */}
             </Text>
           </div>
 
