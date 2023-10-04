@@ -21,7 +21,13 @@ export const ButtonsCompanyActions = () => {
   }, []);
 
   return (
-    <div className="mb-5 flex justify-end gap-3">
+    <div className="mb-5 flex gap-3">
+      <div className="flex-1">
+        <Button href={`/jobs/${params.slug}/applicants`} className="btn-outline">
+          See Applicants
+        </Button>
+      </div>
+
       <Button href={`/jobs/${params.slug}/edit`} className="btn-warning">
         EDIT
       </Button>

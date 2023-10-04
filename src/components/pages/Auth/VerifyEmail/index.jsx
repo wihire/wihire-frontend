@@ -4,6 +4,8 @@ import { useEffect } from 'react';
 
 import { useMutation } from '@tanstack/react-query';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { signIn } from 'next-auth/react';
+import { toast } from 'react-toastify';
 
 import Button from '@/components/elements/Button';
 import Text from '@/components/elements/Text';
@@ -27,9 +29,22 @@ const VerifyEmail = () => {
       verifyEmail({
         token: searchParams.get('token')
       }),
-    onSuccess: ({ data }) => {
+    onSuccess: async ({ data }) => {
       setAccessToken(data.data.accessToken);
+
+      const signInResponse = await signIn('credentials', {
+        redirect: false,
+        slug: data.data.profile.slug,
+        accessToken: data.data.accessToken
+      });
+
+      if (signInResponse.error) {
+        toast.error('Please login again');
+        return;
+      }
+
       router.replace('/jobs');
+      router.refresh();
     },
     onError: () => {}
   });

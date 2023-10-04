@@ -17,6 +17,9 @@ const middleware = async (request) => {
   const nextAuthToken = request.cookies.get('next-auth.session-token');
 
   if (loginPath.some((v) => v === request.nextUrl.pathname)) {
+    if (accessToken && nextAuthToken) {
+      return NextResponse.redirect(new URL('/jobs', request.url));
+    }
     return NextResponse.next();
   }
 
