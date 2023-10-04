@@ -39,7 +39,7 @@ const BasicInformation = ({ profile, hideBirthDate }) => (
           <div className="flex items-center gap-2">
             <LocationIcon className="text-gray-500" />
             <Text typography="xs" className=" text-gray-500">
-              {capitalEachWord(profile?.address)}, {profile?.province}
+              {profile?.address ? capitalEachWord(profile.address) : null}, {profile?.province}
             </Text>
           </div>
 

@@ -10,9 +10,9 @@ import WorkExperienceList from '@/components/parts/Profile/WorkExperienceList';
 
 import ProfileSection from './ProfileSection';
 
-const ProfileUser = ({ customResume, ...profile }) => (
+const ProfileUser = ({ customResume, withoutResume, hideBirthDate, ...profile }) => (
   <div className="flex flex-col gap-5">
-    <BasicInformation profile={profile} />
+    <BasicInformation profile={profile} hideBirthDate={hideBirthDate} />
 
     {profile?.user?.workExperiencies?.length > 0 ? (
       <WorkExperienceList workExperiencies={profile.user.workExperiencies} />
@@ -38,7 +38,7 @@ const ProfileUser = ({ customResume, ...profile }) => (
           <SalaryExpectation value={profile.user.salaryExpectation} />
         ) : null}
 
-        {customResume || profile?.user?.resume ? (
+        {customResume || (profile?.user?.resume && !withoutResume) ? (
           <a
             href={customResume ?? profile?.user?.resume}
             target="_blank"

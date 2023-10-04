@@ -1,11 +1,14 @@
 import { useSession } from 'next-auth/react';
 
 import ProfileUser from '@/components/parts/Profile';
+import { useProfile } from '@/query/profile';
 
 const CheckProfile = () => {
   const { data } = useSession();
+  console.log(data);
+  const { data: profileData } = useProfile(data?.profile?.slug);
 
-  return <ProfileUser profileSlug={data?.profile.slug} withoutResume hideBirthDate />;
+  return <ProfileUser withoutResume hideBirthDate {...profileData?.data?.data?.profile} />;
 };
 
 export default CheckProfile;
