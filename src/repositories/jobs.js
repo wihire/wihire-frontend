@@ -54,6 +54,16 @@ export const createJob = async (data) => {
   return response;
 };
 
+export const updateApplicantStatus = async ({ slug, userSlug, status }) => {
+  const response = await fetcher({
+    url: `/jobs/${slug}/applicants/${userSlug}`,
+    method: 'PUT',
+    body: JSON.stringify({ status })
+  });
+
+  return response;
+};
+
 export const rejectAll = async (slug) => {
   const response = await fetcher({
     url: `/jobs/${slug}/applicants/reject-all`,

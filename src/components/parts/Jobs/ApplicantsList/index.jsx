@@ -5,6 +5,8 @@ import { useCallback } from 'react';
 import dynamic from 'next/dynamic';
 import { useSearchParams, useRouter, useParams, usePathname } from 'next/navigation';
 
+import ApplicationsFilters from '@/components/parts/Application/Filters';
+import ButtonRejectAll from '@/components/parts/Jobs/ApplicantButton';
 import ApplicantsCard from '@/components/parts/Jobs/ApplicantsCard';
 import { combineSearchParams, removeSearchParams } from '@/lib/url';
 import { useApplicantsJob } from '@/query/jobs';
@@ -35,9 +37,14 @@ const ApplicantsList = () => {
 
   return (
     <div>
+      <div className="flex items-center justify-between">
+        <ApplicationsFilters />
+        <ButtonRejectAll />
+      </div>
+
       {data?.data?.data?.applicants.length > 0 ? (
         <>
-          <div className="my-8 flex flex-col gap-[10px]">
+          <div className="mb-8 mt-3 flex flex-col gap-[10px]">
             {data?.data.data.applicants.map((applicant) => (
               <ApplicantsCard key={applicant.user.id} {...applicant} />
             ))}

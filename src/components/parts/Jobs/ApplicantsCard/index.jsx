@@ -1,7 +1,11 @@
 'use client';
 
+import { useCallback, useMemo } from 'react';
+
+import { useMutation } from '@tanstack/react-query';
 import Image from 'next/image';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 import LocationIcon from '@/assets/icons/location-icon.svg';
 import EmailIcon from '@/assets/icons/mail_solid.svg';
@@ -11,9 +15,28 @@ import Text from '@/components/elements/Text';
 import ApplicationStatusBadge from '@/components/parts/Application/ApplicationStatusBadge';
 import { toCurrency, capitalEachWord } from '@/lib/common';
 import config from '@/lib/config';
+import { updateApplicantStatus } from '@/repositories/jobs';
 
 const ApplicantsCard = ({ ...props }) => {
-  const params = useParams();
+  const router = useRouter();
+  const { slug } = useParams();
+
+  const userSlug = useMemo(() => props.user.profile.slug, [props.user.profile.slug]);
+
+  const updateStatusMutation = useMutation({
+    mutationFn: updateApplicantStatus,
+    onSuccess: () => {
+      toast.success('Successfully updated applicant status');
+      router.refresh();
+    }
+  });
+
+  const changeStatus = useCallback(
+    (status) => {
+      updateStatusMutation.mutate({ slug, userSlug, status });
+    },
+    [updateStatusMutation, slug, userSlug]
+  );
 
   return (
     <div className="flex gap-3 rounded-lg bg-white px-4 py-5">
@@ -71,13 +94,22 @@ const ApplicantsCard = ({ ...props }) => {
           </a>
         </div>
 
-        <a
-          href={`/jobs/${params.slug}/applicants/${props.user.profile.slug}`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Button>View Profile</Button>
-        </a>
+        <div className="flex flex-col gap-3">
+          <a
+            href={`/jobs/${slug}/applicants/${userSlug}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => (props.status === 'ONPROGRESS' ? changeStatus('ONREVIEW') : null)}
+          >
+            <Button>View Profile</Button>
+          </a>
+
+          {props.status !== 'DECLINE' ? (
+            <Button onClick={() => changeStatus('DECLINE')} className="btn-error btn-outline">
+              Decline
+            </Button>
+          ) : null}
+        </div>
       </div>
     </div>
   );
