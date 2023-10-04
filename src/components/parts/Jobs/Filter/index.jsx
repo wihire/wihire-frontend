@@ -1,17 +1,30 @@
+import dynamic from 'next/dynamic';
 import { twMerge } from 'tailwind-merge';
 
-import CategoriesFilter from '@/components/parts/Jobs/CategoriesFilter';
 import JobTypeFilter from '@/components/parts/Jobs/JobTypeFilter';
 import PlaceMethodFilter from '@/components/parts/Jobs/PlaceMethodFilter';
 import SalaryFilter from '@/components/parts/Jobs/SalaryFilter';
-import Search from '@/components/parts/Jobs/Search';
+import SearchJobTitle from '@/components/parts/Jobs/SearchJobTitle';
 import SkillsFilter from '@/components/parts/Jobs/SkillsFilter';
+import { ROLE } from '@/lib/constants/common';
 
-const Filter = ({ className }) => (
+const CategoriesFilter = dynamic(() => import('@/components/parts/Jobs/CategoriesFilter'));
+const SearchJobCompany = dynamic(() => import('@/components/parts/Jobs/SearchJobCompany'));
+const StatusFilter = dynamic(() => import('@/components/parts/Jobs/StatusFilter'));
+
+const Filter = ({ className, role }) => (
   <header className={twMerge('grid grid-cols-12 gap-3', className)}>
-    <CategoriesFilter className="col-span-12" />
+    {role === ROLE.USER ? (
+      <CategoriesFilter className="col-span-12" />
+    ) : (
+      <StatusFilter className="col-span-12" />
+    )}
 
-    <Search />
+    <div className="col-span-12 flex gap-3">
+      <SearchJobTitle />
+
+      {role === ROLE.USER ? <SearchJobCompany /> : null}
+    </div>
 
     <JobTypeFilter className="col-span-3" />
     <PlaceMethodFilter className="col-span-3" />
