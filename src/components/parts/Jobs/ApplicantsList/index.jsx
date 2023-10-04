@@ -3,9 +3,8 @@
 import { useCallback } from 'react';
 
 import dynamic from 'next/dynamic';
-import { useSearchParams, useRouter, useParams } from 'next/navigation';
+import { useSearchParams, useRouter, useParams, usePathname } from 'next/navigation';
 
-import ButtonRejectAll from '@/components/parts/Jobs/ApplicantButton';
 import ApplicantsCard from '@/components/parts/Jobs/ApplicantsCard';
 import { combineSearchParams, removeSearchParams } from '@/lib/url';
 import { useApplicantsJob } from '@/query/jobs';
@@ -16,6 +15,7 @@ const Pagination = dynamic(() => import('@/components/parts/Pagination'));
 const ApplicantsList = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const pathname = usePathname();
   const { slug } = useParams();
 
   const { data } = useApplicantsJob(slug, {
@@ -28,19 +28,18 @@ const ApplicantsList = () => {
       const newRemovedSearchParams = removeSearchParams(searchParams, ['page']);
       const newSearchParams = combineSearchParams(newRemovedSearchParams, { page });
 
-      router.push(`/jobs/:slug/applicants?${newSearchParams}`);
+      router.push(`${pathname}?${newSearchParams}`);
     },
-    [router, searchParams]
+    [router, searchParams, pathname]
   );
 
   return (
     <div>
       {data?.data?.data?.applicants.length > 0 ? (
         <>
-          <ButtonRejectAll className="-mb-5" />
           <div className="my-8 flex flex-col gap-[10px]">
             {data?.data.data.applicants.map((applicant) => (
-              <ApplicantsCard key={applicant.id} {...applicant} />
+              <ApplicantsCard key={applicant.user.id} {...applicant} />
             ))}
           </div>
 

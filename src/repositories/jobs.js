@@ -44,10 +44,42 @@ export const getApplicantsJob = async (slug, filters) => {
   return response;
 };
 
+export const createJob = async (data) => {
+  const response = await fetcher({
+    url: `/jobs`,
+    method: 'POST',
+    body: JSON.stringify(data)
+  });
+
+  return response;
+};
+
 export const rejectAll = async (slug) => {
   const response = await fetcher({
     url: `/jobs/${slug}/applicants/reject-all`,
     method: 'PUT'
+  });
+
+  return response;
+};
+
+export const deleteJob = async (slug) => {
+  const response = await fetcher({
+    url: `/jobs/${slug}`,
+    method: 'DELETE'
+  });
+
+  return response;
+};
+
+export const applyJob = async ({ slug, payload }) => {
+  const response = await fetcher({
+    url: `/jobs/${slug}/apply`,
+    method: 'POST',
+    body: payload,
+    options: {
+      isFormData: true
+    }
   });
 
   return response;

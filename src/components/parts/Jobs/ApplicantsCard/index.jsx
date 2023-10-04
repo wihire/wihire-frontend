@@ -1,3 +1,5 @@
+'use client';
+
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 
@@ -6,14 +8,11 @@ import EmailIcon from '@/assets/icons/mail_solid.svg';
 import PhoneIcon from '@/assets/icons/phone_solid.svg';
 import Button from '@/components/elements/Button';
 import Text from '@/components/elements/Text';
+import ApplicationStatusBadge from '@/components/parts/Application/ApplicationStatusBadge';
 import { toCurrency, capitalEachWord } from '@/lib/common';
 import config from '@/lib/config';
 
 const ApplicantsCard = ({ ...props }) => {
-  const rangeSalary = props.user.salaryExpectation;
-
-  const { resume } = props;
-
   const params = useParams();
 
   return (
@@ -27,57 +26,58 @@ const ApplicantsCard = ({ ...props }) => {
         />
       </div>
 
-      <div className="flex flex-1 flex-col gap-3">
-        <div>
-          <Text className="text-2xl font-bold">{capitalEachWord(props.user.profile.name)}</Text>
-        </div>
+      <div className="flex w-full justify-between gap-3">
+        <div className="flex flex-col gap-3">
+          <div>
+            <div className="flex items-center gap-2">
+              <Text typography="h3">{props.user.profile.name}</Text>
+              <ApplicationStatusBadge status={props.status} />
+            </div>
 
-        <div>
-          {rangeSalary ? (
-            <div>
-              <Text className="text-sm">
-                Salary Expectation Rp. {toCurrency(rangeSalary, true)}
+            {props.user.salaryExpectation ? (
+              <Text className="mt-1 text-sm">
+                Salary expectation {toCurrency(props.user.salaryExpectation, true)} IDR
+              </Text>
+            ) : null}
+          </div>
+
+          <div>
+            <div className="flex items-center gap-2">
+              <LocationIcon className="text-gray-500" />
+              <Text className="text-gray-500">
+                {capitalEachWord(props.user.profile.address)},{' '}
+                {capitalEachWord(props.user.profile.province)}
               </Text>
             </div>
-          ) : null}
-          <div className="flex items-center gap-2">
-            <LocationIcon className="text-gray-500" />
-            <Text className="text-gray-500">
-              {capitalEachWord(props.user.profile.address)},{' '}
-              {capitalEachWord(props.user.profile.province)}
-            </Text>
-          </div>
-          <div className="">
+
             <div className="flex items-center gap-2">
               <PhoneIcon className="text-gray-500" />
               <Text className="text-gray-500">{props.user.phoneNumber}</Text>
             </div>
+
             <div className="flex items-center gap-2">
               <EmailIcon className="text-gray-500" />
               <Text className="text-gray-500">{props.user.profile.email}</Text>
             </div>
-            <a
-              href={resume}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-info btn-outline btn-xs mt-2 self-start"
-            >
-              View resume
-            </a>
           </div>
-          <div className="mt-3 flex justify-end">
-            <div className="self-end">
-              <a
-                href={`/jobs/${params.slug}/applicants/${props.user.profile.slug}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className=""
-              >
-                <Button>View Profile</Button>
-              </a>
-            </div>
-          </div>
+
+          <a
+            href={props.resume}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-info btn-outline btn-xs mt-2 self-start"
+          >
+            View resume
+          </a>
         </div>
+
+        <a
+          href={`/jobs/${params.slug}/applicants/${props.user.profile.slug}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Button>View Profile</Button>
+        </a>
       </div>
     </div>
   );
