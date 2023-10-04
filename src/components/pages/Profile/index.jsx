@@ -19,7 +19,7 @@ const Profile = () => {
     return <ProfileCompany profile={profile} />;
   }
 
-  return <ProfileUser profileSlug={params.profileSlug} />;
+  return <ProfileUser {...profile} />;
 };
 
 export default Profile;
