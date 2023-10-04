@@ -19,7 +19,7 @@ const Profile = () => {
     return <ProfileCompany />;
   }
 
-  return <ProfileUser />;
+  return <ProfileUser {...profile} />;
 };
 
 export default Profile;

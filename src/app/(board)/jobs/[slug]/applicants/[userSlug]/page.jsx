@@ -2,7 +2,7 @@ import { Hydrate, dehydrate } from '@tanstack/react-query';
 
 import ApplicantDetail from '@/components/pages/ApplicantDetail';
 import { getQueryClient } from '@/lib/queryClient';
-import { getApplicantKey } from '@/query/applicantDetail';
+import { getApplicantKey } from '@/query/applicant';
 import { getApplicantDetail } from '@/repositories/applicantDetail';
 
 const ApplicantDetailPage = async ({ params }) => {
