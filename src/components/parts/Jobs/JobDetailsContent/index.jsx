@@ -49,18 +49,6 @@ const JobDetailsContent = () => {
             </div>
           ) : null}
 
-          {/* {job.skills?.map
-            ? (skill) => (
-                <div>
-                  <Text as="h2" typography="h3" className="mb-2">
-                    Skills
-                  </Text>
-
-                  <DangerousHTML html={skill} />
-                </div>
-              )
-            : null} */}
-
           {job.skills ? (
             <div>
               <Text as="h2" typography="h3" className="mb-2">
