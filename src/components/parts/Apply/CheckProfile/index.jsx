@@ -5,7 +5,6 @@ import { useProfile } from '@/query/profile';
 
 const CheckProfile = () => {
   const { data } = useSession();
-  console.log(data);
   const { data: profileData } = useProfile(data?.profile?.slug);
 
   return <ProfileUser withoutResume hideBirthDate {...profileData?.data?.data?.profile} />;

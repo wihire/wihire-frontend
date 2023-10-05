@@ -12,6 +12,7 @@ const ApplicantDetailPage = async ({ params }) => {
     getApplicantDetail(slug, userSlug)
   );
   const dehydrateState = dehydrate(queryClient);
+
   return (
     <Hydrate state={dehydrateState}>
       <ApplicantDetail />

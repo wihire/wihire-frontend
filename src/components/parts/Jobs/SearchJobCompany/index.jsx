@@ -38,7 +38,7 @@ const SearchJobCompany = () => {
 
   return (
     <TextInput
-      placeholder="SearchJobCompany by company"
+      placeholder="Search by company"
       isBlock
       className="w-full"
       name="company"

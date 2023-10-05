@@ -54,6 +54,16 @@ export const createJob = async (data) => {
   return response;
 };
 
+export const updateJob = async ({ slug, data }) => {
+  const response = await fetcher({
+    url: `/jobs/${slug}`,
+    method: 'PUT',
+    body: JSON.stringify(data)
+  });
+
+  return response;
+};
+
 export const updateApplicantStatus = async ({ slug, userSlug, status }) => {
   const response = await fetcher({
     url: `/jobs/${slug}/applicants/${userSlug}`,
