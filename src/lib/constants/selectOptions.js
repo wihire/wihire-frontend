@@ -23,3 +23,9 @@ export const PLACE_METHOD_OPTIONS = [
   { value: 'REMOTE', label: 'Remote' },
   { value: 'HYBRID', label: 'Hybrid' }
 ];
+
+export const JOB_STATUS_OPTIONS = [
+  { value: 'DRAFT', label: 'Draft' },
+  { value: 'POSTED', label: 'Posted' },
+  { value: 'CLOSED', label: 'Closed' }
+];

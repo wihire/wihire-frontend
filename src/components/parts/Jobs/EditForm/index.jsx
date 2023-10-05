@@ -4,29 +4,37 @@ import { useMemo, useState } from 'react';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import debounce from 'lodash.debounce';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
 import Button from '@/components/elements/Button';
-import Checkbox from '@/components/elements/Checkbox';
 import FormControl from '@/components/elements/FormControl';
 import RichTextInput from '@/components/elements/RichTextInput';
 import Select from '@/components/elements/Select';
 import SelectAsync from '@/components/elements/SelectAsyncCreateable';
 import TextInput from '@/components/elements/TextInput';
-import { JOB_TYPE_OPTIONS, PLACE_METHOD_OPTIONS } from '@/lib/constants/selectOptions';
+import {
+  JOB_STATUS_OPTIONS,
+  JOB_TYPE_OPTIONS,
+  PLACE_METHOD_OPTIONS
+} from '@/lib/constants/selectOptions';
 import { useCategories } from '@/query/category';
+import { useJob } from '@/query/jobs';
 import { useProvinces, useRegencies } from '@/query/location';
 import { useSkills } from '@/query/skill';
 import { getCategories } from '@/repositories/category';
-import { createJob } from '@/repositories/jobs';
+import { updateJob } from '@/repositories/jobs';
 import { getSkills } from '@/repositories/skill';
 
 const CreateForm = () => {
-  const [description, setDescription] = useState('');
-  const [minimumQualification, setMinimumQualification] = useState('');
-  const [benefits, setBenefits] = useState('');
+  const params = useParams();
+  const { data: jobData } = useJob(params.slug);
+  const job = useMemo(() => jobData?.data?.data?.job, [jobData]);
+
+  const [description, setDescription] = useState(job?.description);
+  const [minimumQualification, setMinimumQualification] = useState(job?.minimumQualification);
+  const [benefits, setBenefits] = useState(job?.benefits);
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -45,30 +53,7 @@ const CreateForm = () => {
     []
   );
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    control,
-    setValue,
-    setError,
-    formState: { errors }
-  } = useForm({
-    defaultValues: {
-      isDraft: false
-    }
-  });
-
   const { data: provincesData } = useProvinces();
-  const { data: regenciesData, isFetching: isRegenciesFethcing } = useRegencies(
-    watch('province')?.value,
-    {
-      enabled: !!watch('province')?.value
-    }
-  );
-
-  const { data: categoriesData } = useCategories();
-  const { data: skillsData } = useSkills();
 
   const provincesOptions = useMemo(() => {
     if (!provincesData) {
@@ -80,16 +65,8 @@ const CreateForm = () => {
     }));
   }, [provincesData]);
 
-  const regenciesOptions = useMemo(() => {
-    if (!regenciesData) {
-      return [];
-    }
-
-    return regenciesData.data.map((regency) => ({
-      value: regency.id,
-      label: regency.name
-    }));
-  }, [regenciesData]);
+  const { data: categoriesData } = useCategories();
+  const { data: skillsData } = useSkills();
 
   const categoriesOptions = useMemo(() => {
     if (!categoriesData) {
@@ -112,6 +89,69 @@ const CreateForm = () => {
       label: skill.title
     }));
   }, [skillsData]);
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    control,
+    setValue,
+    setError,
+    formState: { errors }
+  } = useForm({
+    defaultValues: {
+      title: job?.title,
+      minimalSalary: job?.rangeSalary?.min,
+      maximalSalary: job?.rangeSalary?.max,
+      placeMethod: PLACE_METHOD_OPTIONS.find((option) => option.value === job?.placeMethod),
+      status: JOB_STATUS_OPTIONS.find((option) => option.value === job?.status),
+      jobType: JOB_TYPE_OPTIONS.find((option) => option.value === job?.jobType),
+      province: provincesOptions.find((option) => option.label === job?.province),
+      skills: job?.skills.map((skill) => {
+        const exist = skillsOptions.find((option) => option.label === skill);
+
+        return {
+          value: exist?.value || skill,
+          label: skill,
+          __isNew__: !exist
+        };
+      }),
+      categories: job?.categories.map((category) => {
+        const exist = categoriesOptions.find((option) => option.label === category);
+
+        return {
+          value: exist?.value || category,
+          label: category,
+          __isNew__: !exist
+        };
+      })
+    }
+  });
+
+  const { data: regenciesData, isFetching: isRegenciesFethcing } = useRegencies(
+    watch('province')?.value,
+    {
+      enabled: !!watch('province')?.value,
+      onSuccess: ({ data }) => {
+        const findAddress = data.find((regency) => regency.name === job?.address);
+        setValue('address', {
+          value: findAddress.id,
+          label: findAddress.name
+        });
+      }
+    }
+  );
+
+  const regenciesOptions = useMemo(() => {
+    if (!regenciesData) {
+      return [];
+    }
+
+    return regenciesData.data.map((regency) => ({
+      value: regency.id,
+      label: regency.name
+    }));
+  }, [regenciesData]);
 
   const handleChangeProvince = (province) => {
     setError('province', null);
@@ -156,21 +196,15 @@ const CreateForm = () => {
       });
   }, 500);
 
-  const createJobMutation = useMutation({
-    mutationFn: createJob,
+  const updateJobMutation = useMutation({
+    mutationFn: updateJob,
     onSuccess: () => {
-      toast.success('Job created successfully');
+      toast.success('Job updated successfully');
 
       queryClient.invalidateQueries(['jobs']);
+      queryClient.invalidateQueries(['job', params.slug]);
 
-      const isDraft = watch('isDraft');
-
-      if (isDraft) {
-        router.replace('/jobs/drafts');
-        return;
-      }
-
-      router.replace('/jobs');
+      router.replace(`/jobs/${params.slug}`);
     }
   });
 
@@ -188,10 +222,13 @@ const CreateForm = () => {
       maximalSalary: +data.maximalSalary || undefined,
       categories: data.categories.map((category) => category.label),
       skills: data.skills.map((skill) => skill.label),
-      status: data.isDraft ? 'DRAFT' : 'POSTED'
+      status: data.status.value
     };
 
-    createJobMutation.mutate(payload);
+    updateJobMutation.mutate({
+      slug: params.slug,
+      data: payload
+    });
   };
 
   return (
@@ -441,12 +478,31 @@ const CreateForm = () => {
           />
         </FormControl>
 
-        <Checkbox label="Save as a draft" {...register('isDraft')} />
+        <FormControl isBlock isRequired label="Status" error={errors?.jobType?.message}>
+          <Controller
+            control={control}
+            name="status"
+            rules={{
+              required: 'Status is required'
+            }}
+            render={({ field: { onChange, value, name, ref } }) => (
+              <Select
+                ref={ref}
+                placeholder="Select job status"
+                isBlock
+                options={JOB_STATUS_OPTIONS}
+                name={name}
+                value={value}
+                onChange={onChange}
+              />
+            )}
+          />
+        </FormControl>
       </div>
 
       <div className="mt-10 flex justify-end ">
-        <Button type="submit" isLoading={createJobMutation.isLoading} loadingText="Submiting...">
-          Submit
+        <Button type="submit" isLoading={updateJobMutation.isLoading} loadingText="Saving...">
+          Save
         </Button>
       </div>
     </form>
