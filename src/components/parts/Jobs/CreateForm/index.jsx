@@ -355,7 +355,7 @@ const CreateForm = () => {
                   message: 'Minimum salary is 100.000'
                 },
                 validate: (value) => {
-                  if (value < watch('minimalSalary')) {
+                  if (+value < +watch('minimalSalary')) {
                     return 'Maximal salary must be greater than minimal salary';
                   }
                   return true;
