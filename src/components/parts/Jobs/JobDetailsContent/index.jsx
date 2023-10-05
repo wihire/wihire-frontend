@@ -48,6 +48,38 @@ const JobDetailsContent = () => {
               <DangerousHTML html={job.benefits} />
             </div>
           ) : null}
+
+          {/* {job.skills?.map
+            ? (skill) => (
+                <div>
+                  <Text as="h2" typography="h3" className="mb-2">
+                    Skills
+                  </Text>
+
+                  <DangerousHTML html={skill} />
+                </div>
+              )
+            : null} */}
+
+          {job.skills ? (
+            <div>
+              <Text as="h2" typography="h3" className="mb-2">
+                Skills
+              </Text>
+
+              <DangerousHTML html={job.skills.join(', ')} />
+            </div>
+          ) : null}
+
+          {job.categories ? (
+            <div>
+              <Text as="h2" typography="h3" className="mb-2">
+                Categories
+              </Text>
+
+              <DangerousHTML html={job.categories.join(', ')} />
+            </div>
+          ) : null}
         </>
       ) : (
         <Text as="h2" typography="h3" className="mb-2">
