@@ -159,6 +159,7 @@ const EditBasicForm = () => {
       });
 
       router.push(`/profile/${newSlug}`);
+      router.refresh();
     }
   });
 
