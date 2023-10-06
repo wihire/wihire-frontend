@@ -102,14 +102,7 @@ const EditBasicForm = () => {
   const { data: regenciesData, isFetching: isRegenciesFethcing } = useRegencies(
     watch('province')?.value,
     {
-      enabled: !!watch('province')?.value,
-      onSuccess: ({ data }) => {
-        const findRegency = data.find((regency) => regency.name === profile?.address);
-        setValue('address', {
-          value: findRegency.id,
-          label: findRegency.name
-        });
-      }
+      enabled: !!watch('province')?.value
     }
   );
 

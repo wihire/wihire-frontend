@@ -1,7 +1,9 @@
 import { Hydrate, dehydrate } from '@tanstack/react-query';
 
 import EditBasicForm from '@/components/parts/ProfileCompany/EditBasicForm';
+import { ROLE } from '@/lib/constants/common';
 import generateMetadata from '@/lib/metadata';
+import { pageAuthorization } from '@/lib/pageAuthorization';
 import { getQueryClient } from '@/lib/queryClient';
 import { getCompanyScopesKey } from '@/query/companyScope';
 import { getProvincesKey } from '@/query/location';
@@ -22,6 +24,8 @@ export const metadata = generateMetadata(
 );
 
 const CompanyEditBasicPage = async ({ params }) => {
+  await pageAuthorization([ROLE.COMPANY]);
+
   const { profileSlug } = params;
 
   const queryClient = getQueryClient();

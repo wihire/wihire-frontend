@@ -107,6 +107,10 @@ const EditForm = () => {
       status: JOB_STATUS_OPTIONS.find((option) => option.value === job?.status),
       jobType: JOB_TYPE_OPTIONS.find((option) => option.value === job?.jobType),
       province: provincesOptions.find((option) => option.label === job?.province),
+      address: {
+        value: job?.address,
+        label: job?.address
+      },
       skills: job?.skills.map((skill) => {
         const exist = skillsOptions.find((option) => option.label === skill);
 
@@ -131,14 +135,7 @@ const EditForm = () => {
   const { data: regenciesData, isFetching: isRegenciesFethcing } = useRegencies(
     watch('province')?.value,
     {
-      enabled: !!watch('province')?.value,
-      onSuccess: ({ data }) => {
-        const findAddress = data.find((regency) => regency.name === job?.address);
-        setValue('address', {
-          value: findAddress.id,
-          label: findAddress.name
-        });
-      }
+      enabled: !!watch('province')?.value
     }
   );
 
