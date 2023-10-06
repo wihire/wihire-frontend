@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import dynamic from 'next/dynamic';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -19,22 +19,10 @@ const Jobs = ({ profile }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  let filter;
-
-  if (profile?.role === ROLE.COMPANY) {
-    filter = {
-      page: Number(searchParams?.page) || 1,
-      slug: profile.slug,
-      title: searchParams.get('title') || undefined,
-      address: searchParams.get('address') || undefined,
-      status: searchParams.get('status') || 'POSTED'
-    };
-  } else {
-    filter = {
+  const defaultFilter = useMemo(
+    () => ({
       page: Number(searchParams.get('page')) || 1,
-      'categories[]': searchParams.getAll('categories[]').length
-        ? searchParams.getAll('categories[]')
-        : undefined,
+
       title: searchParams.get('title') || undefined,
       address: searchParams.get('address') || undefined,
       company: searchParams.get('company') || undefined,
@@ -47,8 +35,27 @@ const Jobs = ({ profile }) => {
       'skills[]': searchParams.getAll('skills[]').length
         ? searchParams.getAll('skills[]')
         : undefined,
-      'min-salary': searchParams.get('min-salary') || undefined,
-      status: 'POSTED'
+      'min-salary': searchParams.get('min-salary') || undefined
+    }),
+    [searchParams]
+  );
+
+  let filter;
+
+  if (profile?.role === ROLE.COMPANY) {
+    filter = {
+      slug: profile.slug,
+      status: searchParams.get('status') || 'POSTED',
+      ...defaultFilter
+    };
+  } else {
+    filter = {
+      'categories[]': searchParams.getAll('categories[]').length
+        ? searchParams.getAll('categories[]')
+        : undefined,
+      company: searchParams.get('company') || undefined,
+      status: 'POSTED',
+      ...defaultFilter
     };
   }
 
