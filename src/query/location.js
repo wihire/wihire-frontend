@@ -4,14 +4,15 @@ import { getProvinces, getRegencies } from '@/repositories/location';
 
 export const getProvincesKey = () => ['province'];
 
-export const useProvinces = () => {
+export const useProvinces = (queryOptions) => {
   const MAX_AGE = 60 * 60 * 24 * 365; // 1 year
 
   const result = useQuery({
     queryKey: getProvincesKey(),
     queryFn: () => getProvinces(),
     cacheTime: MAX_AGE,
-    staleTime: MAX_AGE
+    staleTime: MAX_AGE,
+    ...queryOptions
   });
 
   return result;

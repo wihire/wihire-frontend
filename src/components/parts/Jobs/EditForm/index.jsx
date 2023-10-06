@@ -27,7 +27,7 @@ import { getCategories } from '@/repositories/category';
 import { updateJob } from '@/repositories/jobs';
 import { getSkills } from '@/repositories/skill';
 
-const CreateForm = () => {
+const EditForm = () => {
   const params = useParams();
   const { data: jobData } = useJob(params.slug);
   const job = useMemo(() => jobData?.data?.data?.job, [jobData]);
@@ -508,4 +508,4 @@ const CreateForm = () => {
     </form>
   );
 };
-export default CreateForm;
+export default EditForm;

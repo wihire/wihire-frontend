@@ -4,10 +4,11 @@ import { getTotalEmployees } from '@/repositories/totalEmployee';
 
 export const getTotalEmployeesKey = () => ['totalEmployees'];
 
-export const useTotalEmployees = () => {
+export const useTotalEmployees = (queryOptions) => {
   const result = useQuery({
     queryKey: getTotalEmployeesKey(),
-    queryFn: () => getTotalEmployees()
+    queryFn: () => getTotalEmployees(),
+    ...queryOptions
   });
 
   return result;

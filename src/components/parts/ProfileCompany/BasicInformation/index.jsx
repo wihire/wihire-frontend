@@ -5,11 +5,15 @@ import { useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 import LocationIcon from '@/assets/icons/location_solid.svg';
 import MailIcon from '@/assets/icons/mail_solid.svg';
+import PencilIcon from '@/assets/icons/pencil_solid.svg';
 import UserIcon from '@/assets/icons/user_solid.svg';
+import Button from '@/components/elements/Button';
 import Text from '@/components/elements/Text';
+import { capitalEachWord } from '@/lib/common';
 import config from '@/lib/config';
 import { useProfile } from '@/query/profile';
 
@@ -17,6 +21,7 @@ const WebsiteIcon = dynamic(() => import('@/assets/icons/globe-alt_solid.svg'));
 
 const BasicInformation = () => {
   const params = useParams();
+  const { data: loggedData, status } = useSession();
 
   const { data } = useProfile(params.profileSlug);
   const profile = useMemo(() => data?.data?.data?.profile, [data]);
@@ -27,7 +32,7 @@ const BasicInformation = () => {
         <Image
           src={profile?.avatar ?? config.defaultAvatar}
           alt="Profile image"
-          layout="fill"
+          fill
           className="object-cover"
         />
       </div>
@@ -56,7 +61,7 @@ const BasicInformation = () => {
           <div className="flex items-center gap-2">
             <LocationIcon className="text-gray-500" />
             <Text typography="xs" className=" text-gray-500">
-              {profile?.address}, {profile?.province}
+              {capitalEachWord(profile?.address)}, {profile?.province}
             </Text>
           </div>
 
@@ -82,6 +87,12 @@ const BasicInformation = () => {
           ) : null}
         </div>
       </div>
+
+      {status === 'authenticated' && loggedData?.profile?.id === profile?.id ? (
+        <Button href={`${params.profileSlug}/company/edit/basic`} className="btn-ghost">
+          <PencilIcon className="text-base" />
+        </Button>
+      ) : null}
     </div>
   );
 };
