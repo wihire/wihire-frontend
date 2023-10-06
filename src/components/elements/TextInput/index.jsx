@@ -4,8 +4,9 @@ import { twMerge } from 'tailwind-merge';
 
 const TextInput = forwardRef(
   ({ type = 'text', placeholder, className, isBlock, ...props }, ref) => {
+    const Component = useMemo(() => (type === 'textarea' ? 'textarea' : 'input'), [type]);
     const maxWidthClassName = useMemo(() => (isBlock ? 'max-w-full' : 'max-w-xs'), [isBlock]);
-    const inputBasicClassName = 'input input-bordered';
+    const inputBasicClassName = `${type === 'textarea' ? 'textarea' : 'input'} input-bordered`;
     const fileInputClassName = 'file-input file-input-bordered file-input-primary';
     const finalClassName = useMemo(
       () =>
@@ -15,11 +16,11 @@ const TextInput = forwardRef(
           maxWidthClassName,
           className
         ),
-      [className, maxWidthClassName, type]
+      [className, maxWidthClassName, type, inputBasicClassName]
     );
 
     return (
-      <input
+      <Component
         ref={ref}
         type={type}
         placeholder={placeholder}

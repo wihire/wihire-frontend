@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 import fetcher from './fetcher';
@@ -35,9 +36,17 @@ export const authOptions = {
       session.profile = token.user;
       return session;
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
+      if (trigger === 'update' && session?.name && session?.slug) {
+        token.user.name = session.name;
+        token.user.slug = session.slug;
+      }
+
+      if ((trigger === 'update' && session?.avatar) || session?.avatar === null) {
+        token.user.avatar = session.avatar;
+      }
+
       if (user) {
-        // eslint-disable-next-line no-param-reassign
         token.user = user;
       }
       return token;
