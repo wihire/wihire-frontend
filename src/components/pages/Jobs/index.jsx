@@ -27,7 +27,6 @@ const Jobs = ({ profile }) => {
       slug: profile.slug,
       title: searchParams.get('title') || undefined,
       address: searchParams.get('address') || undefined,
-      province: searchParams.get('province') || undefined,
       status: searchParams.get('status') || 'POSTED'
     };
   } else {
@@ -38,7 +37,6 @@ const Jobs = ({ profile }) => {
         : undefined,
       title: searchParams.get('title') || undefined,
       address: searchParams.get('address') || undefined,
-      province: searchParams.get('province') || undefined,
       company: searchParams.get('company') || undefined,
       'job-types[]': searchParams.getAll('job-types[]').length
         ? searchParams.getAll('job-types[]')

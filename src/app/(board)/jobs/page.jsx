@@ -33,7 +33,6 @@ const JobsPage = async ({ searchParams }) => {
       slug: profile?.slug,
       title: searchParams?.title || undefined,
       address: searchParams?.address || undefined,
-      province: searchParams?.province || undefined,
       status: searchParams?.status || 'POSTED'
     };
   } else {
@@ -45,7 +44,6 @@ const JobsPage = async ({ searchParams }) => {
       title: searchParams?.title || undefined,
       company: searchParams?.company || undefined,
       address: searchParams?.address || undefined,
-      province: searchParams?.province || undefined,
       'job-types[]': searchParams?.['job-types[]']?.length
         ? searchParams['job-types[]']
         : undefined,
