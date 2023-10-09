@@ -7,16 +7,16 @@ import '@/assets/styles/globals.scss';
 
 export const metadata = generateMetadata();
 
-export default function RootLayout({ children }) {
-  return (
-    <html lang="en">
-      <body className={dmSans.className}>
-        <Providers>
-          {children}
+const RootLayout = ({ children }) => (
+  <html lang="en">
+    <body className={dmSans.className}>
+      <Providers>
+        {children}
 
-          <LayoutClient />
-        </Providers>
-      </body>
-    </html>
-  );
-}
+        <LayoutClient />
+      </Providers>
+    </body>
+  </html>
+);
+
+export default RootLayout;

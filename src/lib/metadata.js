@@ -18,7 +18,7 @@ const generateMetadata = (metadata, options) => {
       title,
       description,
       type: 'website',
-      // images: `${config.appUrl}/images/logo.png`, // update when logo is ready
+      images: `${config.appUrl}/images/logo.png`,
       siteName: config.appName,
       url: config.appUrl
     }
