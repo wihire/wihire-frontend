@@ -11,6 +11,8 @@ import PlaceMethodFilter from '@/components/parts/Jobs/PlaceMethodFilter';
 import SalaryFilter from '@/components/parts/Jobs/SalaryFilter';
 import SkillsFilter from '@/components/parts/Jobs/SkillsFilter';
 
+import './styles.scss';
+
 const FilterModal = () => {
   const router = useRouter();
   const [isOpen, setIsopen] = useState(false);
