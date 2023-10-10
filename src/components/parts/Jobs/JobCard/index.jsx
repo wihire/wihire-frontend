@@ -42,7 +42,7 @@ const JobCard = ({
           <Text className="inline-block text-gray-500">
             {capitalEachWord(address)} ({placeMethod.toLowerCase()})
           </Text>
-          <ul className="ml-8 inline-block list-disc">
+          <ul className="ml-4 inline-block list-disc md:ml-8">
             <Text as="li" className="text-gray-500">
               {JOB_TYPE[jobType]}
             </Text>

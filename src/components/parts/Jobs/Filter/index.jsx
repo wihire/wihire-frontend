@@ -8,6 +8,8 @@ import SearchJobTitle from '@/components/parts/Jobs/SearchJobTitle';
 import SkillsFilter from '@/components/parts/Jobs/SkillsFilter';
 import { ROLE } from '@/lib/constants/common';
 
+import FilterModal from './FilterModal';
+
 const CategoriesFilter = dynamic(() => import('@/components/parts/Jobs/CategoriesFilter'));
 const SearchJobCompany = dynamic(() => import('@/components/parts/Jobs/SearchJobCompany'));
 const StatusFilter = dynamic(() => import('@/components/parts/Jobs/StatusFilter'));
@@ -20,16 +22,17 @@ const Filter = ({ className, role }) => (
       <StatusFilter className="col-span-12" />
     )}
 
-    <div className="col-span-12 flex gap-3">
+    <div className="col-span-12 grid gap-3 md:flex">
       <SearchJobTitle />
 
       {role === ROLE.USER ? <SearchJobCompany /> : null}
+      <FilterModal />
     </div>
 
-    <JobTypeFilter className="col-span-3" />
-    <PlaceMethodFilter className="col-span-3" />
-    <SkillsFilter className="col-span-3" />
-    <SalaryFilter className="col-span-3" />
+    <JobTypeFilter className="col-span-3 hidden md:grid" />
+    <PlaceMethodFilter className="col-span-3 hidden md:grid" />
+    <SkillsFilter className="col-span-3 hidden md:grid" />
+    <SalaryFilter className="col-span-3 hidden md:grid" />
   </header>
 );
 

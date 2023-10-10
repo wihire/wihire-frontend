@@ -9,7 +9,7 @@ import TextInput from '@/components/elements/TextInput';
 import useDebounce from '@/lib/hooks/useDebounce';
 import { combineSearchParams, removeSearchParams } from '@/lib/url';
 
-const SalaryFilter = ({ className }) => {
+const SalaryFilter = ({ className, cleared }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [salary, setSalary] = useState(searchParams.get('min-salary') || '');
@@ -37,7 +37,7 @@ const SalaryFilter = ({ className }) => {
       <TextInput
         type="number"
         placeholder="Minimal salary"
-        value={salary}
+        value={cleared ? '' : salary}
         onChange={handleChange}
       />
     </FormControl>
