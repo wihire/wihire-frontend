@@ -21,7 +21,7 @@ const Layout = async ({ children }) => {
         {profile?.role === ROLE.USER ? (
           <SidebarBoardUser className="col-span-3 hidden self-start md:grid" />
         ) : (
-          <SidebarBoardCompany className="col-span-3 hidden self-start md:gird" />
+          <SidebarBoardCompany className="col-span-3 hidden self-start md:grid" />
         )}
 
         <main className="col-span-12 md:col-span-9">{children}</main>
