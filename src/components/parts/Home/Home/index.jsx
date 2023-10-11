@@ -21,14 +21,14 @@ const Header = () => {
 
   return (
     <div>
-      <Text as="h1" className="mb-3 text-7xl font-bold text-primary">
+      <Text as="h1" className=" text-3xl font-bold text-primary md:mb-3 md:text-7xl">
         Find Your
       </Text>
 
       <Text
         as="h2"
         key={HIGHTLIGHT_TEXT[activeIndex]}
-        className="animate-fade-in text-5xl font-bold"
+        className="animate-fade-in  text-2xl font-bold md:text-5xl"
       >
         {HIGHTLIGHT_TEXT[activeIndex]}
       </Text>
