@@ -34,6 +34,7 @@ const JobsPage = async ({ searchParams }) => {
       page: Number(searchParams?.page) || 1,
       slug: profile?.slug,
       title: searchParams?.title || undefined,
+      address: searchParams?.address || undefined,
       status: searchParams?.status || 'POSTED'
     };
   } else {
@@ -44,6 +45,7 @@ const JobsPage = async ({ searchParams }) => {
         : undefined,
       title: searchParams?.title || undefined,
       company: searchParams?.company || undefined,
+      address: searchParams?.address || undefined,
       'job-types[]': searchParams?.['job-types[]']?.length
         ? searchParams['job-types[]']
         : undefined,

@@ -24,6 +24,8 @@ const Jobs = ({ profile }) => {
       page: Number(searchParams.get('page')) || 1,
 
       title: searchParams.get('title') || undefined,
+      address: searchParams.get('address') || undefined,
+      company: searchParams.get('company') || undefined,
       'job-types[]': searchParams.getAll('job-types[]').length
         ? searchParams.getAll('job-types[]')
         : undefined,

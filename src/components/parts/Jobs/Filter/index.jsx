@@ -4,6 +4,7 @@ import { twMerge } from 'tailwind-merge';
 import JobTypeFilter from '@/components/parts/Jobs/JobTypeFilter';
 import PlaceMethodFilter from '@/components/parts/Jobs/PlaceMethodFilter';
 import SalaryFilter from '@/components/parts/Jobs/SalaryFilter';
+import SearchJobAddress from '@/components/parts/Jobs/SearchJobAddress';
 import SearchJobTitle from '@/components/parts/Jobs/SearchJobTitle';
 import SkillsFilter from '@/components/parts/Jobs/SkillsFilter';
 import { ROLE } from '@/lib/constants/common';
@@ -22,6 +23,8 @@ const Filter = ({ className, role }) => (
 
     <div className="col-span-12 flex gap-3">
       <SearchJobTitle />
+
+      <SearchJobAddress />
 
       {role === ROLE.USER ? <SearchJobCompany /> : null}
     </div>
