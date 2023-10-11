@@ -257,7 +257,7 @@ const EditForm = () => {
           />
         </FormControl>
 
-        <div className="flex gap-5">
+        <div className="flex flex-col gap-5 md:flex-row">
           <FormControl isBlock isRequired label="Province" error={errors?.province?.message}>
             <Controller
               control={control}
@@ -305,7 +305,7 @@ const EditForm = () => {
           </FormControl>
         </div>
 
-        <div className="flex gap-5">
+        <div className="flex flex-col gap-5 md:flex-row">
           <FormControl isBlock isRequired label="Place method" error={errors?.placeMethod?.message}>
             <Controller
               control={control}
@@ -351,7 +351,7 @@ const EditForm = () => {
           </FormControl>
         </div>
 
-        <div className="flex gap-5">
+        <div className="flex flex-col gap-5 md:flex-row">
           <FormControl
             isBlock
             htmlFor="minimalSalary"

@@ -17,7 +17,7 @@ const WebsiteIcon = dynamic(() => import('@/assets/icons/globe-alt_solid.svg'));
 const BasicInformation = ({ profile, hideBirthDate }) => (
   <section className="flex flex-col rounded-md bg-white p-8">
     <div className="flex gap-3">
-      <div className="relative h-28 w-28">
+      <div className="hidden relative h-28 w-28 md:block">
         <Image
           src={profile?.avatar ?? config.defaultAvatar}
           alt="Profile image"
@@ -27,6 +27,14 @@ const BasicInformation = ({ profile, hideBirthDate }) => (
       </div>
 
       <div className="flex flex-1 flex-col gap-3">
+        <div className="relative h-28 w-28 md:hidden">
+          <Image
+            src={profile?.avatar ?? config.defaultAvatar}
+            alt="Profile image"
+            layout="fill"
+            className="object-cover"
+          />
+        </div>
         <div>
           <Text as="h1" typography="h2">
             {profile?.name} ({profile?.user?.gender === 'MALE' ? 'He' : 'She'})

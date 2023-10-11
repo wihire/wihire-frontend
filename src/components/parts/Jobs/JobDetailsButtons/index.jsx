@@ -70,7 +70,7 @@ const JobDetailsButtons = () => {
     }
   };
   return (
-    <div className="mt-10 flex justify-between">
+    <div className="mt-10 md:flex justify-between">
       {isApplied === true ? (
         <div className="flex flex-col items-start gap-1">
           <Text className="font-medium text-gray-500">You already applied to this job</Text>
@@ -82,7 +82,7 @@ const JobDetailsButtons = () => {
         </Button>
       ) : null}
 
-      <div className="ml-auto flex gap-3">
+      <div className="mt-10 ml-auto flex gap-3 md:mt-0">
         {job.isSaved ? (
           <Button
             isLoading={unsaveMutation.isLoading}
