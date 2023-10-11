@@ -8,7 +8,7 @@ import Image from 'next/image';
 import registerCompanyImage from '@/assets/images/illustrations/company.png';
 import Button from '@/components/elements/Button';
 import Text from '@/components/elements/Text';
-import ModalRegisterAsCompanay from '@/components/parts/Register/ModalRegisterCompany';
+import ModalRegisterAsCompany from '@/components/parts/Register/ModalRegisterCompany';
 
 const RegisterAsCompany = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -25,7 +25,8 @@ const RegisterAsCompany = () => {
     <>
       <div
         className={cx(
-          'flex w-1/2 flex-col items-center justify-center gap-10 bg-primary-content text-center'
+          'flex w-full flex-col items-center justify-center',
+          'gap-10 bg-primary-content text-center py-5'
         )}
       >
         <Image
@@ -48,7 +49,7 @@ const RegisterAsCompany = () => {
         <Button onClick={handleOpenModal}>REGISTER AS JOB COMPANY</Button>
       </div>
 
-      <ModalRegisterAsCompanay isOpen={isOpenModal} onClose={handleCloseModal} />
+      <ModalRegisterAsCompany isOpen={isOpenModal} onClose={handleCloseModal} />
     </>
   );
 };

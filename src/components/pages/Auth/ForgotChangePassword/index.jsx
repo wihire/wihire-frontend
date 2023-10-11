@@ -13,7 +13,7 @@ const ForgotChangePassword = ({ searchParams }) => {
   return (
     <div className="w-[500px] rounded-md border border-gray-100 p-14 text-center">
       <Text as="h1" typography="h1">
-        Reset Password
+        Reset password
       </Text>
 
       <Text typography="xs" className="mb-10 mt-2 text-gray-400">

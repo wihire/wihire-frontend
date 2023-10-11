@@ -6,8 +6,10 @@ import generateMetadata from '@/lib/metadata';
 import { pageAuthorization } from '@/lib/pageAuthorization';
 import { getQueryClient } from '@/lib/queryClient';
 import { getCategoriesKey } from '@/query/category';
+import { getProvincesKey } from '@/query/location';
 import { getSkillsKey } from '@/query/skill';
 import { getCategories } from '@/repositories/category';
+import { getProvinces } from '@/repositories/location';
 import { getSkills } from '@/repositories/skill';
 
 export const metadata = generateMetadata(
@@ -25,6 +27,7 @@ const CreateJobPage = async () => {
   const queryClient = getQueryClient();
   await queryClient.prefetchQuery(getCategoriesKey(), getCategories);
   await queryClient.prefetchQuery(getSkillsKey(), getSkills);
+  await queryClient.prefetchQuery(getProvincesKey(), getProvinces);
   const dehydratedState = dehydrate(queryClient);
 
   return (

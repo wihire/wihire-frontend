@@ -5,6 +5,7 @@
 @layer base {
   :root {
     @apply bg-white;
+    --toastify-z-index: 999999;
   }
 }
 

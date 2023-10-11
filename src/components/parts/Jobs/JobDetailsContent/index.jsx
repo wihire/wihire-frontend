@@ -17,43 +17,49 @@ const JobDetailsContent = () => {
 
   return (
     <div className="flex flex-col gap-5">
-      {job.description || job.minimumQualification || job.benefits ? (
-        <>
-          {job.description ? (
-            <div>
-              <Text as="h2" typography="h3" className="mb-2">
-                Job Description
-              </Text>
+      {job.description ? (
+        <div>
+          <Text as="h2" typography="h3" className="mb-2">
+            Job Description
+          </Text>
 
-              <DangerousHTML html={job.description} />
-            </div>
-          ) : null}
+          <DangerousHTML html={job.description} />
+        </div>
+      ) : null}
 
-          {job.minimumQualification ? (
-            <div>
-              <Text as="h2" typography="h3" className="mb-2">
-                Minimum Qualification
-              </Text>
+      {job.minimumQualification ? (
+        <div>
+          <Text as="h2" typography="h3" className="mb-2">
+            Minimum Qualification
+          </Text>
 
-              <DangerousHTML html={job.minimumQualification} />
-            </div>
-          ) : null}
+          <DangerousHTML html={job.minimumQualification} />
+        </div>
+      ) : null}
 
-          {job.benefits ? (
-            <div>
-              <Text as="h2" typography="h3" className="mb-2">
-                Benefits
-              </Text>
+      {job.benefits ? (
+        <div>
+          <Text as="h2" typography="h3" className="mb-2">
+            Benefits
+          </Text>
 
-              <DangerousHTML html={job.benefits} />
-            </div>
-          ) : null}
-        </>
-      ) : (
+          <DangerousHTML html={job.benefits} />
+        </div>
+      ) : null}
+
+      <div>
         <Text as="h2" typography="h3" className="mb-2">
-          No description provided
+          Skills
         </Text>
-      )}
+        <Text>{job.skills.join(', ')}</Text>
+      </div>
+
+      <div>
+        <Text as="h2" typography="h3" className="mb-2">
+          Categories
+        </Text>
+        <Text>{job.categories.join(', ')}</Text>
+      </div>
     </div>
   );
 };

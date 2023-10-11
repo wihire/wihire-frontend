@@ -23,3 +23,15 @@ export const PLACE_METHOD_OPTIONS = [
   { value: 'REMOTE', label: 'Remote' },
   { value: 'HYBRID', label: 'Hybrid' }
 ];
+
+export const JOB_STATUS_OPTIONS = [
+  { value: 'DRAFT', label: 'Draft' },
+  { value: 'POSTED', label: 'Posted' },
+  { value: 'CLOSED', label: 'Closed' }
+];
+
+export const SKILL_LEVEL_OPTIONS = [
+  { value: 'BEGINNER', label: 'Beginner' },
+  { value: 'INTERMEDIATE', label: 'Intermediate' },
+  { value: 'EXPERT', label: 'Expert' }
+];

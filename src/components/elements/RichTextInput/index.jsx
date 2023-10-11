@@ -12,7 +12,14 @@ const ReactQuill = dynamic(() => import('react-quill'), {
 });
 
 const RichTextInput = forwardRef(({ modules, formats, ...props }, ref) => (
-  <ReactQuill theme="snow" modules={modules} formats={formats} ref={ref} {...props} />
+  <ReactQuill
+    theme="snow"
+    modules={modules}
+    formats={formats}
+    ref={ref}
+    className="bg-white"
+    {...props}
+  />
 ));
 
 RichTextInput.displayName = 'RichTextInput';

@@ -87,8 +87,15 @@ const LoginForm = ({ className }) => {
         className
       )}
     >
-      <div className="mb-10 mt-20 flex flex-col items-center gap-[84px]">
+      <div
+        className="
+      flex flex-col items-center gap-[42px]
+      md:mb-5 md:mt-10 md:gap-[82px] 
+      lg:mb-10 lg:mt-20 lg:gap-[42px]
+      "
+      >
         <Logo />
+
         <Text typography="sm" className="text-neutral-400">
           Login to your account
         </Text>
@@ -136,14 +143,14 @@ const LoginForm = ({ className }) => {
 
         <Button
           type="submit"
-          className="mt-10 w-full"
+          className="w-full md:mt-10"
           isLoading={loginMutation.isLoading || sendVerificationEmailMutation.isLoading}
         >
           Login
         </Button>
       </form>
 
-      <Text className="mt-auto text-gray-700">
+      <Text className="bg-blue mt-10 text-gray-700">
         Don&apos;t have an account?{' '}
         <Link href="/register" className="text-primary underline">
           Register

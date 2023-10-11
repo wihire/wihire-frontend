@@ -43,7 +43,7 @@ const DraftedJobs = ({ companySlug }) => {
         />
       ) : (
         <>
-          <ListJob jobs={data?.data?.data?.jobs} />
+          <ListJob jobs={data?.data?.data?.jobs} className="mt-8" />
 
           <div className="flex justify-center">
             <Pagination

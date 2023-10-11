@@ -16,10 +16,10 @@ const Profile = () => {
   const profile = useMemo(() => data?.data?.data?.profile, [data]);
 
   if (profile?.role === ROLE.COMPANY) {
-    return <ProfileCompany />;
+    return <ProfileCompany profile={profile} />;
   }
 
-  return <ProfileUser profileSlug={params.profileSlug} />;
+  return <ProfileUser {...profile} />;
 };
 
 export default Profile;

@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import Text from '@/components/elements/Text';
-import { toCurrency } from '@/lib/common';
+import { toCurrency, capitalEachWord } from '@/lib/common';
 import config from '@/lib/config';
 import { JOB_TYPE } from '@/lib/constants/common';
 
@@ -43,7 +43,7 @@ const JobCard = ({
       <div>
         <div>
           <Text className="inline-block text-gray-500">
-            {address} ({placeMethod.toLowerCase()})
+            {capitalEachWord(address)} ({placeMethod.toLowerCase()})
           </Text>
           <ul className="inline-block list-disc sm:ml-8">
             <Text as="li" className="text-gray-500">
