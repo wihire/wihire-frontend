@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { getServerSession } from 'next-auth';
+import { twMerge } from 'tailwind-merge';
 
 import ChevronDown from '@/assets/icons/chevron-down.svg';
 import Text from '@/components/elements/Text';
@@ -10,12 +11,12 @@ import LogoutButton from '@/components/parts/Navbar/LogoutButton';
 import { authOptions } from '@/lib/auth';
 import config from '@/lib/config';
 
-const NavbarProfile = async () => {
+const NavbarProfile = async ({ className }) => {
   const session = await getServerSession(authOptions);
   const profile = session?.profile;
 
   return (
-    <div className="dropdown dropdown-end">
+    <div className={twMerge(className, 'md:dropdown dropdown-end')}>
       <label tabIndex={0} className="flex cursor-pointer items-center gap-2">
         <Text typography="h4">{profile?.name}</Text>
 

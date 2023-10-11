@@ -39,20 +39,27 @@ const JobDetailsHeader = () => {
         </div>
       ) : null}
 
-      <div className="grid grid-cols-2">
+      <div className="grid gap-3 md:grid-cols-2">
+        <Image
+          src={company.profile?.avatar ?? config.defaultAvatar}
+          width={100}
+          height={100}
+          alt="Avatar Company"
+          className="md:hidden"
+        />
         <div>
           <Text typography="h2" as="h1">
             {job.title}
           </Text>
 
-          <div className="mt-1 flex gap-8">
+          <div className="mt-1 flex-col md:flex md:flex-row md:gap-8">
             <Link
               href={`/profile/${company.profile.slug}`}
               className="text-primary hover:underline"
             >
               {company.profile.name}
             </Link>
-            <ul className="list-disc">
+            <ul className="md:list-disc">
               <Text as="li">{company.totalEmployee}</Text>
             </ul>
           </div>
@@ -67,10 +74,10 @@ const JobDetailsHeader = () => {
           width={100}
           height={100}
           alt="Avatar Company"
-          className="place-self-end"
+          className="hidden md:block place-self-end"
         />
 
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-1 flex-col gap-1">
           <div className="flex items-center gap-1">
             <MapPinIcon />
             <Text>

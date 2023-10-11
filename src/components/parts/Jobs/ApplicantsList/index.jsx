@@ -37,7 +37,7 @@ const ApplicantsList = () => {
 
   return (
     <div>
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between">
         <ApplicationsFilters />
         <ButtonRejectAll />
       </div>
