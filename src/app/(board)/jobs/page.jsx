@@ -6,7 +6,9 @@ import { authOptions } from '@/lib/auth';
 import { ROLE } from '@/lib/constants/common';
 import generateMetadata from '@/lib/metadata';
 import { getQueryClient } from '@/lib/queryClient';
+import { getMostCategoriesKey } from '@/query/category';
 import { getJobsKey } from '@/query/jobs';
+import { getMostPopularCategory } from '@/repositories/category';
 import { getJobs } from '@/repositories/jobs';
 
 export const metadata = generateMetadata(
@@ -55,6 +57,7 @@ const JobsPage = async ({ searchParams }) => {
   }
 
   await queryClient.prefetchQuery(getJobsKey(filter), () => getJobs(filter));
+  await queryClient.prefetchQuery(getMostCategoriesKey(), () => getMostPopularCategory());
   const dehydratedState = dehydrate(queryClient);
 
   return (
