@@ -11,10 +11,11 @@ const Register = () => (
     <RegisterAsUser />
 
     <div
-      className="bottom-6 mx-auto my-10 rounded-md bg-white p-5 shadow-md
-      lg:fixed lg:left-1/2 lg:my-5 lg:-translate-x-1/2"
+      className="bottom-6 left-1/2 mx-auto w-full
+        border-t border-t-gray-200 bg-white p-5 shadow-md lg:fixed lg:w-fit
+        lg:-translate-x-1/2 lg:rounded-md lg:border-none"
     >
-      <Text typography="sm">
+      <Text typography="sm" className="text-center">
         You already have an account?{' '}
         <Link href="/login" className="font-bold text-primary underline">
           Login

@@ -22,7 +22,7 @@ const ButtonRejectAll = () => {
   });
 
   return (
-    <div className="flex self-end justify-end md:self-center">
+    <div className="flex justify-end self-end md:self-center">
       <Button
         onClick={() => rejectAllMutation.mutate()}
         isLoading={rejectAllMutation.isLoading}

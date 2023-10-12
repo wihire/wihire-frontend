@@ -20,8 +20,8 @@ const JobCard = ({
   renderRightContent
 }) => (
   <div
-    className="flex flex-wrap flex-col text-center items-center  
-  gap-3 rounded-lg bg-white px-4 py-5 md:flex-row md:text-left"
+    className="flex flex-col flex-wrap items-center gap-3  
+  rounded-lg bg-white px-4 py-5 text-center md:flex-row md:text-left"
   >
     <div className="relative h-20 w-20">
       <Image

@@ -83,17 +83,11 @@ const LoginForm = ({ className }) => {
   return (
     <div
       className={twMerge(
-        'flex flex-col h-full w-full items-center justify-center rounded-lg p-8 bg-white',
+        'flex flex-col h-full w-full items-center justify-center rounded-lg md:p-8 bg-white',
         className
       )}
     >
-      <div
-        className="
-      flex flex-col items-center gap-[42px]
-      md:mb-5 md:mt-10 md:gap-[82px] 
-      lg:mb-10 lg:mt-20 lg:gap-[42px]
-      "
-      >
+      <div className="mt-20 flex flex-col items-center gap-[42px]">
         <Logo />
 
         <Text typography="sm" className="text-neutral-400">
@@ -102,7 +96,7 @@ const LoginForm = ({ className }) => {
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-        <FormControl label="Email" htmlFor="email" isBlock error={errors.email?.message}>
+        <FormControl label="Email" htmlFor="email" isBlock isRequired error={errors.email?.message}>
           <TextInput
             isBlock
             id="email"
@@ -122,6 +116,7 @@ const LoginForm = ({ className }) => {
           label="Password"
           htmlFor="password"
           isBlock
+          isRequired
           error={errors.password?.message}
           descriptionAlt={
             <Link href="/forgot-password" className="text-primary hover:underline">
@@ -143,14 +138,14 @@ const LoginForm = ({ className }) => {
 
         <Button
           type="submit"
-          className="w-full md:mt-10"
+          className="mt-10 w-full"
           isLoading={loginMutation.isLoading || sendVerificationEmailMutation.isLoading}
         >
           Login
         </Button>
       </form>
 
-      <Text className="bg-blue mt-10 text-gray-700">
+      <Text className="bg-blue mt-14 text-gray-700 md:mt-auto">
         Don&apos;t have an account?{' '}
         <Link href="/register" className="text-primary underline">
           Register

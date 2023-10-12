@@ -21,7 +21,7 @@ const SideDrawer = async () => {
       </div>
       <div className="drawer-side">
         <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay" />
-        <ul className="menu w-80 min-h-full bg-base-200 p-4 text-base-content">
+        <ul className="menu min-h-full w-80 bg-base-200 p-4 text-base-content">
           <NavbarProfile className="dropdown dropdown-end" />
           {profile?.role === ROLE.USER ? <SidebarBoardUser /> : <SidebarBoardCompany />}
         </ul>

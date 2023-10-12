@@ -6,11 +6,11 @@ import { EMAIL_REGEX } from '@/lib/constants/regex';
 
 const StepOneCompany = ({ register, errors, watch }) => (
   <div>
-    <FormControl htmlFor="name" label="Name" isBlock error={errors?.name?.message}>
+    <FormControl htmlFor="name" label="Name" isBlock isRequired error={errors?.name?.message}>
       <TextInput
         id="name"
         name="name"
-        placeholder="Enter your company name"
+        placeholder="Enter company name"
         isBlock
         {...register('name', {
           required: 'Company name is required',
@@ -26,12 +26,12 @@ const StepOneCompany = ({ register, errors, watch }) => (
       />
     </FormControl>
 
-    <FormControl htmlFor="email" label="Email" isBlock error={errors?.email?.message}>
+    <FormControl htmlFor="email" label="Email" isBlock isRequired error={errors?.email?.message}>
       <TextInput
         type="email"
         id="email"
         name="email"
-        placeholder="Enter your company email"
+        placeholder="Enter company email"
         isBlock
         {...register('email', {
           required: 'Company email is required',
@@ -43,7 +43,13 @@ const StepOneCompany = ({ register, errors, watch }) => (
       />
     </FormControl>
 
-    <FormControl htmlFor="password" label="Password" isBlock error={errors?.password?.message}>
+    <FormControl
+      htmlFor="password"
+      label="Password"
+      isBlock
+      isRequired
+      error={errors?.password?.message}
+    >
       <TextInput
         type="password"
         id="password"
@@ -62,8 +68,9 @@ const StepOneCompany = ({ register, errors, watch }) => (
 
     <FormControl
       htmlFor="confirmPassword"
-      label="Confirm Password"
+      label="Confirm password"
       isBlock
+      isRequired
       error={errors?.confirmPassword?.message}
     >
       <TextInput

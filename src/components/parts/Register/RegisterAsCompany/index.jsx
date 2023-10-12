@@ -2,11 +2,9 @@
 
 import { useCallback, useState } from 'react';
 
-import cx from 'classnames';
-import Image from 'next/image';
-
 import registerCompanyImage from '@/assets/images/illustrations/company.png';
 import Button from '@/components/elements/Button';
+import Image from '@/components/elements/Image';
 import Text from '@/components/elements/Text';
 import ModalRegisterAsCompany from '@/components/parts/Register/ModalRegisterCompany';
 
@@ -24,10 +22,8 @@ const RegisterAsCompany = () => {
   return (
     <>
       <div
-        className={cx(
-          'flex w-full flex-col items-center justify-center',
-          'gap-10 bg-primary-content text-center py-5'
-        )}
+        className="flex w-full flex-col items-center justify-center
+          gap-10 bg-primary-content py-10 text-center"
       >
         <Image
           width={200}

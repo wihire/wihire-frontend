@@ -14,7 +14,7 @@ const Navbar = async () => (
       </Link>
 
       <div>
-        <NavbarProfile className="hidden dropdown dropdown-end" />
+        <NavbarProfile className="dropdown dropdown-end hidden" />
 
         <SideDrawer />
       </div>

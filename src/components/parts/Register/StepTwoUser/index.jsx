@@ -12,7 +12,7 @@ import { PHONE_NUMBER_REGEX } from '@/lib/constants/regex';
 import { useProvinces, useRegencies } from '@/query/location';
 
 const StepTwoUser = ({ register, errors, control, watch, setValue, setError }) => {
-  const { data: provincesData } = useProvinces();
+  const { data: provincesData, isLoading: isProvincesLoading } = useProvinces();
   const { data: regenciesData, isFetching: isRegenciesFethcing } = useRegencies(
     watch('province')?.value,
     {
@@ -58,7 +58,13 @@ const StepTwoUser = ({ register, errors, control, watch, setValue, setError }) =
 
   return (
     <div>
-      <FormControl htmlFor="province" label="Province" isBlock error={errors?.province?.message}>
+      <FormControl
+        htmlFor="province"
+        label="Province"
+        isBlock
+        isRequired
+        error={errors?.province?.message}
+      >
         <Controller
           control={control}
           name="province"
@@ -76,12 +82,19 @@ const StepTwoUser = ({ register, errors, control, watch, setValue, setError }) =
               value={value}
               onChange={handleChangeProvince}
               ref={ref}
+              isLoading={isProvincesLoading}
             />
           )}
         />
       </FormControl>
 
-      <FormControl htmlFor="address" label="Address" isBlock error={errors?.address?.message}>
+      <FormControl
+        htmlFor="address"
+        label="Address"
+        isBlock
+        isRequired
+        error={errors?.address?.message}
+      >
         <Controller
           control={control}
           name="address"
@@ -110,6 +123,7 @@ const StepTwoUser = ({ register, errors, control, watch, setValue, setError }) =
         htmlFor="birthDate"
         label="Birth date"
         isBlock
+        isRequired
         error={errors?.birthDate?.message}
       >
         <TextInput
@@ -137,6 +151,7 @@ const StepTwoUser = ({ register, errors, control, watch, setValue, setError }) =
         htmlFor="phoneNumber"
         label="Phone number"
         isBlock
+        isRequired
         error={errors?.phoneNumber?.message}
       >
         <TextInput

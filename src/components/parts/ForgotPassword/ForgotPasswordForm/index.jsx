@@ -50,7 +50,7 @@ const ForgotPasswordForm = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <FormControl isBlock htmlFor="email" label="Email" error={errors.email?.message}>
+      <FormControl isBlock isRequired htmlFor="email" label="Email" error={errors.email?.message}>
         <TextInput
           isBlock
           id="email"

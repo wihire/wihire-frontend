@@ -28,7 +28,7 @@ const BasicInformation = () => {
 
   return (
     <div className="flex gap-5">
-      <div className="hidden relative h-28 w-28 md:block">
+      <div className="relative hidden h-28 w-28 md:block">
         <Image
           src={profile?.avatar ?? config.defaultAvatar}
           alt="Profile image"

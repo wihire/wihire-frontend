@@ -23,7 +23,7 @@ const BasicInformation = ({ profile, hideBirthDate }) => {
   return (
     <section className="flex flex-col rounded-md bg-white p-8">
       <div className="flex gap-3">
-        <div className="hidden relative h-28 w-28 md:block">
+        <div className="relative hidden h-28 w-28 md:block">
           <Image
             src={profile?.avatar ?? config.defaultAvatar}
             alt="Profile image"

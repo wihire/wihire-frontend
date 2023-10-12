@@ -11,12 +11,15 @@ const ForgotChangePassword = ({ searchParams }) => {
   }
 
   return (
-    <div className="w-[500px] rounded-md border border-gray-100 p-14 text-center">
+    <div
+      className="w-full max-w-[500px] rounded-md border-gray-100
+      bg-white p-4 text-center md:border md:p-14"
+    >
       <Text as="h1" typography="h1">
         Reset password
       </Text>
 
-      <Text typography="xs" className="mb-10 mt-2 text-gray-400">
+      <Text typography="xs" className="mx-auto mb-10 mt-2 w-3/4 text-center text-gray-400">
         Set a new password for your account, make sure to remember it this time &#58;&#41;
       </Text>
 

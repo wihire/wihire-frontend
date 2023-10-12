@@ -6,21 +6,21 @@ const Text = ({ as: Component = 'p', children, typography, className }) => {
   const typhographyClassName = useMemo(() => {
     switch (typography) {
       case 'h1':
-        return 'text-4xl font-bold';
+        return 'text-2xl md:text-4xl font-bold';
       case 'h2':
-        return 'text-2xl font-bold';
+        return 'text-xl md:text-2xl font-bold';
       case 'h3':
-        return 'text-xl font-bold';
+        return 'text-base md:text-xl font-bold';
       case 'h4':
-        return 'text-base font-bold';
+        return 'text md:text-base font-bold';
       case 'md':
-        return 'text-xl';
+        return 'text-base md:text-xl';
       case 'sm':
-        return 'text-base';
+        return 'text-sm md:text-base';
       case 'xs':
-        return 'text-sm';
+        return 'text-xs md:text-sm';
       default:
-        return 'text-base';
+        return 'text-sm md:text-base';
     }
   }, [typography]);
 

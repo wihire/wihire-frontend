@@ -74,7 +74,7 @@ const JobDetailsHeader = () => {
           width={100}
           height={100}
           alt="Avatar Company"
-          className="hidden md:block place-self-end"
+          className="hidden place-self-end md:block"
         />
 
         <div className="flex flex-1 flex-col gap-1">

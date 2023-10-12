@@ -40,7 +40,7 @@ const ApplicantsCard = ({ ...props }) => {
 
   return (
     <div className="flex gap-3 rounded-lg bg-white px-4 py-5">
-      <div className="hidden relative h-20 w-20">
+      <div className="relative hidden h-20 w-20">
         <Image
           src={props.user.profile.avatar ?? config.defaultAvatar}
           alt="Company image"
@@ -49,7 +49,7 @@ const ApplicantsCard = ({ ...props }) => {
         />
       </div>
 
-      <div className="flex flex-col w-full justify-between gap-3 md:flex-row">
+      <div className="flex w-full flex-col justify-between gap-3 md:flex-row">
         <div className="flex flex-col gap-3">
           <div className="relative h-20 w-20 md:hidden">
             <Image
@@ -102,7 +102,7 @@ const ApplicantsCard = ({ ...props }) => {
           </a>
         </div>
 
-        <div className="flex md:flex-col gap-3">
+        <div className="flex gap-3 md:flex-col">
           <a
             href={`/jobs/${slug}/applicants/${userSlug}`}
             target="_blank"
