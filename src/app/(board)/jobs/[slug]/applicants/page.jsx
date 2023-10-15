@@ -7,7 +7,7 @@ import generateMetadata from '@/lib/metadata';
 import { pageAuthorization } from '@/lib/pageAuthorization';
 import { getQueryClient } from '@/lib/queryClient';
 import { getApplicantsJobKey } from '@/query/jobs';
-import { getApplicantsJob, getJob } from '@/repositories/jobs';
+import { getApplicantsJob } from '@/repositories/jobs';
 
 export const metadata = generateMetadata(
   {
@@ -24,18 +24,16 @@ const ApplicantsPage = async ({ params, searchParams }) => {
 
     const { slug } = params;
 
-    await getJob(slug);
-
-    const queryClient = getQueryClient();
-
     const filter = {
       page: Number(searchParams?.page) || 1,
       status: searchParams?.status || undefined
     };
 
-    await queryClient.prefetchQuery(getApplicantsJobKey(slug, filter), () =>
-      getApplicantsJob(slug, filter)
-    );
+    const applicants = await getApplicantsJob(slug, filter);
+
+    const queryClient = getQueryClient();
+
+    await queryClient.setQueryData(getApplicantsJobKey(slug, filter), applicants);
 
     const dehydratedState = dehydrate(queryClient);
 

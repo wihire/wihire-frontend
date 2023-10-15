@@ -7,7 +7,6 @@ import { pageAuthorization } from '@/lib/pageAuthorization';
 import { getQueryClient } from '@/lib/queryClient';
 import { getApplicantKey } from '@/query/applicant';
 import { getApplicantDetail } from '@/repositories/applicantDetail';
-import { getJob } from '@/repositories/jobs';
 
 const ApplicantDetailPage = async ({ params }) => {
   try {
@@ -15,7 +14,6 @@ const ApplicantDetailPage = async ({ params }) => {
 
     const { slug, userSlug } = params;
 
-    await getJob(slug);
     const applicant = await getApplicantDetail(slug, userSlug);
 
     const queryClient = getQueryClient();
