@@ -2,7 +2,7 @@
 
 'use client';
 
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { usePathname, useParams } from 'next/navigation';
@@ -19,14 +19,13 @@ import { saveJob, unsaveJob } from '@/repositories/jobs';
 const JobDetailsButtons = () => {
   const queryClient = useQueryClient();
   const params = useParams();
+  const pathname = usePathname();
 
   const { data: jobData } = useJob(params.slug);
   const { data: applyCheckData } = useApplyJobCheck(params.slug);
 
   const isApplied = useMemo(() => applyCheckData?.data?.success, [applyCheckData?.data?.success]);
-
   const { job } = useMemo(() => jobData.data.data, [jobData.data.data]);
-
   const { company } = useMemo(() => job, [job]);
 
   const saveMutation = useMutation({
@@ -45,9 +44,7 @@ const JobDetailsButtons = () => {
     }
   });
 
-  const pathname = usePathname();
-
-  const share = () => {
+  const share = useCallback(() => {
     const jobUrl = config.appUrl + pathname;
 
     if (navigator.share) {
@@ -68,36 +65,41 @@ const JobDetailsButtons = () => {
           toast.error('Failed to copy text: ', err);
         });
     }
-  };
+  }, [company.profile.name, job.title, pathname]);
+
   return (
-    <div className="mt-10 justify-between md:flex">
-      {isApplied === true ? (
+    <div className="mt-10 flex flex-col justify-between gap-3 md:flex-row">
+      {isApplied ? (
         <div className="flex flex-col items-start gap-1">
           <Text className="font-medium text-gray-500">You already applied to this job</Text>
           <ApplicationStatusBadge status={applyCheckData.data.data.application.status} />
         </div>
       ) : job.status === 'POSTED' ? (
-        <Button href={`/jobs/${params.slug}/apply`} className="btn-wide">
+        <Button href={`/jobs/${params.slug}/apply`} className="w-full md:btn-wide">
           Apply
         </Button>
       ) : null}
 
-      <div className="ml-auto mt-10 flex gap-3 md:mt-0">
+      <div className="grid grid-cols-2 gap-3">
         {job.isSaved ? (
           <Button
             isLoading={unsaveMutation.isLoading}
-            onClick={() => unsaveMutation.mutate()}
-            className="btn-outline"
+            onClick={unsaveMutation.mutate}
+            className="btn-outline w-full md:w-auto"
           >
             Unsave
           </Button>
         ) : (
-          <Button isLoading={saveMutation.isLoading} onClick={() => saveMutation.mutate()}>
+          <Button
+            isLoading={saveMutation.isLoading}
+            onClick={saveMutation.mutate}
+            className="w-full md:w-auto"
+          >
             Save
           </Button>
         )}
 
-        <Button className="btn-outline" onClick={share}>
+        <Button className="btn-outline w-full md:w-auto" onClick={share}>
           Share
         </Button>
       </div>

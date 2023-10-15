@@ -6,6 +6,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 
+import BackButton from '@/components/elements/BackButton';
 import Button from '@/components/elements/Button';
 import ApplicationStatusBadge from '@/components/parts/Application/ApplicationStatusBadge';
 import ProfileUser from '@/components/parts/Profile';
@@ -37,8 +38,11 @@ const ApplicantDetail = () => {
 
   return (
     <>
-      <div className="mb-8 flex items-center justify-between gap-3">
-        <ApplicationStatusBadge status={applicant.status} />
+      <header className="mb-8 flex flex-wrap items-center justify-between gap-3">
+        <BackButton
+          backUrl={`/jobs/${slug}/applicants`}
+          rightContent={<ApplicationStatusBadge status={applicant.status} />}
+        />
 
         <div>
           {applicant?.status !== 'DECLINE' ? (
@@ -55,15 +59,15 @@ const ApplicantDetail = () => {
             <Button
               onClick={() => changeStatus('APPROVED')}
               isLoading={updateStatusMutation.isLoading}
-              className="ml-6"
+              className="ml-3"
             >
               Approve
             </Button>
           ) : null}
         </div>
-      </div>
+      </header>
 
-      <ProfileUser {...applicant?.profile} customResume={applicant?.resume} />
+      <ProfileUser profile={applicant?.profile} customResume={applicant?.resume} />
     </>
   );
 };

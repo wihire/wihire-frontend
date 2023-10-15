@@ -91,19 +91,27 @@ const CategoriesFilter = ({ className }) => {
   );
 
   return (
-    <div className={twMerge('grid grid-cols-4 gap-3 lg:grid-cols-8', className)}>
+    <div
+      className={twMerge(
+        'flex overflow-auto lg:overflow-visible snap-x lg:grid gap-3 lg:grid-cols-8',
+        className
+      )}
+    >
       {CATEGORIES.map((category) => (
         <Link
           key={category.title}
           href={getHref(category.title)}
           className={twMerge(
-            cx('p-2 rounded-md hover:scale-105', category.backgroundColor, {
-              'font-bold': isActive(category.title),
-              'scale-105': isActive(category.title)
-            })
+            cx(
+              'p-2 min-h-[80px] min-w-[120px] lg:min-w-full rounded-md hover:scale-105 snap-start',
+              category.backgroundColor,
+              {
+                'font-bold lg:scale-105': isActive(category.title)
+              }
+            )
           )}
         >
-          <Text className="text-xs text-white lg:text-base">{category.title}</Text>
+          <Text className="text-white">{category.title}</Text>
         </Link>
       ))}
     </div>

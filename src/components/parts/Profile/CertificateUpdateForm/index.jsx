@@ -69,7 +69,7 @@ const CertificateUpdateForm = ({ ...certificate }) => {
           htmlFor="name"
           isRequired
           isBlock
-          label="Enter your certificate name"
+          label="Certificate name"
           error={errors?.name?.message}
         >
           <TextInput
@@ -91,7 +91,7 @@ const CertificateUpdateForm = ({ ...certificate }) => {
           htmlFor="organization"
           isRequired
           isBlock
-          label="Enter organization name"
+          label="Organization name"
           error={errors?.organization?.message}
         >
           <TextInput
@@ -113,7 +113,7 @@ const CertificateUpdateForm = ({ ...certificate }) => {
           htmlFor="credentialId"
           isRequired
           isBlock
-          label="Enter credential ID"
+          label="Credential ID"
           error={errors?.credentialId?.message}
         >
           <TextInput
@@ -134,7 +134,7 @@ const CertificateUpdateForm = ({ ...certificate }) => {
         <FormControl
           htmlFor="credentialUrl"
           isBlock
-          label="Enter credential URL"
+          label="Credential URL"
           error={errors?.credentialUrl?.message}
         >
           <TextInput
@@ -149,7 +149,7 @@ const CertificateUpdateForm = ({ ...certificate }) => {
         <div className="flex gap-3">
           <FormControl
             htmlFor="issueDate"
-            label="Enter issue date"
+            label="Issue date"
             isBlock
             error={errors?.issueDate?.message}
           >
@@ -165,7 +165,7 @@ const CertificateUpdateForm = ({ ...certificate }) => {
 
           <FormControl
             htmlFor="expiredDate"
-            label="Enter the expired date"
+            label="Expired date"
             isBlock
             error={errors?.expiredDate?.message}
           >

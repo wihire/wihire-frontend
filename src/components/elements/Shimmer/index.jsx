@@ -1,6 +1,6 @@
 import { twMerge } from 'tailwind-merge';
 
-const Shimmer = ({ width = 100, height = 100, isRounded, className }) => (
+const Shimmer = ({ width, height, aspectRatio, isRounded, className }) => (
   <div
     className={twMerge(
       'w-full animate-pulse bg-gray-300',
@@ -9,7 +9,8 @@ const Shimmer = ({ width = 100, height = 100, isRounded, className }) => (
     )}
     style={{
       maxWidth: width,
-      aspectRatio: `${width} / ${height}`
+      height,
+      aspectRatio
     }}
   />
 );

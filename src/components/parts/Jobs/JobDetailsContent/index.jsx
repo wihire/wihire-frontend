@@ -19,7 +19,7 @@ const JobDetailsContent = () => {
     <div className="flex flex-col gap-5">
       {job.description ? (
         <div>
-          <Text as="h2" typography="h3" className="mb-2">
+          <Text as="h2" typography="h3" className="mb-1">
             Job Description
           </Text>
 
@@ -29,7 +29,7 @@ const JobDetailsContent = () => {
 
       {job.minimumQualification ? (
         <div>
-          <Text as="h2" typography="h3" className="mb-2">
+          <Text as="h2" typography="h3" className="mb-1">
             Minimum Qualification
           </Text>
 
@@ -39,7 +39,7 @@ const JobDetailsContent = () => {
 
       {job.benefits ? (
         <div>
-          <Text as="h2" typography="h3" className="mb-2">
+          <Text as="h2" typography="h3" className="mb-1">
             Benefits
           </Text>
 
@@ -48,14 +48,14 @@ const JobDetailsContent = () => {
       ) : null}
 
       <div>
-        <Text as="h2" typography="h3" className="mb-2">
+        <Text as="h2" typography="h3" className="mb-1">
           Skills
         </Text>
         <Text>{job.skills.join(', ')}</Text>
       </div>
 
       <div>
-        <Text as="h2" typography="h3" className="mb-2">
+        <Text as="h2" typography="h3" className="mb-1">
           Categories
         </Text>
         <Text>{job.categories.join(', ')}</Text>

@@ -1,4 +1,5 @@
 import { Hydrate, dehydrate } from '@tanstack/react-query';
+import { redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
 
 import Jobs from '@/components/pages/Jobs';
@@ -25,11 +26,15 @@ const JobsPage = async ({ searchParams }) => {
 
   const profile = session?.profile;
 
+  if (!profile) {
+    redirect('/login');
+  }
+
   const queryClient = getQueryClient();
 
   let filter;
 
-  if (profile?.role === ROLE.COMPANY) {
+  if (profile.role === ROLE.COMPANY) {
     filter = {
       page: Number(searchParams?.page) || 1,
       slug: profile?.slug,
@@ -59,7 +64,7 @@ const JobsPage = async ({ searchParams }) => {
   }
 
   await queryClient.prefetchQuery(getJobsKey(filter), () => getJobs(filter));
-  await queryClient.prefetchQuery(getMostCategoriesKey(), () => getMostPopularCategory());
+  await queryClient.prefetchQuery(getMostCategoriesKey(), getMostPopularCategory);
   const dehydratedState = dehydrate(queryClient);
 
   return (

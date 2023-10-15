@@ -6,12 +6,18 @@ import { default as NextImage } from 'next/image';
 
 import Shimmer from '@/components/elements/Shimmer';
 
-const Image = ({ src, ...props }) => {
+const Image = ({ src, shimmerClassName, ...props }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   return (
     <>
-      {isLoading ? <Shimmer width={props.width} height={props.height} /> : null}
+      {isLoading ? (
+        <Shimmer
+          width={props.width}
+          aspectRatio={`${props.width}/${props.height}`}
+          className={shimmerClassName}
+        />
+      ) : null}
 
       <NextImage
         src={src}

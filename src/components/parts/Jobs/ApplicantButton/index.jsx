@@ -22,16 +22,14 @@ const ButtonRejectAll = () => {
   });
 
   return (
-    <div className="flex justify-end self-end md:self-center">
-      <Button
-        onClick={() => rejectAllMutation.mutate()}
-        isLoading={rejectAllMutation.isLoading}
-        loadingText="Rejecting..."
-        className="btn-error"
-      >
-        Reject All
-      </Button>
-    </div>
+    <Button
+      onClick={() => rejectAllMutation.mutate()}
+      isLoading={rejectAllMutation.isLoading}
+      loadingText="Rejecting..."
+      className="btn-error"
+    >
+      Reject All
+    </Button>
   );
 };
 

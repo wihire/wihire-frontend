@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { useMutation } from '@tanstack/react-query';
 import moment from 'moment';
@@ -10,26 +10,12 @@ import Button from '@/components/elements/Button';
 import FormControl from '@/components/elements/FormControl';
 import RichTextInput from '@/components/elements/RichTextInput';
 import TextInput from '@/components/elements/TextInput';
+import { getFormats, getModules } from '@/lib/richText';
 import { deleteUserProject, updateUserProject } from '@/repositories/profile';
 
 const ProjectUpdateForm = ({ ...project }) => {
   const router = useRouter();
   const [description, setDescription] = useState(project.description ?? '');
-
-  const richTextModules = useMemo(
-    () => ({
-      toolbar: [
-        ['bold', 'italic', 'underline', 'strike'],
-        [{ list: 'ordered' }, { list: 'bullet' }]
-      ]
-    }),
-    []
-  );
-
-  const richFormats = useMemo(
-    () => ['header', 'bold', 'italic', 'underline', 'strike', 'list', 'bullet'],
-    []
-  );
 
   const {
     register,
@@ -110,12 +96,12 @@ const ProjectUpdateForm = ({ ...project }) => {
           />
         </FormControl>
 
-        <FormControl htmlFor="url" isBlock label="Project url" error={errors?.url?.message}>
+        <FormControl htmlFor="url" isBlock label="Project URL" error={errors?.url?.message}>
           <TextInput
             id="url"
             name="url"
             isBlock
-            placeholder="Enter project url"
+            placeholder="Enter project URL"
             {...register('url')}
           />
         </FormControl>
@@ -172,8 +158,8 @@ const ProjectUpdateForm = ({ ...project }) => {
 
         <FormControl isBlock label="Description">
           <RichTextInput
-            modules={richTextModules}
-            formats={richFormats}
+            modules={getModules()}
+            formats={getFormats()}
             value={description}
             onChange={setDescription}
           />

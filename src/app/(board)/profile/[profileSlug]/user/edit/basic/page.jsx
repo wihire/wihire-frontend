@@ -1,4 +1,5 @@
 import { Hydrate, dehydrate } from '@tanstack/react-query';
+import { notFound } from 'next/navigation';
 
 import EditBasicForm from '@/components/parts/Profile/EditBasicForm';
 import { ROLE } from '@/lib/constants/common';
@@ -20,20 +21,30 @@ export const metadata = generateMetadata(
 );
 
 const UserEditBasicPage = async ({ params }) => {
-  await pageAuthorization([ROLE.USER]);
+  try {
+    await pageAuthorization([ROLE.USER]);
 
-  const { profileSlug } = params;
+    const { profileSlug } = params;
 
-  const queryClient = getQueryClient();
-  await queryClient.prefetchQuery(getProfileKey(profileSlug), () => getProfile(profileSlug));
-  await queryClient.prefetchQuery(getProvincesKey(), getProvinces);
-  const dehydratedState = dehydrate(queryClient);
+    const profile = await getProfile(profileSlug);
 
-  return (
-    <Hydrate state={dehydratedState}>
-      <EditBasicForm />
-    </Hydrate>
-  );
+    const queryClient = getQueryClient();
+    await queryClient.setQueryData(getProfileKey(profileSlug), profile);
+    await queryClient.prefetchQuery(getProvincesKey(), getProvinces);
+    const dehydratedState = dehydrate(queryClient);
+
+    return (
+      <Hydrate state={dehydratedState}>
+        <EditBasicForm />
+      </Hydrate>
+    );
+  } catch (error) {
+    if (error?.type === 'NOT_FOUND_ERR') {
+      return notFound();
+    }
+
+    throw Error(error?.message);
+  }
 };
 
 export default UserEditBasicPage;

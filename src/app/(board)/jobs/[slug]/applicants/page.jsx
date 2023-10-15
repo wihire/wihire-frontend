@@ -1,10 +1,13 @@
 import { Hydrate, dehydrate } from '@tanstack/react-query';
+import { notFound } from 'next/navigation';
 
 import Applicants from '@/components/pages/Applicants';
+import { ROLE } from '@/lib/constants/common';
 import generateMetadata from '@/lib/metadata';
+import { pageAuthorization } from '@/lib/pageAuthorization';
 import { getQueryClient } from '@/lib/queryClient';
 import { getApplicantsJobKey } from '@/query/jobs';
-import { getApplicantsJob } from '@/repositories/jobs';
+import { getApplicantsJob, getJob } from '@/repositories/jobs';
 
 export const metadata = generateMetadata(
   {
@@ -16,25 +19,38 @@ export const metadata = generateMetadata(
 );
 
 const ApplicantsPage = async ({ params, searchParams }) => {
-  const { slug } = params;
-  const queryClient = getQueryClient();
+  try {
+    await pageAuthorization([ROLE.COMPANY]);
 
-  const filter = {
-    page: Number(searchParams?.page) || 1,
-    status: searchParams?.status || undefined
-  };
+    const { slug } = params;
 
-  await queryClient.prefetchQuery(getApplicantsJobKey(slug, filter), () =>
-    getApplicantsJob(slug, filter)
-  );
+    await getJob(slug);
 
-  const dehydratedState = dehydrate(queryClient);
+    const queryClient = getQueryClient();
 
-  return (
-    <Hydrate state={dehydratedState}>
-      <Applicants />
-    </Hydrate>
-  );
+    const filter = {
+      page: Number(searchParams?.page) || 1,
+      status: searchParams?.status || undefined
+    };
+
+    await queryClient.prefetchQuery(getApplicantsJobKey(slug, filter), () =>
+      getApplicantsJob(slug, filter)
+    );
+
+    const dehydratedState = dehydrate(queryClient);
+
+    return (
+      <Hydrate state={dehydratedState}>
+        <Applicants jobSlug={slug} />
+      </Hydrate>
+    );
+  } catch (error) {
+    if (error?.type === 'NOT_FOUND_ERR') {
+      return notFound();
+    }
+
+    throw Error(error?.message);
+  }
 };
 
 export default ApplicantsPage;

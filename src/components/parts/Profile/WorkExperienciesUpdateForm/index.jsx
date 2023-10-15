@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { useMutation } from '@tanstack/react-query';
 import moment from 'moment';
@@ -10,26 +10,12 @@ import Button from '@/components/elements/Button';
 import FormControl from '@/components/elements/FormControl';
 import RichTextInput from '@/components/elements/RichTextInput';
 import TextInput from '@/components/elements/TextInput';
+import { getFormats, getModules } from '@/lib/richText';
 import { deleteUserWorkExperience, updateUserWorkExperience } from '@/repositories/profile';
 
 const WorkExperienciesUpdateForm = ({ ...workExperience }) => {
   const router = useRouter();
   const [description, setDescription] = useState(workExperience.description ?? '');
-
-  const richTextModules = useMemo(
-    () => ({
-      toolbar: [
-        ['bold', 'italic', 'underline', 'strike'],
-        [{ list: 'ordered' }, { list: 'bullet' }]
-      ]
-    }),
-    []
-  );
-
-  const richFormats = useMemo(
-    () => ['header', 'bold', 'italic', 'underline', 'strike', 'list', 'bullet'],
-    []
-  );
 
   const {
     register,
@@ -161,8 +147,8 @@ const WorkExperienciesUpdateForm = ({ ...workExperience }) => {
 
         <FormControl isBlock label="Description">
           <RichTextInput
-            modules={richTextModules}
-            formats={richFormats}
+            modules={getModules()}
+            formats={getFormats()}
             value={description}
             onChange={setDescription}
           />

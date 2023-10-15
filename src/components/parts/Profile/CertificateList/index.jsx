@@ -5,14 +5,14 @@ import Button from '@/components/elements/Button';
 import CertificateCard from '@/components/parts/Profile/CertificateCard';
 import ProfileSection from '@/components/parts/Profile/ProfileSection';
 
-const ListCertificate = ({ profile, certificates }) => {
+const ListCertificate = ({ profile, certificates, withoutEdit }) => {
   const { data: loggedData, status } = useSession();
 
   return (
     <ProfileSection
       title="Certificates"
       rightButton={
-        status === 'authenticated' && loggedData?.profile?.id === profile?.id ? (
+        !withoutEdit && status === 'authenticated' && loggedData?.profile?.id === profile?.id ? (
           <Button href={`${profile.slug}/user/certificates`} className="btn-ghost">
             <PencilIcon className="text-base" />
           </Button>

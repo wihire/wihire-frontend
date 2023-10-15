@@ -1,7 +1,7 @@
 import moment from 'moment';
-import Image from 'next/image';
 import Link from 'next/link';
 
+import Image from '@/components/elements/Image';
 import Text from '@/components/elements/Text';
 import { toCurrency, capitalEachWord } from '@/lib/common';
 import config from '@/lib/config';
@@ -12,6 +12,7 @@ const JobCard = ({
   slug,
   companyImage,
   companyName,
+  province,
   address,
   placeMethod,
   jobType,
@@ -20,21 +21,23 @@ const JobCard = ({
   renderRightContent
 }) => (
   <div
-    className="flex flex-col flex-wrap items-center gap-3  
-  rounded-lg bg-white px-4 py-5 text-center md:flex-row md:text-left"
+    className="flex flex-wrap gap-3 rounded-lg
+      bg-white px-4 py-5 md:gap-5"
   >
-    <div className="relative h-20 w-20">
-      <Image
-        src={companyImage ?? config.defaultAvatar}
-        alt="Company image"
-        fill
-        className="object-cover"
-      />
-    </div>
+    <Image
+      src={companyImage ?? config.defaultAvatar}
+      alt="Company image"
+      width={80}
+      height={80}
+      className="h-10 w-10 object-cover sm:h-16 sm:w-16 md:h-20 md:w-20"
+    />
 
     <div className="flex flex-1 flex-col justify-center gap-3 ">
       <div>
-        <Link href={`/jobs/${slug}`} className="inline-block text-xl font-bold text-primary">
+        <Link
+          href={`/jobs/${slug}`}
+          className="inline-block text-sm font-bold text-primary sm:text-xl"
+        >
           {title}
         </Link>
         <Text>{companyName}</Text>
@@ -43,10 +46,10 @@ const JobCard = ({
       <div>
         <div>
           <Text className="inline-block text-gray-500">
-            {capitalEachWord(address)} ({placeMethod.toLowerCase()})
+            {capitalEachWord(address)}, {province} ({placeMethod.toLowerCase()})
           </Text>
 
-          <ul className="ml-4 inline-block list-disc md:ml-8">
+          <ul className="inline lg:ml-8 lg:inline-block lg:list-disc">
             <Text as="li" className="text-gray-500">
               {JOB_TYPE[jobType]}
             </Text>
@@ -68,7 +71,7 @@ const JobCard = ({
       </Text>
     </div>
 
-    {renderRightContent ? <div className="md:self-start">{renderRightContent}</div> : null}
+    {renderRightContent ? <div>{renderRightContent}</div> : null}
   </div>
 );
 

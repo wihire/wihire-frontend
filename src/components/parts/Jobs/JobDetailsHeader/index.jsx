@@ -4,7 +4,6 @@ import { useMemo } from 'react';
 
 import cx from 'classnames';
 import moment from 'moment';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
@@ -12,6 +11,7 @@ import BankNotesIcon from '@/assets/icons/banknotes_solid.svg';
 import BriefCaseIcon from '@/assets/icons/briefcase_solid.svg';
 import ClockIcon from '@/assets/icons/clock_solid.svg';
 import MapPinIcon from '@/assets/icons/map-pin_solid.svg';
+import Image from '@/components/elements/Image';
 import Text from '@/components/elements/Text';
 import { toCurrency, capitalEachWord } from '@/lib/common';
 import config from '@/lib/config';
@@ -27,7 +27,7 @@ const JobDetailsHeader = () => {
   const { company } = useMemo(() => job, [job]);
 
   return (
-    <div>
+    <div className="relative">
       {job.status !== 'POSTED' ? (
         <div
           className={cx('badge badge-lg mb-3', {
@@ -39,14 +39,7 @@ const JobDetailsHeader = () => {
         </div>
       ) : null}
 
-      <div className="grid gap-3 md:grid-cols-2">
-        <Image
-          src={company.profile?.avatar ?? config.defaultAvatar}
-          width={100}
-          height={100}
-          alt="Avatar Company"
-          className="md:hidden"
-        />
+      <div className="grid gap-3">
         <div>
           <Text typography="h2" as="h1">
             {job.title}
@@ -71,18 +64,18 @@ const JobDetailsHeader = () => {
 
         <Image
           src={company.profile?.avatar ?? config.defaultAvatar}
-          width={100}
-          height={100}
+          width={112}
+          height={112}
           alt="Avatar Company"
-          className="hidden place-self-end md:block"
+          className="order-first h-16 w-16 object-cover
+            md:absolute md:right-0 md:top-0 md:order-none md:h-28 md:w-28 md:place-self-end"
         />
 
-        <div className="flex flex-1 flex-col gap-1">
+        <div className="flex flex-1 flex-col gap-1 text-gray-500">
           <div className="flex items-center gap-1">
             <MapPinIcon />
             <Text>
               {capitalEachWord(job.address)}, {job.province}
-              {/* {job.address}, {job.province} */}
             </Text>
           </div>
 

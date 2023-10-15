@@ -1,4 +1,5 @@
 import { Hydrate, dehydrate } from '@tanstack/react-query';
+import { notFound } from 'next/navigation';
 
 import EditJob from '@/components/pages/Jobs/Edit';
 import { ROLE } from '@/lib/constants/common';
@@ -16,7 +17,7 @@ import { getSkills } from '@/repositories/skill';
 
 export const metadata = generateMetadata(
   {
-    title: 'Create Job'
+    title: 'Edit Job'
   },
   {
     withSuffix: true
@@ -24,21 +25,32 @@ export const metadata = generateMetadata(
 );
 
 const EditJobPage = async ({ params }) => {
-  await pageAuthorization([ROLE.COMPANY]);
+  try {
+    await pageAuthorization([ROLE.COMPANY]);
 
-  const { slug } = params;
-  const queryClient = getQueryClient();
-  await queryClient.prefetchQuery(getJobKey(slug), () => getJob(slug));
-  await queryClient.prefetchQuery(getCategoriesKey(), getCategories);
-  await queryClient.prefetchQuery(getSkillsKey(), getSkills);
-  await queryClient.prefetchQuery(getProvincesKey(), getProvinces);
-  const dehydratedState = dehydrate(queryClient);
+    const { slug } = params;
 
-  return (
-    <Hydrate state={dehydratedState}>
-      <EditJob />
-    </Hydrate>
-  );
+    const jobData = await getJob(slug);
+
+    const queryClient = getQueryClient();
+    await queryClient.setQueryData(getJobKey(slug), jobData);
+    await queryClient.prefetchQuery(getCategoriesKey(), getCategories);
+    await queryClient.prefetchQuery(getSkillsKey(), getSkills);
+    await queryClient.prefetchQuery(getProvincesKey(), getProvinces);
+    const dehydratedState = dehydrate(queryClient);
+
+    return (
+      <Hydrate state={dehydratedState}>
+        <EditJob jobSlug={slug} />
+      </Hydrate>
+    );
+  } catch (error) {
+    if (error?.type === 'NOT_FOUND_ERR') {
+      return notFound();
+    }
+
+    throw Error(error?.message);
+  }
 };
 
 export default EditJobPage;

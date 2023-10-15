@@ -1,11 +1,17 @@
+import BackButton from '@/components/elements/BackButton';
 import Text from '@/components/elements/Text';
 import SalaryExpectationForm from '@/components/parts/Profile/SalaryExpectationForm';
 
-const UserSalaryExpectation = () => (
+const UserSalaryExpectation = ({ profileSlug }) => (
   <div>
-    <Text as="h1" typography="h2">
-      Salary Expectation
-    </Text>
+    <BackButton
+      backUrl={`/profile/${profileSlug}`}
+      rightContent={
+        <Text as="h1" typography="h2">
+          Salary Expectation
+        </Text>
+      }
+    />
 
     <SalaryExpectationForm />
   </div>

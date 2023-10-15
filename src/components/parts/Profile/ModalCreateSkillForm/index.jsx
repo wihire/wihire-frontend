@@ -57,7 +57,7 @@ const ModalCreateSkillForm = ({ isOpen, onClose }) => {
   );
 
   return (
-    <Modal isOpen={isOpen} onClose={handleClose}>
+    <Modal isOpen={isOpen} onClose={handleClose} scrollBehaviour="outside">
       <ModalHeader>Add Skill</ModalHeader>
 
       <ModalBody>

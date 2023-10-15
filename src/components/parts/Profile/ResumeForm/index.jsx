@@ -93,7 +93,13 @@ const ResumeForm = () => {
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormControl htmlFor="resume" label="Upload resume" error={errors?.resume?.message}>
-          <TextInput type="file" id="resume" name="resume" accept="pdf" {...register('resume')} />
+          <TextInput
+            type="file"
+            id="resume"
+            name="resume"
+            accept="application/pdf"
+            {...register('resume')}
+          />
         </FormControl>
 
         <Button

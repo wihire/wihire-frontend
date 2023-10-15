@@ -1,11 +1,13 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import dynamic from 'next/dynamic';
 
-import BookmarkOutlineIcon from '@/assets/icons/bookmark_outline.svg';
-import BookmarkSolidIcon from '@/assets/icons/bookmark_solid.svg';
 import Button from '@/components/elements/Button';
 import JobCard from '@/components/parts/Jobs/JobCard';
 import { getJobKey } from '@/query/jobs';
 import { saveJob, unsaveJob } from '@/repositories/jobs';
+
+const BookmarkOutlineIcon = dynamic(() => import('@/assets/icons/bookmark_outline.svg'));
+const BookmarkSolidIcon = dynamic(() => import('@/assets/icons/bookmark_solid.svg'));
 
 const SaveJobCard = ({ ...props }) => {
   const queryClient = useQueryClient();
@@ -31,7 +33,7 @@ const SaveJobCard = ({ ...props }) => {
       renderRightContent={
         props.isSaved ? (
           <Button
-            className="btn-ghost text-primary"
+            className="btn-square btn-ghost text-primary"
             title="Unsave this job"
             onClick={() => unsaveMutation.mutate()}
             isLoading={unsaveMutation.isLoading}
@@ -40,7 +42,7 @@ const SaveJobCard = ({ ...props }) => {
           </Button>
         ) : (
           <Button
-            className="btn-ghost"
+            className="btn-square btn-ghost"
             title="Save this job"
             onClick={() => saveMutation.mutate()}
             isLoading={saveMutation.isLoading}

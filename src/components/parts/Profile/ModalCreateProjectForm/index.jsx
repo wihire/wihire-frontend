@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
@@ -12,26 +12,12 @@ import Button from '@/components/elements/Button';
 import FormControl from '@/components/elements/FormControl';
 import RichTextInput from '@/components/elements/RichTextInput';
 import TextInput from '@/components/elements/TextInput';
+import { getFormats, getModules } from '@/lib/richText';
 import { addUserProject } from '@/repositories/profile';
 
 const ModalCreateProjectForm = ({ isOpen, onClose }) => {
   const router = useRouter();
   const [description, setDescription] = useState('');
-
-  const richTextModules = useMemo(
-    () => ({
-      toolbar: [
-        ['bold', 'italic', 'underline', 'strike'],
-        [{ list: 'ordered' }, { list: 'bullet' }]
-      ]
-    }),
-    []
-  );
-
-  const richFormats = useMemo(
-    () => ['header', 'bold', 'italic', 'underline', 'strike', 'list', 'bullet'],
-    []
-  );
 
   const {
     register,
@@ -73,7 +59,7 @@ const ModalCreateProjectForm = ({ isOpen, onClose }) => {
   );
 
   return (
-    <Modal isOpen={isOpen} onClose={handleClose}>
+    <Modal isOpen={isOpen} onClose={handleClose} scrollBehaviour="outside">
       <ModalHeader>Add Project</ModalHeader>
 
       <ModalBody>
@@ -106,12 +92,12 @@ const ModalCreateProjectForm = ({ isOpen, onClose }) => {
             />
           </FormControl>
 
-          <FormControl htmlFor="url" isBlock label="Enter project url" error={errors?.url?.message}>
+          <FormControl htmlFor="url" isBlock label="Enter project URL" error={errors?.url?.message}>
             <TextInput
               id="url"
               name="url"
               isBlock
-              placeholder="Enter project url"
+              placeholder="Enter project URL"
               {...register('url')}
             />
           </FormControl>
@@ -168,8 +154,8 @@ const ModalCreateProjectForm = ({ isOpen, onClose }) => {
 
           <FormControl isBlock label="Description">
             <RichTextInput
-              modules={richTextModules}
-              formats={richFormats}
+              modules={getModules()}
+              formats={getFormats()}
               value={description}
               onChange={setDescription}
             />

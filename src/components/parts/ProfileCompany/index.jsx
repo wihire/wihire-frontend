@@ -12,7 +12,7 @@ const ProfileCompany = ({ profile }) => {
   const { data: loggedData, status } = useSession();
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-3 md:gap-5">
       <section className="flex flex-col rounded-md bg-white p-8">
         <BasicInformation />
 
