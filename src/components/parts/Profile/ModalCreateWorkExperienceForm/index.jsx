@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
@@ -12,26 +12,12 @@ import Button from '@/components/elements/Button';
 import FormControl from '@/components/elements/FormControl';
 import RichTextInput from '@/components/elements/RichTextInput';
 import TextInput from '@/components/elements/TextInput';
+import { getFormats, getModules } from '@/lib/richText';
 import { addUserWorkExperience } from '@/repositories/profile';
 
 const ModalCreateWorkExperienceForm = ({ isOpen, onClose }) => {
   const router = useRouter();
   const [description, setDescription] = useState('');
-
-  const richTextModules = useMemo(
-    () => ({
-      toolbar: [
-        ['bold', 'italic', 'underline', 'strike'],
-        [{ list: 'ordered' }, { list: 'bullet' }]
-      ]
-    }),
-    []
-  );
-
-  const richFormats = useMemo(
-    () => ['header', 'bold', 'italic', 'underline', 'strike', 'list', 'bullet'],
-    []
-  );
 
   const {
     register,
@@ -72,7 +58,7 @@ const ModalCreateWorkExperienceForm = ({ isOpen, onClose }) => {
   );
 
   return (
-    <Modal isOpen={isOpen} onClose={handleClose}>
+    <Modal isOpen={isOpen} onClose={handleClose} scrollBehaviour="outside">
       <ModalHeader>Add Work Experience</ModalHeader>
 
       <ModalBody>
@@ -113,7 +99,7 @@ const ModalCreateWorkExperienceForm = ({ isOpen, onClose }) => {
             />
           </FormControl>
 
-          <div className="flex gap-3">
+          <div className="flex flex-col md:flex-row md:gap-3">
             <FormControl
               htmlFor="startDate"
               label="Enter your start date"
@@ -163,8 +149,8 @@ const ModalCreateWorkExperienceForm = ({ isOpen, onClose }) => {
 
           <FormControl isBlock label="Description">
             <RichTextInput
-              modules={richTextModules}
-              formats={richFormats}
+              modules={getModules()}
+              formats={getFormats()}
               value={description}
               onChange={setDescription}
             />

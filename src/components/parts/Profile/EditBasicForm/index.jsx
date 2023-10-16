@@ -7,7 +7,9 @@ import moment from 'moment';
 import { useParams, useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { useForm, Controller } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
+import BackButton from '@/components/elements/BackButton';
 import Button from '@/components/elements/Button';
 import Checkbox from '@/components/elements/Checkbox';
 import FormControl from '@/components/elements/FormControl';
@@ -111,6 +113,8 @@ const EditBasicForm = () => {
         avatar: data.data.user.avatar
       });
 
+      toast.success('Profile updated successfully');
+
       router.push(`/profile/${newSlug}`);
       router.refresh();
     }
@@ -151,9 +155,14 @@ const EditBasicForm = () => {
 
   return (
     <div>
-      <Text as="h1" typography="h2">
-        Edit Basic
-      </Text>
+      <BackButton
+        backUrl={`/profile/${profile?.slug}`}
+        rightContent={
+          <Text as="h1" typography="h2">
+            Edit Basic
+          </Text>
+        }
+      />
 
       <form onSubmit={handleSubmit(onSubmit)} className="mt-8">
         <div>

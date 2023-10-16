@@ -8,15 +8,15 @@ const Logo = ({ size, className }) => {
   const sizeClassName = useMemo(() => {
     switch (size) {
       case 'sm':
-        return 'text-[32px]';
+        return 'text-[28px] md:text-[32px]';
       case 'md':
-        return 'text-[40px]';
+        return 'text-[36px] md:text-[40px]';
       case 'lg':
-        return 'text-[60px]';
+        return 'text-[56px] md:text-[60px]';
       case 'xl':
-        return 'text-[80px]';
+        return 'text-[76px] md:text-[80px]';
       default:
-        return 'text-[40px]';
+        return 'text-[36px] md:text-[40px]';
     }
   }, [size]);
 

@@ -14,7 +14,7 @@ import { useTotalEmployees } from '@/query/totalEmployee';
 import { getCompanyScopes } from '@/repositories/companyScope';
 
 const StepTwoCompany = ({ errors, control, watch, setValue, setError }) => {
-  const { data: provincesData } = useProvinces();
+  const { data: provincesData, isLoading: isProvincesLoading } = useProvinces();
   const { data: regenciesData, isFetching: isRegenciesFethcing } = useRegencies(
     watch('province')?.value,
     {
@@ -100,7 +100,13 @@ const StepTwoCompany = ({ errors, control, watch, setValue, setError }) => {
 
   return (
     <div>
-      <FormControl htmlFor="province" label="Province" isBlock error={errors?.province?.message}>
+      <FormControl
+        htmlFor="province"
+        label="Province"
+        isBlock
+        isRequired
+        error={errors?.province?.message}
+      >
         <Controller
           control={control}
           name="province"
@@ -110,7 +116,7 @@ const StepTwoCompany = ({ errors, control, watch, setValue, setError }) => {
           render={({ field: { value, name, ref } }) => (
             <Select
               id="province"
-              placeholder="Select your company province"
+              placeholder="Select company province"
               isBlock
               options={provincesOptions}
               isSearchable
@@ -118,12 +124,19 @@ const StepTwoCompany = ({ errors, control, watch, setValue, setError }) => {
               value={value}
               onChange={handleChangeProvince}
               ref={ref}
+              isLoading={isProvincesLoading}
             />
           )}
         />
       </FormControl>
 
-      <FormControl htmlFor="address" label="Address" isBlock error={errors?.address?.message}>
+      <FormControl
+        htmlFor="address"
+        label="Address"
+        isBlock
+        isRequired
+        error={errors?.address?.message}
+      >
         <Controller
           control={control}
           name="address"
@@ -134,7 +147,7 @@ const StepTwoCompany = ({ errors, control, watch, setValue, setError }) => {
             <Select
               ref={ref}
               id="address"
-              placeholder="Select your company address"
+              placeholder="Select company address"
               isBlock
               options={regenciesOptions}
               isSearchable
@@ -150,8 +163,9 @@ const StepTwoCompany = ({ errors, control, watch, setValue, setError }) => {
 
       <FormControl
         htmlFor="companyScope"
-        label="Company Scope"
+        label="Company scope"
         isBlock
+        isRequired
         error={errors?.companyScope?.message}
       >
         <Controller
@@ -164,7 +178,7 @@ const StepTwoCompany = ({ errors, control, watch, setValue, setError }) => {
             <SelectAsync
               ref={ref}
               id="companyScope"
-              placeholder="Select your company company scope"
+              placeholder="Select company scope"
               isBlock
               defaultOptions={companyScopeOptions}
               loadOptions={loadCompanyScopeOptions}
@@ -179,8 +193,9 @@ const StepTwoCompany = ({ errors, control, watch, setValue, setError }) => {
 
       <FormControl
         htmlFor="totalEmployee"
-        label="Total Employee"
+        label="Total employee"
         isBlock
+        isRequired
         error={errors?.totalEmployee?.message}
       >
         <Controller
@@ -193,7 +208,7 @@ const StepTwoCompany = ({ errors, control, watch, setValue, setError }) => {
             <Select
               ref={ref}
               id="totalEmployee"
-              placeholder="Select your total employee"
+              placeholder="Select total employee"
               isBlock
               options={totalEmployeeOptions}
               isSearchable

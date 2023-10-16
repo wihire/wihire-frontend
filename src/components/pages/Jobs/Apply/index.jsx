@@ -7,7 +7,6 @@ import { useCallback, useMemo } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import cx from 'classnames';
 import { useParams, useRouter } from 'next/navigation';
-import { useSession } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
@@ -15,16 +14,17 @@ import Button from '@/components/elements/Button';
 import CheckProfile from '@/components/parts/Apply/CheckProfile';
 import Resume from '@/components/parts/Apply/Resume';
 import useMultiStep from '@/lib/hooks/useMultiStep';
+import { useProfile } from '@/query/profile';
 import { applyJob } from '@/repositories/jobs';
 
 const STEPS = ['Review your profile', 'Resume'];
 
-const Apply = () => {
-  const { data } = useSession();
-  const profile = useMemo(() => data?.profile, [data]);
-
+const Apply = ({ profileSlug }) => {
   const params = useParams();
   const router = useRouter();
+
+  const { data: profileData } = useProfile(profileSlug);
+  const { profile } = useMemo(() => profileData?.data.data, [profileData]);
 
   const { register, watch, handleSubmit } = useForm({
     defaultValues: {
@@ -38,8 +38,8 @@ const Apply = () => {
   };
 
   const { totalStep, currentStep, currentStepComponent, next, prev } = useMultiStep([
-    <CheckProfile key="check-profile-step" />,
-    <Resume key="resume-step" {...formOptions} />
+    <CheckProfile key="check-profile-step" profile={profile} />,
+    <Resume key="resume-step" profile={profile} {...formOptions} />
   ]);
 
   const applyMutation = useMutation({

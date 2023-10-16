@@ -15,7 +15,7 @@ const JOB_TYPE_OPTIONS = [
   { label: 'Contract', value: 'CONTRACT' }
 ];
 
-const JobTypeFilter = ({ className, cleared }) => {
+const JobTypeFilter = ({ className }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [selected, setSelected] = useState(
@@ -51,11 +51,7 @@ const JobTypeFilter = ({ className, cleared }) => {
 
   return (
     <FormControl label="Job type" isBlock className={className}>
-      <MultiSelect
-        options={JOB_TYPE_OPTIONS}
-        onChange={handleChangeSelected}
-        value={!cleared ? [] : selected}
-      />
+      <MultiSelect options={JOB_TYPE_OPTIONS} onChange={handleChangeSelected} value={selected} />
     </FormControl>
   );
 };

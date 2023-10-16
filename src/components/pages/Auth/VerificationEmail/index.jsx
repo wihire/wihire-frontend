@@ -1,8 +1,8 @@
-import Image from 'next/image';
 import { redirect } from 'next/navigation';
 
 import verifyEmailArt from '@/assets/images/illustrations/verified-email.png';
 import Container from '@/components/elements/Container';
+import Image from '@/components/elements/Image';
 import Text from '@/components/elements/Text';
 import SendVerification from '@/components/parts/VerificationEmail/SendVerification';
 import { getCookie } from '@/lib/cookies';
@@ -15,7 +15,10 @@ const VerificationEmail = () => {
   }
 
   return (
-    <Container className="grid justify-items-center gap-5 rounded-md border border-gray-100 p-14">
+    <Container
+      className="grid justify-items-center gap-5
+        rounded-md border-gray-100 bg-white p-4 md:border md:p-14"
+    >
       <Image src={verifyEmailArt} width={300} height={300} alt="verify-email" />
 
       <Text as="h1" typography="h1" className="text-center">
@@ -24,7 +27,7 @@ const VerificationEmail = () => {
 
       <Text className="text-center">
         We have sent an email to <strong>{userEmail}</strong>, <br />
-        Please follow the link provided there to verify your email
+        please follow the link provided there to verify your email
       </Text>
 
       <div>

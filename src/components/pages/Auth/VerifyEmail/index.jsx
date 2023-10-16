@@ -55,7 +55,10 @@ const VerifyEmail = () => {
   }, []);
 
   return (
-    <div className="w-[500px] rounded-md border border-gray-100 p-14 text-center">
+    <div
+      className="w-full max-w-[500px] rounded-md border-gray-100
+      bg-white p-4 text-center md:border md:p-14"
+    >
       {!verifyEmailMutation.isSuccess && !verifyEmailMutation.isError ? (
         <Text typography="h4">Verifying your email...</Text>
       ) : null}

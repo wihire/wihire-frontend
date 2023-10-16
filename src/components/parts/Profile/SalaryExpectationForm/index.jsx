@@ -52,7 +52,7 @@ const SalaryExpectationForm = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormControl
           htmlFor="salaryExpectation"
-          label="Enter your salary expectation"
+          label="Enter your salary expectation (IDR)"
           error={errors?.salaryExpectation?.message}
         >
           <TextInput

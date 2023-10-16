@@ -24,9 +24,9 @@ const FILTERS = [
 ];
 
 const ApplicationFilters = () => (
-  <header className="my-5 grid grid-cols-2 md:flex gap-2.5">
+  <header className="my-5 flex snap-x gap-2 overflow-auto">
     {FILTERS.map((filter) => (
-      <FilterOption key={filter.label} {...filter} />
+      <FilterOption key={filter.label} className="snap-start" {...filter} />
     ))}
   </header>
 );

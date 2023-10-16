@@ -1,14 +1,21 @@
-import React from 'react';
-
-import Image from 'next/image';
-
 import emptyIllustration from '@/assets/images/illustrations/empty.png';
+import notFoundIllustration from '@/assets/images/illustrations/not-found-error.png';
+import questionsIllustration from '@/assets/images/illustrations/questions.png';
+import Image from '@/components/elements/Image';
 import Text from '@/components/elements/Text';
 
 const IMAGE_ERROR = {
   EMPTY: {
     src: emptyIllustration,
     alt: 'Empty illustration'
+  },
+  NOT_FOUND: {
+    src: notFoundIllustration,
+    alt: 'Not found illustration'
+  },
+  GENERAL: {
+    src: questionsIllustration,
+    alt: 'Error illustration'
   }
 };
 

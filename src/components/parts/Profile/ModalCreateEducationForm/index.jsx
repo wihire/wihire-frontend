@@ -56,7 +56,7 @@ const ModalCreateEducationForm = ({ isOpen, onClose }) => {
   );
 
   return (
-    <Modal isOpen={isOpen} onClose={handleClose}>
+    <Modal isOpen={isOpen} onClose={handleClose} scrollBehaviour="outside">
       <ModalHeader>Add Education</ModalHeader>
 
       <ModalBody>

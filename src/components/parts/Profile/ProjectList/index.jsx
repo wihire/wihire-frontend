@@ -5,14 +5,14 @@ import Button from '@/components/elements/Button';
 import ProfileSection from '@/components/parts/Profile/ProfileSection';
 import ProjectCard from '@/components/parts/Profile/ProjectCard';
 
-const ListProject = ({ profile, projects }) => {
+const ListProject = ({ profile, projects, withoutEdit }) => {
   const { data: loggedData, status } = useSession();
 
   return (
     <ProfileSection
       title="Projects"
       rightButton={
-        status === 'authenticated' && loggedData?.profile?.id === profile?.id ? (
+        !withoutEdit && status === 'authenticated' && loggedData?.profile?.id === profile?.id ? (
           <Button href={`${profile.slug}/user/projects`} className="btn-ghost">
             <PencilIcon className="text-base" />
           </Button>
