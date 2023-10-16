@@ -8,6 +8,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { useForm, Controller } from 'react-hook-form';
 
+import BackButton from '@/components/elements/BackButton';
 import Button from '@/components/elements/Button';
 import Checkbox from '@/components/elements/Checkbox';
 import FormControl from '@/components/elements/FormControl';
@@ -197,9 +198,14 @@ const EditBasicForm = () => {
 
   return (
     <div>
-      <Text as="h1" typography="h2">
-        Edit Basic
-      </Text>
+      <BackButton
+        backUrl={`/profile/${profile?.slug}`}
+        rightContent={
+          <Text as="h1" typography="h2">
+            Edit Basic
+          </Text>
+        }
+      />
 
       <form onSubmit={handleSubmit(onSubmit)} className="mt-8">
         <div>

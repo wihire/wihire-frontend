@@ -10,7 +10,7 @@ import { GENDER_OPTIONS } from '@/lib/constants/selectOptions';
 
 const StepOneUser = ({ register, errors, watch, control }) => (
   <div>
-    <FormControl htmlFor="name" label="Name" isBlock error={errors?.name?.message}>
+    <FormControl htmlFor="name" label="Name" isBlock isRequired error={errors?.name?.message}>
       <TextInput
         id="name"
         name="name"
@@ -30,7 +30,7 @@ const StepOneUser = ({ register, errors, watch, control }) => (
       />
     </FormControl>
 
-    <FormControl htmlFor="email" label="Email" isBlock error={errors?.email?.message}>
+    <FormControl htmlFor="email" label="Email" isBlock isRequired error={errors?.email?.message}>
       <TextInput
         type="email"
         id="email"
@@ -47,7 +47,13 @@ const StepOneUser = ({ register, errors, watch, control }) => (
       />
     </FormControl>
 
-    <FormControl htmlFor="password" label="Password" isBlock error={errors?.password?.message}>
+    <FormControl
+      htmlFor="password"
+      label="Password"
+      isBlock
+      isRequired
+      error={errors?.password?.message}
+    >
       <TextInput
         type="password"
         id="password"
@@ -66,8 +72,9 @@ const StepOneUser = ({ register, errors, watch, control }) => (
 
     <FormControl
       htmlFor="confirmPassword"
-      label="Confirm Password"
+      label="Confirm password"
       isBlock
+      isRequired
       error={errors?.confirmPassword?.message}
     >
       <TextInput
@@ -86,7 +93,7 @@ const StepOneUser = ({ register, errors, watch, control }) => (
       />
     </FormControl>
 
-    <FormControl htmlFor="gender" label="Gender" isBlock error={errors?.gender?.message}>
+    <FormControl htmlFor="gender" label="Gender" isBlock isRequired error={errors?.gender?.message}>
       <Controller
         control={control}
         name="gender"
@@ -99,7 +106,6 @@ const StepOneUser = ({ register, errors, watch, control }) => (
             placeholder="Select your gender"
             isBlock
             options={GENDER_OPTIONS}
-            isSearchable
             name={name}
             value={value}
             onChange={onChange}

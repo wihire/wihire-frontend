@@ -22,6 +22,11 @@ const SalaryFilter = ({ className }) => {
     () => {
       const newParamsRemoved = removeSearchParams(searchParams, ['page', 'min-salary']);
 
+      if (!salary) {
+        router.push(`?${newParamsRemoved.toString()}`);
+        return;
+      }
+
       const newSearchParams = combineSearchParams(newParamsRemoved, {
         'min-salary': salary
       });
@@ -36,7 +41,8 @@ const SalaryFilter = ({ className }) => {
     <FormControl label="Salary" isBlock className={className}>
       <TextInput
         type="number"
-        placeholder="Minimal salary"
+        placeholder="Minimal salary (IDR)"
+        isBlock
         value={salary}
         onChange={handleChange}
       />

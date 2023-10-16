@@ -48,8 +48,9 @@ const ForgotChangePasswordForm = ({ token }) => {
     <form onSubmit={handleSubmit(onSubmit)}>
       <FormControl
         htmlFor="newPassword"
-        label="New Password"
+        label="New password"
         isBlock
+        isRequired
         error={errors.newPassword?.message}
       >
         <TextInput
@@ -69,8 +70,9 @@ const ForgotChangePasswordForm = ({ token }) => {
 
       <FormControl
         htmlFor="confirmNewPassword"
-        label="Confirm New Password"
+        label="Confirm new password"
         isBlock
+        isRequired
         error={errors.confirmNewPassword?.message}
       >
         <TextInput

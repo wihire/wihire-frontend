@@ -3,7 +3,6 @@
 import { useCallback, useMemo } from 'react';
 
 import { useMutation } from '@tanstack/react-query';
-import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 
@@ -11,6 +10,7 @@ import LocationIcon from '@/assets/icons/location-icon.svg';
 import EmailIcon from '@/assets/icons/mail_solid.svg';
 import PhoneIcon from '@/assets/icons/phone_solid.svg';
 import Button from '@/components/elements/Button';
+import Image from '@/components/elements/Image';
 import Text from '@/components/elements/Text';
 import ApplicationStatusBadge from '@/components/parts/Application/ApplicationStatusBadge';
 import { toCurrency, capitalEachWord } from '@/lib/common';
@@ -39,22 +39,24 @@ const ApplicantsCard = ({ ...props }) => {
   );
 
   return (
-    <div className="flex gap-3 rounded-lg bg-white px-4 py-5">
-      <div className="relative h-20 w-20">
-        <Image
-          src={props.user.profile.avatar ?? config.defaultAvatar}
-          alt="Company image"
-          fill
-          className="object-cover"
-        />
-      </div>
+    <div
+      className="flex flex-col gap-3 rounded-lg bg-white
+      px-4 py-5 md:flex-row md:gap-5"
+    >
+      <Image
+        src={props.user.profile.avatar ?? config.defaultAvatar}
+        width={80}
+        height={80}
+        alt="Avatar profile"
+        className="h-10 w-10 object-cover sm:h-16 sm:w-16 md:h-20 md:w-20"
+      />
 
-      <div className="flex w-full justify-between gap-3">
+      <div className="flex w-full flex-col justify-between gap-3 md:flex-row">
         <div className="flex flex-col gap-3">
           <div>
             <div className="flex items-center gap-2">
               <Text typography="h3">{props.user.profile.name}</Text>
-              <ApplicationStatusBadge status={props.status} />
+              <ApplicationStatusBadge status={props.status} withMobileVer />
             </div>
 
             {props.user.salaryExpectation ? (
@@ -94,7 +96,7 @@ const ApplicantsCard = ({ ...props }) => {
           </a>
         </div>
 
-        <div className="flex flex-col gap-3">
+        <div className="mt-2 flex justify-end gap-3 md:mt-0 md:flex-col md:justify-start">
           <a
             href={`/jobs/${slug}/applicants/${userSlug}`}
             target="_blank"
@@ -105,7 +107,12 @@ const ApplicantsCard = ({ ...props }) => {
           </a>
 
           {props.status !== 'DECLINE' ? (
-            <Button onClick={() => changeStatus('DECLINE')} className="btn-error btn-outline">
+            <Button
+              onClick={() => changeStatus('DECLINE')}
+              className="btn-error btn-outline"
+              isLoading={updateStatusMutation.isLoading}
+              loadingText="Declining"
+            >
               Decline
             </Button>
           ) : null}

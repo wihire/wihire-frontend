@@ -9,7 +9,7 @@ import { twMerge } from 'tailwind-merge';
 import Button from '@/components/elements/Button';
 import { combineSearchParams, removeSearchParams } from '@/lib/url';
 
-const FilterOption = ({ status, label }) => {
+const FilterOption = ({ status, label, className }) => {
   const searchParams = useSearchParams();
   const currentStatus = searchParams.get('status');
 
@@ -36,9 +36,13 @@ const FilterOption = ({ status, label }) => {
   return (
     <Button
       className={twMerge(
-        cx('btn-sm rounded-full no-animation normal-case', {
-          'btn-outline': !isActive
-        })
+        cx(
+          'btn-sm rounded-full no-animation normal-case',
+          {
+            'btn-outline': !isActive
+          },
+          className
+        )
       )}
       onClick={handleClick}
     >

@@ -19,12 +19,12 @@ const Layout = async ({ children }) => {
 
       <Container className="grid grid-cols-12 gap-7 py-6">
         {profile?.role === ROLE.USER ? (
-          <SidebarBoardUser className="col-span-3 self-start" />
+          <SidebarBoardUser className="col-span-3 hidden self-start md:grid" />
         ) : (
-          <SidebarBoardCompany className="col-span-3 self-start" />
+          <SidebarBoardCompany className="col-span-3 hidden self-start md:grid" />
         )}
 
-        <main className="col-span-9">{children}</main>
+        <main className="col-span-12 md:col-span-9">{children}</main>
       </Container>
     </div>
   );

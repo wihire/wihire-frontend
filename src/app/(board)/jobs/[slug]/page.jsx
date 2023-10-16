@@ -1,4 +1,5 @@
 import { Hydrate, dehydrate } from '@tanstack/react-query';
+import { notFound } from 'next/navigation';
 import { getServerSession } from 'next-auth';
 
 import JobDetails from '@/components/pages/JobDetails';
@@ -12,40 +13,62 @@ import { applyJobCheck } from '@/repositories/applications';
 import { getJob } from '@/repositories/jobs';
 
 export async function generateMetadata({ params }) {
-  const { slug } = params;
+  try {
+    const { slug } = params;
 
-  const jobData = await getJob(slug);
-  const { job } = jobData.data.data;
+    const jobData = await getJob(slug);
+    const { job } = jobData.data.data;
 
-  return generateOwnMetadata(
-    {
-      title: `${job.title} at ${job.company.profile.name}`
-    },
-    {
-      withSuffix: true
-    }
-  );
+    return generateOwnMetadata(
+      {
+        title: `${job.title} at ${job.company.profile.name}`
+      },
+      {
+        withSuffix: true
+      }
+    );
+  } catch (error) {
+    return generateOwnMetadata(
+      {
+        title: 'Job Not Found'
+      },
+      {
+        withSuffix: true
+      }
+    );
+  }
 }
 
 const JobDetailsPage = async ({ params }) => {
-  const { slug } = params;
-  const session = await getServerSession(authOptions);
-  const profile = session?.profile;
+  try {
+    const { slug } = params;
 
-  const queryClient = getQueryClient();
-  await queryClient.prefetchQuery(getJobKey(slug), () => getJob(slug));
+    const session = await getServerSession(authOptions);
+    const profile = session?.profile;
 
-  if (profile.role === ROLE.USER) {
-    await queryClient.prefetchQuery(getApplicantCheckKey(slug), () => applyJobCheck(slug));
+    const jobData = await getJob(slug);
+
+    const queryClient = getQueryClient();
+    await queryClient.setQueryData(getJobKey(slug), jobData);
+
+    if (profile.role === ROLE.USER) {
+      await queryClient.prefetchQuery(getApplicantCheckKey(slug), () => applyJobCheck(slug));
+    }
+
+    const dehydratedState = dehydrate(queryClient);
+
+    return (
+      <Hydrate state={dehydratedState}>
+        <JobDetails profile={profile} createdBy={jobData.data.data.job.company.profile.slug} />
+      </Hydrate>
+    );
+  } catch (error) {
+    if (error?.type === 'NOT_FOUND_ERR') {
+      return notFound();
+    }
+
+    throw Error(error?.message);
   }
-
-  const dehydratedState = dehydrate(queryClient);
-
-  return (
-    <Hydrate state={dehydratedState}>
-      <JobDetails />
-    </Hydrate>
-  );
 };
 
 export default JobDetailsPage;

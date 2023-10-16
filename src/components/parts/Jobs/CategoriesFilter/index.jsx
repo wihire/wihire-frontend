@@ -9,9 +9,13 @@ import { twMerge } from 'tailwind-merge';
 
 import Text from '@/components/elements/Text';
 import { combineSearchParams, removeSearchParams } from '@/lib/url';
+import { useMostCategories } from '@/query/category';
 
 const CategoriesFilter = ({ className }) => {
   const searchParams = useSearchParams();
+
+  const { data } = useMostCategories();
+  const mostPopularCategories = data?.data?.data?.categories;
 
   const getSearchParamsFromTitle = useCallback(
     (title) => title.toLowerCase().split(' ').join('+'),
@@ -38,35 +42,35 @@ const CategoriesFilter = ({ className }) => {
         backgroundColor: 'bg-gradient-to-r from-primary to-primary-focus'
       },
       {
-        title: 'Computer & IT',
+        title: mostPopularCategories[0].title,
         backgroundColor: 'bg-gradient-to-r from-secondary to-secondary-focus'
       },
       {
-        title: 'Accounting & Finance',
+        title: mostPopularCategories[1].title,
         backgroundColor: 'bg-gradient-to-r from-indigo-400 to-indigo-500'
       },
       {
-        title: 'Administrative & Office',
+        title: mostPopularCategories[2].title,
         backgroundColor: 'bg-gradient-to-r from-rose-400 to-rose-500'
       },
       {
-        title: 'Art & Design',
+        title: mostPopularCategories[3].title,
         backgroundColor: 'bg-gradient-to-r from-orange-400 to-orange-500'
       },
       {
-        title: 'Education & Training',
+        title: mostPopularCategories[4].title,
         backgroundColor: 'bg-gradient-to-r from-green-400 to-green-500'
       },
       {
-        title: 'Marketing, Advertising & PR',
+        title: mostPopularCategories[5].title,
         backgroundColor: 'bg-gradient-to-r from-sky-400 to-sky-500'
       },
       {
-        title: 'Management',
+        title: mostPopularCategories[6].title,
         backgroundColor: 'bg-gradient-to-r from-violet-400 to-violet-500'
       }
     ],
-    []
+    [mostPopularCategories]
   );
 
   const getHref = useCallback(
@@ -87,16 +91,24 @@ const CategoriesFilter = ({ className }) => {
   );
 
   return (
-    <div className={twMerge('grid grid-cols-8 gap-3', className)}>
+    <div
+      className={twMerge(
+        'flex overflow-auto lg:overflow-visible snap-x lg:grid gap-3 lg:grid-cols-8',
+        className
+      )}
+    >
       {CATEGORIES.map((category) => (
         <Link
           key={category.title}
           href={getHref(category.title)}
           className={twMerge(
-            cx('p-2 rounded-md', category.backgroundColor, {
-              'font-bold': isActive(category.title),
-              'scale-105': isActive(category.title)
-            })
+            cx(
+              'p-2 min-h-[80px] min-w-[120px] lg:min-w-full rounded-md hover:scale-105 snap-start',
+              category.backgroundColor,
+              {
+                'font-bold lg:scale-105': isActive(category.title)
+              }
+            )
           )}
         >
           <Text className="text-white">{category.title}</Text>

@@ -83,19 +83,20 @@ const LoginForm = ({ className }) => {
   return (
     <div
       className={twMerge(
-        'flex flex-col h-full w-full items-center justify-center rounded-lg p-8 bg-white',
+        'flex flex-col h-full w-full items-center justify-center rounded-lg md:p-8 bg-white',
         className
       )}
     >
-      <div className="mb-10 mt-20 flex flex-col items-center gap-[84px]">
+      <div className="mt-20 flex flex-col items-center gap-[42px]">
         <Logo />
+
         <Text typography="sm" className="text-neutral-400">
           Login to your account
         </Text>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-        <FormControl label="Email" htmlFor="email" isBlock error={errors.email?.message}>
+        <FormControl label="Email" htmlFor="email" isBlock isRequired error={errors.email?.message}>
           <TextInput
             isBlock
             id="email"
@@ -115,6 +116,7 @@ const LoginForm = ({ className }) => {
           label="Password"
           htmlFor="password"
           isBlock
+          isRequired
           error={errors.password?.message}
           descriptionAlt={
             <Link href="/forgot-password" className="text-primary hover:underline">
@@ -143,7 +145,7 @@ const LoginForm = ({ className }) => {
         </Button>
       </form>
 
-      <Text className="mt-auto text-gray-700">
+      <Text className="bg-blue mt-14 text-gray-700 md:mt-auto">
         Don&apos;t have an account?{' '}
         <Link href="/register" className="text-primary underline">
           Register

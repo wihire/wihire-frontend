@@ -6,7 +6,6 @@ import { useMutation } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 
 import Button from '@/components/elements/Button';
-import Text from '@/components/elements/Text';
 import { formatTime } from '@/lib/common';
 import useInterval from '@/lib/hooks/useInterval';
 import { sendVerificationEmail } from '@/repositories/auth';
@@ -32,21 +31,21 @@ const SendVerification = ({ email }) => {
   });
 
   const handleClick = useCallback(() => {
+    if (seconds > 0) return;
+
     sendVerificationEmailMutation.mutate({
       email
     });
-  }, [email, sendVerificationEmailMutation]);
+  }, [email, seconds, sendVerificationEmailMutation]);
 
-  return seconds ? (
-    <Text className="text-center">{formatTime(seconds)}</Text>
-  ) : (
+  return (
     <Button
       onClick={handleClick}
-      className="btn-outline mt-3 w-full"
+      className="btn-outline btn-wide mt-3"
       isLoading={sendVerificationEmailMutation.isLoading}
       loadingText="Sending..."
     >
-      Resend
+      {seconds ? formatTime(seconds) : 'Resend'}
     </Button>
   );
 };

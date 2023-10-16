@@ -1,11 +1,17 @@
+import BackButton from '@/components/elements/BackButton';
 import Text from '@/components/elements/Text';
 import ApplicantsList from '@/components/parts/Jobs/ApplicantsList';
 
-const Applicants = () => (
+const Applicants = ({ jobSlug }) => (
   <div>
-    <Text as="h1" typography="h2">
-      Applicants
-    </Text>
+    <BackButton
+      backUrl={`/jobs/${jobSlug}`}
+      rightContent={
+        <Text as="h1" typography="h2">
+          Applicants
+        </Text>
+      }
+    />
 
     <ApplicantsList />
   </div>

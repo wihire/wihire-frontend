@@ -1,9 +1,8 @@
-import React from 'react';
-
+import dynamic from 'next/dynamic';
 import { twMerge } from 'tailwind-merge';
 
-import JobCard from '@/components/parts/Jobs/JobCard';
-import SaveJobCard from '@/components/parts/Jobs/SaveJobCard';
+const JobCard = dynamic(() => import('@/components/parts/Jobs/JobCard'));
+const SaveJobCard = dynamic(() => import('@/components/parts/Jobs/SaveJobCard'));
 
 const ListJob = ({ jobs, className, cardType }) => {
   let Component = JobCard;

@@ -1,5 +1,14 @@
 .content {
+  p,
+  li {
+    @apply text-sm sm:text-base;
+  }
+
   ul {
     @apply list-disc ml-8;
+  }
+
+  ol {
+    @apply list-decimal ml-8;
   }
 }

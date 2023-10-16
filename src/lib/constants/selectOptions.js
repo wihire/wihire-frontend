@@ -29,3 +29,9 @@ export const JOB_STATUS_OPTIONS = [
   { value: 'POSTED', label: 'Posted' },
   { value: 'CLOSED', label: 'Closed' }
 ];
+
+export const SKILL_LEVEL_OPTIONS = [
+  { value: 'BEGINNER', label: 'Beginner' },
+  { value: 'INTERMEDIATE', label: 'Intermediate' },
+  { value: 'EXPERT', label: 'Expert' }
+];

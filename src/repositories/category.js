@@ -8,3 +8,11 @@ export const getCategories = async (filters) => {
 
   return response;
 };
+
+export const getMostPopularCategory = async () => {
+  const response = await fetcher({
+    url: '/categories/most-seven'
+  });
+
+  return response;
+};

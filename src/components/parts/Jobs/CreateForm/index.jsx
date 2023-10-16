@@ -16,6 +16,7 @@ import Select from '@/components/elements/Select';
 import SelectAsync from '@/components/elements/SelectAsyncCreateable';
 import TextInput from '@/components/elements/TextInput';
 import { JOB_TYPE_OPTIONS, PLACE_METHOD_OPTIONS } from '@/lib/constants/selectOptions';
+import { getModules, getFormats } from '@/lib/richText';
 import { useCategories } from '@/query/category';
 import { useProvinces, useRegencies } from '@/query/location';
 import { useSkills } from '@/query/skill';
@@ -29,21 +30,6 @@ const CreateForm = () => {
   const [benefits, setBenefits] = useState('');
   const router = useRouter();
   const queryClient = useQueryClient();
-
-  const richTextModules = useMemo(
-    () => ({
-      toolbar: [
-        ['bold', 'italic', 'underline', 'strike'],
-        [{ list: 'ordered' }, { list: 'bullet' }]
-      ]
-    }),
-    []
-  );
-
-  const richFormats = useMemo(
-    () => ['header', 'bold', 'italic', 'underline', 'strike', 'list', 'bullet'],
-    []
-  );
 
   const {
     register,
@@ -201,7 +187,7 @@ const CreateForm = () => {
           isBlock
           isRequired
           htmlFor="title"
-          label="Job Title"
+          label="Job title"
           error={errors?.title?.message}
         >
           <TextInput
@@ -223,7 +209,7 @@ const CreateForm = () => {
           />
         </FormControl>
 
-        <div className="flex gap-5">
+        <div className="flex flex-col gap-2 md:flex-row md:gap-5">
           <FormControl isBlock isRequired label="Province" error={errors?.province?.message}>
             <Controller
               control={control}
@@ -271,7 +257,7 @@ const CreateForm = () => {
           </FormControl>
         </div>
 
-        <div className="flex gap-5">
+        <div className="flex flex-col gap-2 md:flex-row md:gap-5">
           <FormControl isBlock isRequired label="Place method" error={errors?.placeMethod?.message}>
             <Controller
               control={control}
@@ -317,7 +303,7 @@ const CreateForm = () => {
           </FormControl>
         </div>
 
-        <div className="flex gap-5">
+        <div className="flex flex-col gap-2 md:flex-row md:gap-5">
           <FormControl
             isBlock
             htmlFor="minimalSalary"
@@ -366,10 +352,10 @@ const CreateForm = () => {
           </FormControl>
         </div>
 
-        <FormControl isBlock label="Job Description">
+        <FormControl isBlock label="Job description">
           <RichTextInput
-            modules={richTextModules}
-            formats={richFormats}
+            modules={getModules()}
+            formats={getFormats()}
             value={description}
             onChange={setDescription}
           />
@@ -377,8 +363,8 @@ const CreateForm = () => {
 
         <FormControl isBlock label="Minimum qualification">
           <RichTextInput
-            modules={richTextModules}
-            formats={richFormats}
+            modules={getModules()}
+            formats={getFormats()}
             value={minimumQualification}
             onChange={setMinimumQualification}
           />
@@ -386,8 +372,8 @@ const CreateForm = () => {
 
         <FormControl isBlock label="Benefit">
           <RichTextInput
-            modules={richTextModules}
-            formats={richFormats}
+            modules={getModules()}
+            formats={getFormats()}
             value={benefits}
             onChange={setBenefits}
           />

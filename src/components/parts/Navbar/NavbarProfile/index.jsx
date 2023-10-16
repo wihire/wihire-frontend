@@ -1,21 +1,21 @@
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
-/* eslint-disable max-len */
-import Image from 'next/image';
 import Link from 'next/link';
 import { getServerSession } from 'next-auth';
+import { twMerge } from 'tailwind-merge';
 
 import ChevronDown from '@/assets/icons/chevron-down.svg';
+import Image from '@/components/elements/Image';
 import Text from '@/components/elements/Text';
 import LogoutButton from '@/components/parts/Navbar/LogoutButton';
 import { authOptions } from '@/lib/auth';
 import config from '@/lib/config';
 
-const NavbarProfile = async () => {
+const NavbarProfile = async ({ className }) => {
   const session = await getServerSession(authOptions);
   const profile = session?.profile;
 
   return (
-    <div className="dropdown dropdown-end">
+    <div className={twMerge('dropdown dropdown-end', className)}>
       <label tabIndex={0} className="flex cursor-pointer items-center gap-2">
         <Text typography="h4">{profile?.name}</Text>
 
@@ -25,6 +25,7 @@ const NavbarProfile = async () => {
           width={40}
           height={40}
           className="avatar overflow-hidden rounded-full object-cover"
+          shimmerClassName="rounded-full overflow-hidden"
         />
         <ChevronDown />
       </label>
