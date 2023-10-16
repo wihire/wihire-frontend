@@ -5,10 +5,11 @@ import Container from '@/components/elements/Container';
 import Image from '@/components/elements/Image';
 import Text from '@/components/elements/Text';
 import SendVerification from '@/components/parts/VerificationEmail/SendVerification';
+import { EMAIL_KEY } from '@/lib/constants/storageKey';
 import { getCookie } from '@/lib/cookies';
 
 const VerificationEmail = () => {
-  const userEmail = getCookie('email');
+  const userEmail = getCookie(EMAIL_KEY);
 
   if (!userEmail) {
     return redirect('/login');
