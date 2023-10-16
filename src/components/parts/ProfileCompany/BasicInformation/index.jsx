@@ -3,7 +3,6 @@
 import { useMemo } from 'react';
 
 import dynamic from 'next/dynamic';
-import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 
@@ -12,6 +11,7 @@ import MailIcon from '@/assets/icons/mail_solid.svg';
 import PencilIcon from '@/assets/icons/pencil_solid.svg';
 import UserIcon from '@/assets/icons/user_solid.svg';
 import Button from '@/components/elements/Button';
+import Image from '@/components/elements/Image';
 import Text from '@/components/elements/Text';
 import { capitalEachWord } from '@/lib/common';
 import config from '@/lib/config';

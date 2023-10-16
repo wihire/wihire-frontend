@@ -21,7 +21,7 @@ const JobCard = ({
   renderRightContent
 }) => (
   <div
-    className="flex flex-wrap gap-3 rounded-lg
+    className="flex flex-wrap items-start gap-3 rounded-lg
       bg-white px-4 py-5 md:gap-5"
   >
     <Image
