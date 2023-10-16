@@ -14,6 +14,10 @@ const generateMetadata = (metadata, options) => {
     title,
     keywords: metadata?.keywords || config.appKeywords,
     metadataBase: new URL(config.appUrl),
+    themeColor: config.themeColor,
+    viewport: 'width=device-width, initial-scale=1, viewport-fit=cover',
+    applicationName: config.appName,
+    manifest: '/manifest.json',
     openGraph: {
       title,
       description,
@@ -21,6 +25,10 @@ const generateMetadata = (metadata, options) => {
       images: `${config.appUrl}/images/logo.png`,
       siteName: config.appName,
       url: config.appUrl
+    },
+    appleWebApp: {
+      capable: true,
+      statusBarStyle: 'default'
     }
   };
 
