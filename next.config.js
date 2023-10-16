@@ -4,7 +4,7 @@ const getHost = () => {
   if (process.env.VERCEL_ENV === 'production') {
     return 'https://wihire.vercel.app';
   }
-  return process.env.VERCEL ? `https://wihire.vercel.app` : 'http://localhost:3000';
+  return process.env.VERCEL ? `https://wihire-dev.vercel.app` : 'http://localhost:3000';
 };
 
 const nextConfig = {
@@ -35,4 +35,11 @@ const nextConfig = {
   }
 };
 
-module.exports = nextConfig;
+const withPWA = require('next-pwa')({
+  dest: 'public',
+  register: true,
+  skipWaiting: true,
+  disable: process.env.NODE_ENV === 'development'
+});
+
+module.exports = withPWA(nextConfig);
